@@ -1,0 +1,23 @@
+{
+  "name": "raynaraedaniel-frontend",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Daniel Martins <daniellmarttins@hotmail.com>",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "set NODE_ENV=production&&node server.js"
+  },
+  "dependencies": {
+    "dotenv-webpack": "^1.5.7",
+    "express": "^4.16.4",
+    "next": "^7.0.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "styled-components": "^4.0.2"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.8.0"
+  }
+}
