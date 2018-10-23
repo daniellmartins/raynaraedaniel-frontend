@@ -1,7 +1,10 @@
-import styled from "styled-components";
+import React from "react";
 
-export default () => <Title>Raynara & Daniel</Title>;
+import { Banner, About } from "../components";
 
-const Title = styled.h1`
-  color: red;
-`;
+export default () => (
+  <React.Fragment>
+    <Banner />
+    <About />
+  </React.Fragment>
+);

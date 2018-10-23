@@ -14,7 +14,19 @@ export default class MyDocument extends Document {
   render() {
     return (
       <html lang="pt-br">
-        <Head>{this.props.styleTags}</Head>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="theme-color" content="#ffffff" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700"
+          />
+          <link rel="stylesheet" href="/static/normalize.css" />
+          {this.props.styleTags}
+        </Head>
         <body>
           <Main />
           <NextScript />
