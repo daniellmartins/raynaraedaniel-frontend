@@ -11,11 +11,9 @@ export const MenuItem = ({ label, href }) => (
 );
 
 const StyledMenuItem = styled.li`
-  display: inline-block;
-
   a {
     color: #eeeeee;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;

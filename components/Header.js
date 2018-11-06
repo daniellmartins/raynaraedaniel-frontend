@@ -24,7 +24,13 @@ const StyledHeader = styled.header`
   right: 0;
   z-index: 1090;
 
-  background-color: #bebebe;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
 `;
 
 const StyledContainer = styled(Container)`
@@ -36,7 +42,8 @@ const StyledContainer = styled(Container)`
 
 const StyledLogo = styled.h1`
   color: #ffffff;
-  font-size: 1em;
+  font-family: "Tangerine", sans-serif;
+  font-size: 2.2em;
   font-weight: 600;
 
   margin: 0;

@@ -31,9 +31,12 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    color: ${({ theme }) => theme.color.text}
     font-family: "Poppins", sans-serif;
     font-size: 16px;
     font-weight: 600;
     line-height: 1.5;
+
+    background-color: #f7f7f7;
   }
 `;
