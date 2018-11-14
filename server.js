@@ -10,6 +10,10 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  server.get("/lista-de-presentes", (req, res) => {
+    return app.render(req, res, "/products");
+  });
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });

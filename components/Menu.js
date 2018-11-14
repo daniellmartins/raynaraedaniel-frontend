@@ -24,7 +24,11 @@ export const Menu = () => (
       <li>
         <Heart fill={theme.color.primary} width={16} height={12} />
       </li>
-      <MenuItem href="/" label="Lista de Presentes" />
+      <MenuItem
+        href="/products"
+        as="/lista-de-presentes"
+        label="Lista de Presentes"
+      />
     </MenuList>
   </StyledMenu>
 );

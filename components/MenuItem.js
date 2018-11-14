@@ -2,9 +2,9 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 
-export const MenuItem = ({ label, href }) => (
+export const MenuItem = ({ label, href, as }) => (
   <StyledMenuItem>
-    <Link href={href}>
+    <Link href={href} as={as}>
       <a>{label}</a>
     </Link>
   </StyledMenuItem>
