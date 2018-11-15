@@ -10,13 +10,6 @@ const SIGNIN_MUTATION = gql`
   mutation signin($code: Int!) {
     signin(code: $code) {
       token
-      user {
-        id
-        code
-        name
-        createdAt
-        updatedAt
-      }
     }
   }
 `;
@@ -58,7 +51,10 @@ export class SignIn extends Component {
           >
             {(signin, { loading }) => (
               <StyledSignIn>
-                <form onSubmit={e => this.handleSubmit(e, signin)}>
+                <form
+                  onSubmit={e => this.handleSubmit(e, signin)}
+                  method="POST"
+                >
                   <input
                     name="code"
                     type="number"
