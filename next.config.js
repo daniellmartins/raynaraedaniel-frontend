@@ -3,6 +3,7 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
+  useFileSystemPublicRoutes: false,
   webpack: config => {
     config.plugins = config.plugins || [];
 
