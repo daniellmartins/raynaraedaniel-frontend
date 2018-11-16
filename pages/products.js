@@ -6,41 +6,6 @@ import _ from "lodash";
 import { SignIn, ProductList } from "../components";
 import { checkLoggedIn } from "../lib";
 
-const PRODUCTS_QUERY = gql`
-  query products($orderBy: ProductOrderByInput) {
-    products(orderBy: $orderBy) {
-      id
-      name
-      description
-      price
-      quantity
-      photoUrl
-      active
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-const PRODUCT_SUBSCRIPTION = gql`
-  subscription {
-    product {
-      mutation
-      node {
-        id
-        name
-        description
-        price
-        quantity
-        photoUrl
-        active
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-
 export default class Products extends Component {
   static async getInitialProps({ apolloClient }) {
     const { me } = await checkLoggedIn(apolloClient);
@@ -54,7 +19,7 @@ export default class Products extends Component {
     const { orderBy } = this.state;
     if (!me) return <SignIn />;
     return (
-      <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
+      <Query query={PRODUCTS_QUERY}>
         {({ subscribeToMore, ...rest }) => (
           <ProductList
             {...rest}
@@ -75,9 +40,14 @@ export default class Products extends Component {
                       products = [
                         node,
                         ...prev.products.filter(
-                          product => product.id !== node.id
+                          product => product._id !== node._id
                         )
                       ];
+                      break;
+                    case "DELETED":
+                      products = prev.products.filter(
+                        product => product._id !== node._id
+                      );
                       break;
                     default:
                       break;
@@ -99,3 +69,34 @@ export default class Products extends Component {
     );
   }
 }
+
+const PRODUCT_TYPE = `
+  _id
+  name
+  description
+  price
+  quantity
+  photoUrl
+  active
+  createdAt
+  updatedAt
+`;
+
+const PRODUCTS_QUERY = gql`
+  query products($orderBy: ProductOrderByInput) {
+    products(orderBy: $orderBy) {
+      ${PRODUCT_TYPE}
+    }
+  }
+`;
+
+const PRODUCT_SUBSCRIPTION = gql`
+  subscription {
+    product {
+      mutation
+      node {
+        ${PRODUCT_TYPE}
+      }
+    }
+  }
+`;

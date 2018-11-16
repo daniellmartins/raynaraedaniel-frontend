@@ -17,7 +17,7 @@ export class ProductList extends Component {
         <Container>
           <StyledProductListInner>
             {data.products.map(product => (
-              <ProductItem key={product.id} product={product} />
+              <ProductItem key={product._id} product={product} />
             ))}
           </StyledProductListInner>
         </Container>
