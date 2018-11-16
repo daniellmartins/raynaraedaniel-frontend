@@ -1,13 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
+import _ from "lodash";
 
-import { SignIn } from "../components";
+import { SignIn, ProductList } from "../components";
 import { checkLoggedIn } from "../lib";
 
 const PRODUCTS_QUERY = gql`
-  {
-    products {
+  query products($orderBy: ProductOrderByInput) {
+    products(orderBy: $orderBy) {
       id
       name
       description
@@ -21,28 +22,80 @@ const PRODUCTS_QUERY = gql`
   }
 `;
 
-const Products = ({ me }) => {
-  if (!me) return <SignIn />;
-  return (
-    <Query query={PRODUCTS_QUERY} fetchPolicy="network-only">
-      {({ loading, error, data }) => {
-        if (loading) return <p>loading...</p>;
-        if (error) return <p>error</p>;
-        return (
-          <ul>
-            {data.products.map(product => (
-              <li key={product.id}>{product.name}</li>
-            ))}
-          </ul>
-        );
-      }}
-    </Query>
-  );
-};
+const PRODUCT_SUBSCRIPTION = gql`
+  subscription {
+    product {
+      mutation
+      node {
+        id
+        name
+        description
+        price
+        quantity
+        photoUrl
+        active
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
 
-Products.getInitialProps = async ({ apolloClient }) => {
-  const { me } = await checkLoggedIn(apolloClient);
-  return { ...me };
-};
+export default class Products extends Component {
+  static async getInitialProps({ apolloClient }) {
+    const { me } = await checkLoggedIn(apolloClient);
+    return { ...me };
+  }
 
-export default Products;
+  state = { orderBy: "createdAt_DESC" };
+
+  render() {
+    const { me } = this.props;
+    const { orderBy } = this.state;
+    if (!me) return <SignIn />;
+    return (
+      <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
+        {({ subscribeToMore, ...rest }) => (
+          <ProductList
+            {...rest}
+            subscribeToProducts={() => {
+              subscribeToMore({
+                document: PRODUCT_SUBSCRIPTION,
+                onError: error => console.log(error),
+                updateQuery: (prev, { subscriptionData }) => {
+                  if (!subscriptionData.data) return prev;
+                  const { mutation, node } = subscriptionData.data.product;
+                  let products;
+
+                  switch (mutation) {
+                    case "CREATED":
+                      products = [node, ...prev.products];
+                      break;
+                    case "UPDATED":
+                      products = [
+                        node,
+                        ...prev.products.filter(
+                          product => product.id !== node.id
+                        )
+                      ];
+                      break;
+                    default:
+                      break;
+                  }
+
+                  return {
+                    ...prev,
+                    products: _.remove(
+                      _.orderBy(products, ["createdAt"], ["desc"]),
+                      product => product.active
+                    )
+                  };
+                }
+              });
+            }}
+          />
+        )}
+      </Query>
+    );
+  }
+}

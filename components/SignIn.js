@@ -19,9 +19,9 @@ export class SignIn extends Component {
 
   handleInput = e => {
     const { name, value } = e.target;
-    if (value.length <= 4) {
-      this.setState({ [name]: value });
-    }
+    if (value.length > 4) return;
+
+    this.setState({ [name]: value });
   };
 
   handleSubmit = (e, signin) => {

@@ -10,3 +10,6 @@ export * from "./Banner";
 export * from "./About";
 
 export * from "./SignIn";
+
+export * from "./ProductList";
+export * from "./ProductItem";
