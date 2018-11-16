@@ -7,21 +7,31 @@ import { SignIn, ProductList } from "../components";
 import { checkLoggedIn } from "../lib";
 
 export default class Products extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { orderBy: "price_ASC" };
+  }
+
   static async getInitialProps({ apolloClient }) {
     const { me } = await checkLoggedIn(apolloClient);
     return { ...me };
   }
 
-  state = { orderBy: "createdAt_DESC" };
+  onChangeOrderBy = e => {
+    this.setState({ orderBy: e.target.value });
+  };
 
   render() {
     const { me } = this.props;
     const { orderBy } = this.state;
     if (!me) return <SignIn />;
     return (
-      <Query query={PRODUCTS_QUERY}>
+      <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
         {({ subscribeToMore, ...rest }) => (
           <ProductList
+            orderBy={orderBy}
+            onChangeOrderBy={this.onChangeOrderBy}
             {...rest}
             subscribeToProducts={() => {
               subscribeToMore({
@@ -56,7 +66,11 @@ export default class Products extends Component {
                   return {
                     ...prev,
                     products: _.remove(
-                      _.orderBy(products, ["createdAt"], ["desc"]),
+                      _.orderBy(
+                        products,
+                        [sort(orderBy)[0]],
+                        [sort(orderBy)[1]]
+                      ),
                       product => product.active
                     )
                   };
@@ -70,16 +84,19 @@ export default class Products extends Component {
   }
 }
 
+function sort(orderBy) {
+  const sort = orderBy ? orderBy.split("_") : "";
+  return [sort[0], sort[1].toLowerCase()];
+}
+
 const PRODUCT_TYPE = `
   _id
   name
-  description
   price
   quantity
   photoUrl
   active
   createdAt
-  updatedAt
 `;
 
 const PRODUCTS_QUERY = gql`
