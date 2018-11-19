@@ -22,6 +22,11 @@ export default class Products extends Component {
     this.setState({ orderBy: e.target.value });
   };
 
+  sort = () => {
+    const sort = this.state.orderBy ? this.state.orderBy.split("_") : "";
+    return [sort[0], sort[1].toLowerCase()];
+  };
+
   render() {
     const { me } = this.props;
     const { orderBy } = this.state;
@@ -33,9 +38,10 @@ export default class Products extends Component {
             orderBy={orderBy}
             onChangeOrderBy={this.onChangeOrderBy}
             {...rest}
-            subscribeToProducts={() => {
+            subscribeToMore={() => {
               subscribeToMore({
                 document: PRODUCT_SUBSCRIPTION,
+                variables: { orderBy },
                 onError: error => console.log(error),
                 updateQuery: (prev, { subscriptionData }) => {
                   if (!subscriptionData.data) return prev;
@@ -66,11 +72,7 @@ export default class Products extends Component {
                   return {
                     ...prev,
                     products: _.remove(
-                      _.orderBy(
-                        products,
-                        [sort(orderBy)[0]],
-                        [sort(orderBy)[1]]
-                      ),
+                      _.orderBy(products, [this.sort()[0]], [this.sort()[1]]),
                       product => product.active
                     )
                   };
@@ -82,11 +84,6 @@ export default class Products extends Component {
       </Query>
     );
   }
-}
-
-function sort(orderBy) {
-  const sort = orderBy ? orderBy.split("_") : "";
-  return [sort[0], sort[1].toLowerCase()];
 }
 
 const PRODUCT_TYPE = `

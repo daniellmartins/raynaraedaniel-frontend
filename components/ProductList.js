@@ -2,29 +2,34 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import { Container, ProductItem } from "./";
+import { ProductHeader } from "./ProductHeader";
 
 export class ProductList extends Component {
   componentDidMount() {
-    this.props.subscribeToProducts();
+    this.props.subscribeToMore();
   }
 
-  render() {
-    const { loading, error, data, orderBy, onChangeOrderBy } = this.props;
+  renderProducts = () => {
+    const { loading, error, data } = this.props;
     if (loading) return <p>loading...</p>;
     if (error) return <p>error</p>;
     return (
-      <StyledProductList>
-        <select value={orderBy} onChange={onChangeOrderBy}>
-          <option value="name_ASC">Nome</option>
-          <option value="price_ASC">Menor Preço</option>
-          <option value="price_DESC">Maior Preço</option>
-        </select>
+      <StyledProductListGrid>
+        {data.products.map(product => (
+          <ProductItem key={product._id} product={product} />
+        ))}
+      </StyledProductListGrid>
+    );
+  };
 
-        <StyledContainer>
-          {data.products.map(product => (
-            <ProductItem key={product._id} product={product} />
-          ))}
-        </StyledContainer>
+  render() {
+    const { orderBy, onChangeOrderBy } = this.props;
+    return (
+      <StyledProductList>
+        <Container>
+          <ProductHeader orderBy={orderBy} onChangeOrderBy={onChangeOrderBy} />
+          {this.renderProducts()}
+        </Container>
       </StyledProductList>
     );
   }
@@ -37,12 +42,10 @@ const StyledProductList = styled.section`
   background-color: #ffffff;
 `;
 
-const StyledContainer = styled(Container)`
+const StyledProductListGrid = styled.div`
   display: grid;
   grid-gap: 1em;
   grid-template-columns: repeat(2, 1fr);
-
-  padding: 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: repeat(4, 1fr);

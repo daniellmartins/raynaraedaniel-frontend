@@ -12,26 +12,29 @@ export const ProductItem = ({ product }) => {
         src={`${process.env.API_HTTP_URL}/assets/products/${product._id}.jpg`}
         alt=""
       />
-      <h1>{product.name}</h1>
-      <p>{quantity} de</p>
-      <b>R$ {price}</b>
+      <div>
+        <h1>{product.name}</h1>
+        <p>{quantity} de</p>
+        <b>R$ {price}</b>
+      </div>
     </StyledProductItem>
   );
 };
 
 const StyledProductItem = styled.article`
+  color: ${({ theme }) => theme.color.dark};
   text-align: center;
 
   cursor: pointer;
-  padding: 0.75rem;
 
   border-radius: 4px;
+  border: 1px solid #eeeeee;
   background-color: #ffffff;
 
-  transition: box-shadow 0.25s linear;
+  transition: border 0.25s linear;
 
   &:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dddddd;
   }
 
   img {
@@ -46,5 +49,9 @@ const StyledProductItem = styled.article`
     opacity: 0.6;
     font-size: 0.875em;
     margin: 0;
+  }
+
+  div {
+    padding: 0.75rem;
   }
 `;
