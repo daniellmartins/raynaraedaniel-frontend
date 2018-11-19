@@ -1,19 +1,50 @@
-import React from "react";
+import React, { Component } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { theme } from "../config";
 import { Meta, Header } from "./";
 
-export const Page = ({ children }) => (
-  <ThemeProvider theme={theme}>
-    <StyledPage>
-      <Meta />
-      <Header />
-      {children}
-      <GlobalStyles />
-    </StyledPage>
-  </ThemeProvider>
-);
+export class Page extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { headerFixed: false, headerShow: false };
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const scrollY = window.scrollY;
+    const { headerFixed } = this.state;
+    if (scrollY >= 80 && !headerFixed) {
+      this.setState({ headerFixed: true });
+    }
+
+    if (scrollY < 80 && headerFixed) {
+      this.setState({ headerFixed: false });
+    }
+  };
+
+  render() {
+    const { children } = this.props;
+    const { headerFixed } = this.state;
+    return (
+      <ThemeProvider theme={{ ...theme, headerFixed }}>
+        <StyledPage>
+          <Meta />
+          <Header />
+          {children}
+          <GlobalStyles />
+        </StyledPage>
+      </ThemeProvider>
+    );
+  }
+}
 
 const StyledPage = styled.main`
   margin: 0;
