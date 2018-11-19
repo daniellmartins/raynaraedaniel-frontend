@@ -16,8 +16,10 @@ const StyledBanner = styled.div`
   align-items: center;
   height: 100vh;
 
+  margin-top: -80px;
+
   background-color: #d2d2d2;
-  /* background-image: url("static/slide-02.jpg");
+  /* background-image: url("");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover; */
