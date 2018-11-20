@@ -5,12 +5,10 @@ import { theme } from "../config";
 import { Meta, Header } from "./";
 
 export class Page extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { headerFixed: false, headerShow: false };
-  }
+  state = { headerFixed: false, headerShow: false };
 
   componentDidMount() {
+    this.handleScroll();
     window.addEventListener("scroll", this.handleScroll);
   }
 

@@ -7,11 +7,7 @@ import { SignIn, ProductList } from "../components";
 import { checkLoggedIn } from "../lib";
 
 export default class Products extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { orderBy: "price_ASC" };
-  }
+  state = { orderBy: "price_ASC" };
 
   static async getInitialProps({ apolloClient }) {
     const { me } = await checkLoggedIn(apolloClient);
