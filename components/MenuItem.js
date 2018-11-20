@@ -2,16 +2,17 @@ import React from "react";
 import Link from "next/link";
 import styled, { css } from "styled-components";
 
-export const MenuItem = ({ label, href, as, prefetch }) => (
+export const MenuItem = ({ label, href, as, prefetch, scroll }) => (
   <StyledMenuItem>
-    <Link prefetch={prefetch} href={href} as={as}>
+    <Link scroll={scroll} prefetch={prefetch} href={href} as={as}>
       <a>{label}</a>
     </Link>
   </StyledMenuItem>
 );
 
 MenuItem.defaultProps = {
-  prefetch: false
+  prefetch: false,
+  scroll: true
 };
 
 const StyledMenuItem = styled.li`

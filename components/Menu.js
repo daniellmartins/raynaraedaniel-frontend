@@ -8,19 +8,34 @@ import { Heart } from "./icons";
 export const Menu = () => (
   <StyledMenu>
     <MenuList>
-      <MenuItem href="/" label="Home" />
+      <MenuItem scroll={false} href="/" label="Home" />
       <li>
         <Heart fill={theme.color.primary} width={16} height={12} />
       </li>
-      <MenuItem href="/" label="Nossa História" />
+      <MenuItem
+        scroll={false}
+        href="/"
+        as="/nossa-historia"
+        label="Nossa História"
+      />
       <li>
         <Heart fill={theme.color.primary} width={16} height={12} />
       </li>
-      <MenuItem href="/" label="Nossa Galeria" />
+      <MenuItem
+        scroll={false}
+        href="/"
+        as="/nossa-galeria"
+        label="Nossa Galeria"
+      />
       <li>
         <Heart fill={theme.color.primary} width={16} height={12} />
       </li>
-      <MenuItem href="/" label="Padrinhos e Madrinhas" />
+      <MenuItem
+        scroll={false}
+        href="/"
+        as="/padrinhos-e-madrinhas"
+        label="Padrinhos e Madrinhas"
+      />
       <li>
         <Heart fill={theme.color.primary} width={16} height={12} />
       </li>

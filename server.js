@@ -14,6 +14,18 @@ app.prepare().then(() => {
     return app.render(req, res, "/products");
   });
 
+  server.get("/padrinhos-e-madrinhas", (req, res) => {
+    return app.render(req, res, "/");
+  });
+
+  server.get("/nossa-galeria", (req, res) => {
+    return app.render(req, res, "/");
+  });
+
+  server.get("/nossa-historia", (req, res) => {
+    return app.render(req, res, "/");
+  });
+
   server.get("/", (req, res) => {
     return app.render(req, res, "/");
   });
