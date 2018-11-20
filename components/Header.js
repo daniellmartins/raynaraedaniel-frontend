@@ -18,6 +18,8 @@ export const Header = () => (
 );
 
 const StyledHeader = styled.header`
+  color: ${({ theme }) => theme.color.text};
+
   position: relative;
   top: 0;
   z-index: 1090;
@@ -25,17 +27,28 @@ const StyledHeader = styled.header`
   width: 100%;
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  background-color: transparent;
+  background-color: #ffffff;
 
   ${({ theme }) =>
     theme.headerFixed &&
     css`
       position: fixed;
-      background-color: rgba(255, 255, 255, 0.95);
       animation-name: ${show};
       animation-duration: 1s;
       animation-fill-mode: both;
+      background-color: rgba(255, 255, 255, 0.98);
     `}
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    color: #ffffff;
+    background-color: transparent;
+
+    ${({ theme }) =>
+      theme.headerFixed &&
+      css`
+        background-color: rgba(255, 255, 255, 0.98);
+      `}
+  }
 `;
 
 const StyledContainer = styled(Container)`
@@ -46,7 +59,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledLogo = styled.h1`
-  color: #ffffff;
+  color: inherit;
   font-family: "Tangerine", sans-serif;
   font-size: 2em;
   font-weight: 600;
@@ -54,7 +67,7 @@ const StyledLogo = styled.h1`
   margin: 0;
 
   a {
-    color: #ffffff;
+    color: inherit;
     text-decoration: none;
 
     ${({ theme }) =>

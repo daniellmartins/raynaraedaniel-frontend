@@ -25,7 +25,7 @@ const StyledMenuItem = styled.li`
 
     padding: 0.75rem 1rem;
 
-    transition: color 0.4s ease;
+    transition: color 0.2s ease;
 
     &:hover {
       color: #ffffff;

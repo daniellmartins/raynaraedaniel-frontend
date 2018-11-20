@@ -10,7 +10,7 @@ export const Menu = () => (
     <MenuList>
       <MenuItem scroll={false} href="/" label="Home" />
       <li>
-        <Heart fill={theme.color.primary} width={16} height={12} />
+        <Heart fill={theme.color.primary} width={14} height={10} />
       </li>
       <MenuItem
         scroll={false}
@@ -19,7 +19,7 @@ export const Menu = () => (
         label="Nossa História"
       />
       <li>
-        <Heart fill={theme.color.primary} width={16} height={12} />
+        <Heart fill={theme.color.primary} width={14} height={10} />
       </li>
       <MenuItem
         scroll={false}
@@ -28,7 +28,7 @@ export const Menu = () => (
         label="Nossa Galeria"
       />
       <li>
-        <Heart fill={theme.color.primary} width={16} height={12} />
+        <Heart fill={theme.color.primary} width={14} height={10} />
       </li>
       <MenuItem
         scroll={false}
@@ -37,7 +37,7 @@ export const Menu = () => (
         label="Padrinhos e Madrinhas"
       />
       <li>
-        <Heart fill={theme.color.primary} width={16} height={12} />
+        <Heart fill={theme.color.primary} width={14} height={10} />
       </li>
       <MenuItem
         prefetch
@@ -52,9 +52,14 @@ export const Menu = () => (
 const StyledMenu = styled.div``;
 
 const MenuList = styled.ul`
+  display: none;
   list-style: none;
   margin: 0;
   padding: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: block;
+  }
 
   li {
     display: inline-block;

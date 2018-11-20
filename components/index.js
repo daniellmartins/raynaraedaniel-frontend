@@ -7,6 +7,7 @@ export * from "./MenuItem";
 
 export * from "./SectionTitle";
 export * from "./Banner";
+export * from "./CountDown";
 export * from "./About";
 
 export * from "./SignIn";
