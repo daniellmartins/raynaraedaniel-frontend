@@ -17,6 +17,7 @@ export const ProductItem = ({ product }) => {
         <p>{quantity} de</p>
         <b>R$ {price}</b>
       </div>
+      <button>Comprar</button>
     </StyledProductItem>
   );
 };
@@ -26,6 +27,8 @@ const StyledProductItem = styled.article`
   text-align: center;
 
   cursor: pointer;
+  overflow: hidden;
+  padding-bottom: 1em;
 
   border-radius: 4px;
   border: 1px solid #eeeeee;
@@ -34,7 +37,7 @@ const StyledProductItem = styled.article`
   transition: border 0.25s linear;
 
   &:hover {
-    border: 1px solid #dddddd;
+    border: 1px solid ${({ theme }) => theme.color.primary};
   }
 
   img {
@@ -43,6 +46,11 @@ const StyledProductItem = styled.article`
 
   h1 {
     font-size: 0.875em;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
   }
 
   p {
@@ -52,6 +60,27 @@ const StyledProductItem = styled.article`
   }
 
   div {
-    padding: 0.75rem;
+    padding: 0 0.75rem 1em;
+  }
+
+  button {
+    color: ${({ theme }) => theme.color.primary};
+    font-size: 0.875em;
+
+    padding: 0.625em 1em;
+    width: 80%;
+
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    border: 1px solid ${({ theme }) => theme.color.primary};
+    background-color: #ffffff;
+
+    transition: all 0.25s linear;
+
+    &:hover {
+      color: #ffffff;
+      background-color: ${({ theme }) => theme.color.primary};
+    }
   }
 `;

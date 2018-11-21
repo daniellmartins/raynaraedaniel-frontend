@@ -2,9 +2,10 @@ import React, { Component, Fragment } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import _ from "lodash";
+import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
-import { Banner, SignIn, ProductList } from "../components";
+import { Banner, SignIn, ProductList, Footer } from "../components";
 
 export default class Products extends Component {
   state = { orderBy: "price_ASC" };
@@ -29,7 +30,13 @@ export default class Products extends Component {
     if (!me) return <SignIn />;
     return (
       <Fragment>
-        <Banner cover />
+        <Banner cover>
+          <Title>Lista de Presentes</Title>
+          <SubTitle>
+            Ajude os noivos a montar a casa nova <br />
+            ou desfrutar de um passeio inesquecível de lua de mel. Presenteie!
+          </SubTitle>
+        </Banner>
         <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
           {({ subscribeToMore, ...rest }) => (
             <ProductList
@@ -70,7 +77,11 @@ export default class Products extends Component {
                     return {
                       ...prev,
                       products: _.remove(
-                        _.orderBy(products, [this.sort()[0]], [this.sort()[1]]),
+                        _.orderBy(
+                          products,
+                          ["quantity", this.sort()[0]],
+                          ["asc", this.sort()[1]]
+                        ),
                         product => product.active
                       )
                     };
@@ -80,10 +91,39 @@ export default class Products extends Component {
             />
           )}
         </Query>
+        <Footer />
       </Fragment>
     );
   }
 }
+
+const Title = styled.h1`
+  color: #ffffff;
+  font-family: "Tangerine", sans-serif;
+  font-size: 2.5em;
+
+  padding-top: 80px;
+  margin: 2rem 0 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 3.5em;
+  }
+`;
+
+const SubTitle = styled.h2`
+  color: #ffffff;
+  font-size: 1.2em;
+  font-family: "Playfair Display", sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+
+  margin: 0 0 1.5em;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.4em;
+  }
+`;
 
 const PRODUCT_TYPE = `
   _id

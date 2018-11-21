@@ -1,7 +1,15 @@
 import React from "react";
 import styled, { css, keyframes } from "styled-components";
 
-import { Banner, CountDown, About } from "../components";
+import {
+  Banner,
+  CountDown,
+  About,
+  Messages,
+  Galley,
+  Friends,
+  Footer
+} from "../components";
 import { countDownDate } from "../lib";
 
 const Home = ({ countDown }) => (
@@ -14,6 +22,10 @@ const Home = ({ countDown }) => (
     </Banner>
     <CountDown countDown={countDown} />
     <About />
+    <Messages />
+    <Galley />
+    <Friends />
+    <Footer />
   </React.Fragment>
 );
 

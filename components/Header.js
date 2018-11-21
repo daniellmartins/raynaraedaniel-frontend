@@ -37,8 +37,9 @@ const StyledHeader = styled.header`
       animation-duration: 1s;
       animation-fill-mode: both;
       background-color: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     `}
-
+    
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     color: #ffffff;
     background-color: transparent;

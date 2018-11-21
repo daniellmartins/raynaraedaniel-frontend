@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import { theme } from "../config";
-import { Container, SectionTitle } from "../components";
+import { Container, SectionTitle, Photo } from "../components";
 import { Heart } from "../components/icons";
 
 export const About = () => (
-  <StyledAbout>
+  <StyledAbout id="nossahistoria">
     <SectionTitle>Sobre nós</SectionTitle>
     <StyledContainer>
       <StyledHeart>
@@ -18,15 +18,8 @@ export const About = () => (
   </StyledAbout>
 );
 
-const Photo = ({ name }) => (
-  <StyledPhoto>
-    <img src="/static/photo.svg" alt="" />
-    <h1>{name}</h1>
-  </StyledPhoto>
-);
-
 const StyledAbout = styled.section`
-  padding: 1em 0 4em;
+  padding: 1em 0 6em;
   background-color: white;
 `;
 
@@ -44,18 +37,4 @@ const StyledHeart = styled.div`
   left: 50%;
   margin-top: -42px;
   margin-left: -27px;
-`;
-
-const StyledPhoto = styled.article`
-  text-align: center;
-
-  img {
-    width: 100%;
-    max-width: 240px;
-  }
-
-  h1 {
-    font-size: 1em;
-    margin: 0;
-  }
 `;

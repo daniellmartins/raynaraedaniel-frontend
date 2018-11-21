@@ -58,6 +58,8 @@ export class SignIn extends Component {
                   <input
                     name="code"
                     type="number"
+                    autoComplete="off"
+                    placeholder="----"
                     disabled={loading}
                     value={code}
                     onChange={this.handleInput}
@@ -86,6 +88,7 @@ const StyledSignIn = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 
   form {
+    text-align: center;
     padding: 20px;
     width: 80%;
     max-width: 300px;
@@ -96,7 +99,7 @@ const StyledSignIn = styled.div`
   input {
     font-size: 2.25em;
     text-align: center;
-    letter-spacing: 0.5em;
+    letter-spacing: 0.75em;
 
     padding: 10px 15px;
     width: 100%;

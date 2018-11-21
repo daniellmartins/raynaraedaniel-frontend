@@ -21,9 +21,13 @@ class MyApp extends App {
   //   if (path === "#") {
   //     window.scrollTo({ top: 0, behavior: "smooth" });
   //   } else {
-  //     document.querySelector(path).scrollIntoView({
-  //       behavior: "smooth"
-  //     });
+  //     console.log(document.querySelector(path).getBoundingClientRect());
+  //     const top = document.querySelector(path).getBoundingClientRect().bottom;
+  //     window.scrollTo({ top, behavior: "smooth" });
+
+  //     // document.querySelector(path).scrollIntoView({
+  //     //   behavior: "smooth"
+  //     // });
   //   }
   // };
 
