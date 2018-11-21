@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styled, { css, keyframes } from "styled-components";
 
-import { Container, Menu } from "../components";
+import { Container, Menu, Cart } from "../components";
 
 export const Header = () => (
   <StyledHeader>
@@ -13,6 +13,7 @@ export const Header = () => (
         </Link>
       </StyledLogo>
       <Menu />
+      <Cart />
     </StyledContainer>
   </StyledHeader>
 );
