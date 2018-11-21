@@ -38,7 +38,7 @@ export class ProductList extends Component {
 const StyledProductList = styled.section`
   padding: 50px 0;
 
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
 `;
 
 const StyledProductListGrid = styled.div`

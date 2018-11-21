@@ -97,34 +97,6 @@ export default class Products extends Component {
   }
 }
 
-const Title = styled.h1`
-  color: #ffffff;
-  font-family: "Tangerine", sans-serif;
-  font-size: 2.5em;
-
-  padding-top: 80px;
-  margin: 2rem 0 0;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 3.5em;
-  }
-`;
-
-const SubTitle = styled.h2`
-  color: #ffffff;
-  font-size: 1.2em;
-  font-family: "Playfair Display", sans-serif;
-  font-style: italic;
-  font-weight: 500;
-  text-align: center;
-
-  margin: 0 0 1.5em;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    font-size: 1.4em;
-  }
-`;
-
 const PRODUCT_TYPE = `
   _id
   name
@@ -151,5 +123,33 @@ const PRODUCT_SUBSCRIPTION = gql`
         ${PRODUCT_TYPE}
       }
     }
+  }
+`;
+
+const Title = styled.h1`
+  color: #ffffff;
+  font-family: "Tangerine", sans-serif;
+  font-size: 2.5em;
+
+  padding-top: 80px;
+  margin: 2rem 0 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 3.5em;
+  }
+`;
+
+const SubTitle = styled.h2`
+  color: #ffffff;
+  font-size: 1.2em;
+  font-family: "Playfair Display", sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  text-align: center;
+
+  margin: 0 0 1.5em;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 1.4em;
   }
 `;

@@ -30,14 +30,14 @@ const StyledProductItem = styled.article`
   overflow: hidden;
   padding-bottom: 1em;
 
-  border-radius: 4px;
-  border: 1px solid #eeeeee;
+  border: 1px solid transparent;
   background-color: #ffffff;
 
-  transition: border 0.25s linear;
+  transition: border 0.15s linear;
 
   &:hover {
     border: 1px solid ${({ theme }) => theme.color.primary};
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); */
   }
 
   img {
