@@ -105,6 +105,7 @@ const PRODUCT_TYPE = `
   photoUrl
   active
   createdAt
+  updatedAt
 `;
 
 const PRODUCTS_QUERY = gql`
