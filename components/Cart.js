@@ -121,28 +121,41 @@ const CART_SUBSCRIPTION = gql`
 `;
 
 const StyledCart = styled.div`
-  position: relative;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2000;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    top: 1rem;
+    bottom: auto;
+  }
 
   button {
     color: #ffffff;
 
-    outline: none;
-
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
 
     border-radius: 50%;
-    /* border: 1px solid #ffffff; */
     border: 1px solid ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.primary};
 
     span {
-      font-size: 0.875em;
+      font-size: 1em;
       margin-left: 5px;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      width: 3rem;
+      height: 3rem;
+
+      span {
+        font-size: 0.875em;
+      }
     }
   }
 `;

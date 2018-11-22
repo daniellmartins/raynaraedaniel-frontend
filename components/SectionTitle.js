@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const SectionTitle = styled.h1`
   font-family: "Tangerine", sans-serif;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 600;
   text-align: center;
 

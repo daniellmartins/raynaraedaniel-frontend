@@ -44,8 +44,13 @@ const StyledFriends = styled.div`
 
 const StyledContainer = styled(Container)`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2em;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 1em;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2em;
+  }
 `;
 
 const StyledPhoto = styled.div`
@@ -53,8 +58,14 @@ const StyledPhoto = styled.div`
 
   display: flex;
   justify-content: space-between;
-  padding: 0 15%;
-  margin: 2em 0;
+  max-width: 500px;
+  padding: 0 5%;
+  margin: 1em auto;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: 0 15%;
+    margin: 2em auto;
+  }
 `;
 
 const StyledHeart = styled.div`

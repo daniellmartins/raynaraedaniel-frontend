@@ -9,7 +9,7 @@ export const Banner = styled.div`
   margin-top: -80px;
   height: 100vh;
 
-  background-color: #d2d2d2;
+  background-color: ${({ theme }) => theme.color.darklight};
 
   ${({ cover }) =>
     cover

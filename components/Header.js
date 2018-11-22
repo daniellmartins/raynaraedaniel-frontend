@@ -2,18 +2,18 @@ import React from "react";
 import Link from "next/link";
 import styled, { css, keyframes } from "styled-components";
 
-import { Container, Menu, Cart } from "../components";
+import { site } from "../config";
+import { Container, Menu } from "../components";
 
 export const Header = () => (
   <StyledHeader>
     <StyledContainer>
       <StyledLogo>
         <Link href="/">
-          <a>Raynara e Daniel</a>
+          <a>{site.name}</a>
         </Link>
       </StyledLogo>
       <Menu />
-      <Cart />
     </StyledContainer>
   </StyledHeader>
 );
@@ -57,7 +57,11 @@ const StyledContainer = styled(Container)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: ${({ theme }) => theme.metric.header.height.sm};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    height: ${({ theme }) => theme.metric.header.height.md};
+  }
 `;
 
 const StyledLogo = styled.h1`

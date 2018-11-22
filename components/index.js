@@ -21,6 +21,5 @@ export * from "./CartList";
 
 export * from "./SignIn";
 
-export * from "./ProductHeader";
 export * from "./ProductList";
 export * from "./ProductItem";

@@ -25,14 +25,27 @@ const StyledGalley = styled.div`
 `;
 
 const StyledContainer = styled(Container)`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 4em;
-
   margin-top: 2em;
 
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2em;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    grid-gap: 4em;
+  }
+
   div {
-    height: 350px;
-    background-color: #d2d2d2;
+    height: 250px;
+    background-color: ${({ theme }) => theme.color.darklight};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      height: 350px;
+    }
   }
 `;

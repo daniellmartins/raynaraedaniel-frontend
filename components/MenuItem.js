@@ -17,15 +17,13 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = styled.li`
   a {
-    color: #eeeeee;
+    color: ${({ theme }) => theme.color.grey};
     font-size: 0.8125rem;
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
 
     padding: 0.75rem 1rem;
-
-    transition: color 0.2s ease;
 
     &:hover {
       color: #ffffff;

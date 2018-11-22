@@ -45,6 +45,7 @@ export class Page extends Component {
 }
 
 const StyledPage = styled.main`
+  position: relative;
   margin: 0;
 `;
 
@@ -67,5 +68,15 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
 
     background-color: #f7f7f7;
+  }
+
+  button {
+    cursor: pointer;
+    outline: none;
+  }
+
+  button,
+  a {
+    transition: all 0.25s linear;
   }
 `;

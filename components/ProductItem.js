@@ -70,13 +70,9 @@ const StyledProductItem = styled.article`
     padding: 0.625em 1em;
     width: 80%;
 
-    outline: none;
-    cursor: pointer;
     border-radius: 6px;
     border: 1px solid ${({ theme }) => theme.color.primary};
     background-color: #ffffff;
-
-    transition: all 0.25s linear;
 
     &:hover {
       color: #ffffff;

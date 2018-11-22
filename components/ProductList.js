@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import { Container, ProductItem } from "./";
-import { ProductHeader } from "./ProductHeader";
 
 export class ProductList extends Component {
   componentDidMount() {
@@ -23,22 +22,16 @@ export class ProductList extends Component {
   };
 
   render() {
-    const { orderBy, onChangeOrderBy } = this.props;
     return (
       <StyledProductList>
-        <Container>
-          <ProductHeader orderBy={orderBy} onChangeOrderBy={onChangeOrderBy} />
-          {this.renderProducts()}
-        </Container>
+        <Container>{this.renderProducts()}</Container>
       </StyledProductList>
     );
   }
 }
 
 const StyledProductList = styled.section`
-  padding: 50px 0;
-
-  /* background-color: #ffffff; */
+  padding: 2rem 0 4rem;
 `;
 
 const StyledProductListGrid = styled.div`

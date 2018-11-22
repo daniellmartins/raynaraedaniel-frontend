@@ -2,7 +2,18 @@ export const theme = {
   color: {
     primary: "#c59bb9",
     text: "#6c6975",
-    dark: "#2d2d2d"
+    dark: "#2d2d2d",
+    darklight: "#d2d2d2",
+    grey: "#eeeeee"
+  },
+  metric: {
+    margin: "1rem",
+    header: {
+      height: {
+        sm: "3.75rem",
+        md: "5rem"
+      }
+    }
   },
   container: {
     sm: "100%", // 100%

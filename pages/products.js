@@ -5,7 +5,7 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
-import { Banner, SignIn, ProductList, Footer } from "../components";
+import { Banner, SignIn, ProductList, Footer, Cart } from "../components";
 
 export default class Products extends Component {
   state = { orderBy: "price_ASC" };
@@ -30,6 +30,7 @@ export default class Products extends Component {
     if (!me) return <SignIn />;
     return (
       <Fragment>
+        <Cart />
         <Banner cover>
           <Title>Lista de Presentes</Title>
           <SubTitle>
