@@ -1,11 +1,27 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import _ from "lodash";
 import styled from "styled-components";
 
 import { CartList } from "../components";
 import { Shopping } from "../components/icons";
 
-import { CART_QUERY } from "./";
+class MyCart extends Component {
+  componentDidMount() {
+    this.props.subscribeToMore();
+  }
+
+  render() {
+    const { loading, data, handleOpen } = this.props;
+    return (
+      <button onClick={handleOpen} onMouseEnter={() => handleOpen(true)}>
+        <Shopping fill="#ffffff" />
+        {!loading && <span>{!data || !data.cart ? 0 : data.cart.length}</span>}
+      </button>
+    );
+  }
+}
 
 export class Cart extends Component {
   state = { open: false };
@@ -19,16 +35,44 @@ export class Cart extends Component {
     return (
       <StyledCart>
         <Query query={CART_QUERY}>
-          {({ loading, data }) => (
-            <button
-              onClick={this.handleOpen}
-              onMouseEnter={() => this.handleOpen(true)}
-            >
-              <Shopping fill="#ffffff" />
-              {!loading && (
-                <span>{!data || !data.cart ? 0 : data.cart.length}</span>
-              )}
-            </button>
+          {({ subscribeToMore, ...rest }) => (
+            <MyCart
+              {...rest}
+              handleOpen={this.handleOpen}
+              subscribeToMore={() => {
+                subscribeToMore({
+                  document: CART_SUBSCRIPTION,
+                  onError: error => console.log(error),
+                  updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) return prev;
+                    const { mutation, node } = subscriptionData.data.cart;
+                    let cart;
+
+                    switch (mutation) {
+                      case "CREATED":
+                        cart = [node, ...prev.cart];
+                        break;
+                      case "UPDATED":
+                        cart = [
+                          node,
+                          ...prev.cart.filter(c => c._id !== node._id)
+                        ];
+                        break;
+                      case "DELETED":
+                        cart = prev.cart.filter(c => c._id !== node._id);
+                        break;
+                      default:
+                        break;
+                    }
+
+                    return {
+                      ...prev,
+                      cart: _.orderBy(cart, ["createdAt"])
+                    };
+                  }
+                });
+              }}
+            />
           )}
         </Query>
 
@@ -41,6 +85,40 @@ export class Cart extends Component {
     );
   }
 }
+
+const CART_TYPE = `
+  _id
+  product {
+    _id
+    name
+    price
+    quantity
+    createdAt
+    updatedAt
+  }
+  quantity
+  createdAt
+  updatedAt
+`;
+
+export const CART_QUERY = gql`
+  {
+    cart {
+      ${CART_TYPE}
+    }
+  }
+`;
+
+const CART_SUBSCRIPTION = gql`
+  subscription {
+    cart {
+      mutation
+      node {
+        ${CART_TYPE}
+      }  
+    }
+  }
+`;
 
 const StyledCart = styled.div`
   position: relative;
