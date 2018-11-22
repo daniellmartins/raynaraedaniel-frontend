@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Container, SectionTitle } from "../components";
 
 export const Galley = () => (
-  <StyledGalley id="nossagaleria">
+  <StyledGalley id="gallery">
     <SectionTitle>Nossa Galeria</SectionTitle>
     <StyledContainer>
       <div />

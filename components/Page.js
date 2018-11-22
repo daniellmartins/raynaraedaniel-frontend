@@ -29,12 +29,13 @@ export class Page extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, loading } = this.props;
     const { headerFixed } = this.state;
     return (
       <ThemeProvider theme={{ ...theme, headerFixed }}>
         <StyledPage>
           <Meta />
+          <Loading loading={loading} />
           <Header />
           {children}
           <GlobalStyles />
@@ -43,6 +44,68 @@ export class Page extends Component {
     );
   }
 }
+
+const Loading = ({ loading }) => (
+  <StyledLoading loading={loading}>
+    {loading && (
+      <div className="loading">
+        <div className="loading-1" />
+        <div className="loading-2" />
+        <div className="loading-3" />
+        <div className="loading-4" />
+      </div>
+    )}
+  </StyledLoading>
+);
+
+const StyledLoading = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2010;
+
+  pointer-events: none;
+  transform-origin: 50% 0%;
+  transform: ${({ loading }) => (loading ? "scaleY(1)" : "scaleY(0)")};
+  transition: transform 0.2s ease;
+
+  .loading {
+    position: relative;
+    height: 2px;
+
+    div {
+      background: #fff;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform-origin: 0% 0%;
+      transform: scaleX(0);
+    }
+  }
+
+  .loading-1 {
+    background-color: red;
+    animation: progress-indeterminate-1 2.5s linear infinite;
+    z-index: 1;
+  }
+
+  .loading-2 {
+    animation: progress-indeterminate-2 2.5s ease-in infinite;
+    z-index: 2;
+  }
+  .loading-3 {
+    background-color: red;
+    animation: progress-indeterminate-3 2.5s ease-out infinite;
+    z-index: 3;
+  }
+  .loading-4 {
+    animation: progress-indeterminate-4 2.5s ease-out infinite;
+    z-index: 4;
+  }
+`;
 
 const StyledPage = styled.main`
   position: relative;
@@ -78,5 +141,41 @@ const GlobalStyles = createGlobalStyle`
   button,
   a {
     transition: all 0.25s linear;
+  }
+
+  @keyframes progress-indeterminate-1 {
+    0% {
+      transform: scaleX(0);
+    }
+    50%, 100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes progress-indeterminate-2 {
+    0%, 20% {
+      transform: scaleX(0);
+    }
+    70%, 100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes progress-indeterminate-3 {
+    0%, 60% {
+      transform: scaleX(0);
+    }
+    90%, 100% {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes progress-indeterminate-3 {
+    0%, 75% {
+      transform: scaleX(0);
+    }
+    100% {
+      transform: scaleX(1);
+    }
   }
 `;

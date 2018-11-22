@@ -9,7 +9,7 @@ export const Header = () => (
   <StyledHeader>
     <StyledContainer>
       <StyledLogo>
-        <Link href="/">
+        <Link href="/" scroll={false}>
           <a>{site.name}</a>
         </Link>
       </StyledLogo>

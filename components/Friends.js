@@ -6,7 +6,7 @@ import { Container, SectionTitle, Photo } from "../components";
 import { Heart } from "../components/icons";
 
 export const Friends = () => (
-  <StyledFriends id="padrinhosemadrinhas">
+  <StyledFriends id="friends">
     <SectionTitle>Padrinhos e Madrinhas</SectionTitle>
     <StyledContainer>
       <StyledPhoto>

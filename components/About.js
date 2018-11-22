@@ -6,7 +6,7 @@ import { Container, SectionTitle, Photo } from "../components";
 import { Heart } from "../components/icons";
 
 export const About = () => (
-  <StyledAbout id="nossahistoria">
+  <StyledAbout id="history">
     <SectionTitle>Sobre nós</SectionTitle>
     <StyledContainer>
       <StyledHeart>
@@ -19,7 +19,7 @@ export const About = () => (
 );
 
 const StyledAbout = styled.section`
-  padding: 1em 0 6em;
+  padding: 3em 0 6em;
   background-color: white;
 `;
 
