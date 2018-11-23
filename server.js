@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const compression = require("compression");
 const next = require("next");
 
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -9,6 +10,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+  server.use(compression());
 
   server.get("/lista-de-presentes", (req, res) => {
     return app.render(req, res, "/products");
