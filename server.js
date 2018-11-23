@@ -12,6 +12,10 @@ app.prepare().then(() => {
   const server = express();
   server.use(compression());
 
+  server.get("/carrinho", (req, res) => {
+    return app.render(req, res, "/cart");
+  });
+
   server.get("/lista-de-presentes", (req, res) => {
     return app.render(req, res, "/products");
   });
