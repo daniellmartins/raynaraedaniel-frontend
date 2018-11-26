@@ -24,7 +24,6 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Playfair+Display:italic|Tangerine|Poppins:600,700"
           />
-          <link rel="stylesheet" href="/static/normalize.css" />
           {this.props.styleTags}
         </Head>
         <body>
