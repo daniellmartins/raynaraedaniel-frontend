@@ -8,10 +8,24 @@ export const ProductItem = ({ product }) => {
   const price = product.price.toFixed(2).replace(".", ",");
   return (
     <StyledProductItem>
-      <img
-        src={`${process.env.API_HTTP_URL}/assets/products/${product._id}.jpg`}
-        alt=""
-      />
+      <picture>
+        <source
+          type="image/webp"
+          srcSet={`${process.env.API_HTTP_URL}/assets/products/${
+            product._id
+          }.webp`}
+        />
+        <source
+          type="image/jpeg"
+          srcSet={`${process.env.API_HTTP_URL}/assets/products/${
+            product._id
+          }.jpg`}
+        />
+        <img
+          src={`${process.env.API_HTTP_URL}/assets/products/${product._id}.jpg`}
+          alt=""
+        />
+      </picture>
       <div>
         <h1>{product.name}</h1>
         <p>{quantity} de</p>
