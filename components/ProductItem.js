@@ -11,18 +11,18 @@ export const ProductItem = ({ product }) => {
       <picture>
         <source
           type="image/webp"
-          srcSet={`${process.env.API_HTTP_URL}/assets/products/${
+          srcSet={`${process.env.API_CDN_URL}/images/products/${
             product._id
           }.webp`}
         />
         <source
           type="image/jpeg"
-          srcSet={`${process.env.API_HTTP_URL}/assets/products/${
+          srcSet={`${process.env.API_CDN_URL}/images/products/${
             product._id
           }.jpg`}
         />
         <img
-          src={`${process.env.API_HTTP_URL}/assets/products/${product._id}.jpg`}
+          src={`${process.env.API_CDN_URL}/images/products/${product._id}.jpg`}
           alt=""
         />
       </picture>
