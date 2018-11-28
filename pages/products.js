@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import _ from "lodash";
+import orderBy from "lodash/orderBy";
+import remove from "lodash/remove";
 import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
@@ -77,8 +78,8 @@ export default class Products extends Component {
 
                     return {
                       ...prev,
-                      products: _.remove(
-                        _.orderBy(
+                      products: remove(
+                        orderBy(
                           products,
                           ["quantity", this.sort()[0]],
                           ["asc", this.sort()[1]]
