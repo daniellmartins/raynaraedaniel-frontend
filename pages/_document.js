@@ -20,10 +20,6 @@ export default class MyDocument extends Document {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <meta name="theme-color" content="#ffffff" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Playfair+Display:italic|Tangerine|Poppins:600,700"
-          />
           {this.props.styleTags}
         </Head>
         <body>
