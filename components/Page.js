@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, {
+  ThemeProvider,
+  css,
+  createGlobalStyle
+} from "styled-components";
 
 import { theme } from "../config";
 import { Meta, Header } from "./";
@@ -75,7 +79,7 @@ const StyledLoading = styled.div`
     height: 2px;
 
     div {
-      background: #fff;
+      background: ${({ theme }) => theme.color.primary};
       bottom: 0;
       left: 0;
       position: absolute;
@@ -110,6 +114,16 @@ const StyledLoading = styled.div`
 const StyledPage = styled.main`
   position: relative;
   margin: 0;
+
+  ${({ theme }) =>
+    theme.headerFixed &&
+    css`
+      padding-top: ${({ theme }) => theme.metric.header.height.sm};
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        padding-top: ${({ theme }) => theme.metric.header.height.md};
+      }
+    `};
 `;
 
 const GlobalStyles = createGlobalStyle`

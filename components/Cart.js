@@ -93,12 +93,9 @@ const CART_TYPE = `
     name
     price
     quantity
-    createdAt
-    updatedAt
   }
   quantity
   createdAt
-  updatedAt
 `;
 
 export const CART_QUERY = gql`

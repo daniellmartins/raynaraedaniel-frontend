@@ -104,10 +104,9 @@ const PRODUCT_TYPE = `
   name
   price
   quantity
-  photoUrl
+  stock
+  reserved
   active
-  createdAt
-  updatedAt
 `;
 
 const PRODUCTS_QUERY = gql`
