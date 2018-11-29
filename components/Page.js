@@ -319,7 +319,16 @@ const GlobalStyles = createGlobalStyle`
       transform: translateY(0);
     }
     100% {
-      transform: translateY(-60vh);
+      transform: translateY(-50vh);
+    }
+  }
+
+  @keyframes signin {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100vh);
     }
   }
 

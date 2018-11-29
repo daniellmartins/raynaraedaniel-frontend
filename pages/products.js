@@ -25,20 +25,14 @@ export default class Products extends Component {
     return [sort[0], sort[1].toLowerCase()];
   };
 
-  render() {
+  renderProducts = () => {
     const { me } = this.props;
     const { orderBy } = this.state;
+
     if (!me) return <SignIn />;
     return (
       <Fragment>
         <Cart />
-        <Banner cover>
-          <Title>Lista de Presentes</Title>
-          <SubTitle>
-            Ajude os noivos a montar a casa nova <br />
-            ou desfrutar de um passeio inesquecível de lua de mel. Presenteie!
-          </SubTitle>
-        </Banner>
         <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
           {({ subscribeToMore, ...rest }) => (
             <ProductList
@@ -94,6 +88,23 @@ export default class Products extends Component {
           )}
         </Query>
         <Footer />
+      </Fragment>
+    );
+  };
+
+  render() {
+    const { me } = this.props;
+
+    return (
+      <Fragment>
+        <Banner cover={me ? true : false}>
+          <Title>Lista de Presentes</Title>
+          <SubTitle>
+            Ajude os noivos a montar a casa nova <br />
+            ou desfrutar de um passeio inesquecível de lua de mel. Presenteie!
+          </SubTitle>
+        </Banner>
+        {this.renderProducts()}
       </Fragment>
     );
   }

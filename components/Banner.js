@@ -6,10 +6,15 @@ export const Banner = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin-top: -81px;
+  margin-top: -61px;
+  padding: 1rem;
   height: 100vh;
 
   background-color: ${({ theme }) => theme.color.darklight};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: -81px;
+  }
 
   ${({ cover }) =>
     cover
