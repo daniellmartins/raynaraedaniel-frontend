@@ -32,6 +32,8 @@ export class ProductList extends Component {
 
 const StyledProductList = styled.section`
   padding: 2rem 0 4rem;
+  margin-bottom: -60vh;
+  animation: banner 0.25s forwards;
 `;
 
 const StyledProductListGrid = styled.div`

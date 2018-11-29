@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Banner = styled.div`
   display: flex;
@@ -6,7 +6,7 @@ export const Banner = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin-top: -80px;
+  margin-top: -81px;
   height: 100vh;
 
   background-color: ${({ theme }) => theme.color.darklight};
@@ -14,36 +14,10 @@ export const Banner = styled.div`
   ${({ cover }) =>
     cover
       ? css`
-          animation-name: ${small};
-          animation-duration: 0.25s;
-          animation-fill-mode: forwards;
+          justify-content: flex-end;
+          animation: banner 0.25s forwards;
         `
       : css`
-          animation-name: ${large};
-          animation-duration: 0.25s;
-          animation-fill-mode: forwards;
-        `} /* background-image: url("");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover; */
-`;
-
-const small = keyframes`
-  0% {
-    height: 100vh;
-  }
-
-  100% {
-    height: 300px;
-  }
-`;
-
-const large = keyframes`
-  0% {
-    height: 300px;
-  }
-
-  100% {
-    height: 100vh;
-  }
+          animation: banner 0.25s forwards reverse;
+        `}
 `;

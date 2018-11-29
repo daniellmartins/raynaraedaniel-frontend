@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Router from "next/router";
 import styled, {
   ThemeProvider,
   css,
@@ -9,15 +10,25 @@ import { theme } from "../config";
 import { Meta, Header } from "./";
 
 export class Page extends Component {
-  state = { headerFixed: false, headerShow: false };
+  state = { loading: true, headerFixed: false, headerShow: false };
 
   componentDidMount() {
     this.handleScroll();
+    this.handleScrollTo();
     window.addEventListener("scroll", this.handleScroll);
+
+    Router.events.on("routeChangeStart", () => {
+      this.setState({ loading: true });
+    });
+    Router.events.on("routeChangeComplete", this.handleScrollTo);
+    Router.events.on("routeChangeError", this.handleScrollTo);
   }
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    Router.events.off("routeChangeStart", this.handleScrollTo);
+    Router.events.off("routeChangeComplete", this.handleScrollTo);
+    Router.events.off("routeChangeError", this.handleScrollTo);
   }
 
   handleScroll = () => {
@@ -32,9 +43,38 @@ export class Page extends Component {
     }
   };
 
+  handleScrollTo = () => {
+    const { asPath } = this.props;
+    let id;
+
+    this.setState({ loading: false });
+
+    switch (asPath) {
+      case "/padrinhos-e-madrinhas":
+        id = "#friends";
+        break;
+      case "/nossa-galeria":
+        id = "#gallery";
+        break;
+      case "/nossa-historia":
+        id = "#history";
+        break;
+      default:
+        id = "body";
+        break;
+    }
+
+    if (id === "body") {
+      return window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const top = document.querySelector(id).offsetTop - 60;
+      return window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   render() {
-    const { children, loading } = this.props;
-    const { headerFixed } = this.state;
+    const { children } = this.props;
+    const { loading, headerFixed } = this.state;
     return (
       <ThemeProvider theme={{ ...theme, headerFixed }}>
         <StyledPage>
@@ -91,7 +131,7 @@ const StyledLoading = styled.div`
   }
 
   .loading-1 {
-    background-color: red;
+    background-color: ${({ theme }) => theme.color.primary};
     animation: progress-indeterminate-1 2.5s linear infinite;
     z-index: 1;
   }
@@ -101,7 +141,7 @@ const StyledLoading = styled.div`
     z-index: 2;
   }
   .loading-3 {
-    background-color: red;
+    background-color: ${({ theme }) => theme.color.primary};
     animation: progress-indeterminate-3 2.5s ease-out infinite;
     z-index: 3;
   }
@@ -257,6 +297,30 @@ const GlobalStyles = createGlobalStyle`
   button,
   a {
     transition: all 0.25s linear;
+  }
+
+  @keyframes header {
+    0% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+
+    80% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes banner {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-60vh);
+    }
   }
 
   @keyframes progress-indeterminate-1 {

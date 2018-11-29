@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css } from "styled-components";
 
 import { site } from "../config";
 import { Container, Menu } from "../components";
@@ -34,7 +34,7 @@ const StyledHeader = styled.header`
     theme.headerFixed &&
     css`
       position: fixed;
-      animation-name: ${show};
+      animation-name: header;
       animation-duration: 1s;
       animation-fill-mode: both;
       background-color: rgba(255, 255, 255, 0.98);
@@ -81,17 +81,5 @@ const StyledLogo = styled.h1`
       css`
         color: ${theme.color.text};
       `}
-  }
-`;
-
-const show = keyframes`
-  0% {
-    opacity: 0;
-    transform: translate3d(0,-100%,0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: none;
   }
 `;
