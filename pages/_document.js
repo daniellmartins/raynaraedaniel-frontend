@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="theme-color" content="#c59bb9" />
           {this.props.styleTags}
         </Head>
         <body>
