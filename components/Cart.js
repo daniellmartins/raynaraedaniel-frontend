@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import orderBy from "lodash/orderBy";
+import _orderBy from "lodash/orderBy";
 import styled from "styled-components";
 
 import { CartList } from "../components";
@@ -67,7 +67,7 @@ export class Cart extends Component {
 
                     return {
                       ...prev,
-                      cart: orderBy(cart, ["createdAt"])
+                      cart: _orderBy(cart, ["createdAt"])
                     };
                   }
                 });
