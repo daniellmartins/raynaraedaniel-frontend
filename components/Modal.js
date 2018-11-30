@@ -10,12 +10,11 @@ export class Modal extends Component {
   }
 
   componentDidMount() {
-    this.modalRoot = document.getElementsByName("body").style.overflow =
-      "hidden";
+    this.modalRoot = document.getElementById("modal");
     this.el = document.createElement("div");
     this.modalRoot.appendChild(this.el);
     this._addEventListener();
-    // document.querySelector("body").style.overflow = "hidden";
+    document.querySelector("body").style.overflow = "hidden";
   }
 
   componentDidUpdate(prevProps) {
@@ -29,9 +28,9 @@ export class Modal extends Component {
   }
 
   componentWillUnmount() {
-    this.modalRoot.removeChild(this.el).style.overflow = "auto";
+    this.modalRoot.removeChild(this.el);
     this._removeEventListener();
-    // document.querySelector("body").style.overflow = "auto";
+    document.querySelector("body").style.overflow = "auto";
   }
 
   _addEventListener = () => {

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "next/router";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import _orderBy from "lodash/orderBy";
@@ -6,9 +7,16 @@ import _remove from "lodash/remove";
 import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
-import { Banner, SignIn, ProductList, Footer, Cart } from "../components";
+import {
+  SignIn,
+  Banner,
+  Cart,
+  ProductList,
+  ProductReserved,
+  Footer
+} from "../components";
 
-export default class Products extends Component {
+class Products extends Component {
   state = { orderBy: "price_ASC" };
 
   static async getInitialProps({ apolloClient }) {
@@ -26,12 +34,13 @@ export default class Products extends Component {
   };
 
   renderProducts = () => {
-    const { me } = this.props;
+    const { me, router } = this.props;
     const { orderBy } = this.state;
 
     if (!me) return <SignIn />;
     return (
       <Fragment>
+        {/* {router.query && router.query.id && <ProductReserved />} */}
         <Cart />
         <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
           {({ subscribeToMore, ...rest }) => (
@@ -109,6 +118,8 @@ export default class Products extends Component {
     );
   }
 }
+
+export default withRouter(Products);
 
 const PRODUCT_TYPE = `
   _id
