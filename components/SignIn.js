@@ -39,7 +39,7 @@ export class SignIn extends Component {
     this.setState({ completed: true }, () => {
       setTimeout(() => {
         document.cookie = cookie.serialize("token", data.signin.token, {
-          maxAge: 30 * 24 * 60 * 60 // 30 days
+          maxAge: 60 * 60 // 1 hour
         });
         client.cache.reset().then(() => {
           redirect({}, "/products", "/lista-de-presentes");
