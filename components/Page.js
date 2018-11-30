@@ -59,9 +59,11 @@ export class Page extends Component {
       case "/nossa-historia":
         id = "#history";
         break;
-      default:
+      case "/":
         id = "body";
         break;
+      default:
+        return true;
     }
 
     if (id === "body") {
