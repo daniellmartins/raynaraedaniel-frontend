@@ -16,6 +16,10 @@ app.prepare().then(() => {
     return app.render(req, res, "/cart");
   });
 
+  server.get("/lista-de-presentes/:id", (req, res) => {
+    return app.render(req, res, "/products", { id: req.params.id });
+  });
+
   server.get("/lista-de-presentes", (req, res) => {
     return app.render(req, res, "/products");
   });

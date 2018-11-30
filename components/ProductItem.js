@@ -1,9 +1,10 @@
 import React from "react";
+import Link from "next/link";
 import { Mutation } from "react-apollo";
 import styled from "styled-components";
 
 import { formatMoney } from "../lib";
-import { CartUpdate, ADD_CART_MUTATION } from "./CartUpdate";
+import { CartUpdate, ADD_CART_MUTATION } from "./";
 
 export const ProductItem = ({ product }) => {
   const quantity =
@@ -37,6 +38,18 @@ export const ProductItem = ({ product }) => {
         <p>{stock} de</p>
         <b>R$ {formatMoney(product.price)}</b>
         <p>{quantity}</p>
+        {product.reserved && (
+          <Link
+            scroll={false}
+            href={{
+              pathname: "/products",
+              query: { id: product._id }
+            }}
+            as={`/lista-de-presentes/${product._id}`}
+          >
+            <a>Comprar em loja física</a>
+          </Link>
+        )}
       </StyledContent>
       {product.cart ? (
         <StyledButtonGroup>

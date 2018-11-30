@@ -13,7 +13,7 @@ class MyApp extends App {
       <Container>
         <ApolloProvider client={apolloClient}>
           <Page asPath={router.asPath}>
-            <Component {...pageProps} />
+            <Component router={router} {...pageProps} />
           </Page>
         </ApolloProvider>
       </Container>

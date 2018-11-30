@@ -4,6 +4,7 @@ export * from "./Container";
 export * from "./Header";
 export * from "./Menu";
 export * from "./MenuItem";
+export * from "./Modal";
 export * from "./Footer";
 
 export * from "./Photo";
