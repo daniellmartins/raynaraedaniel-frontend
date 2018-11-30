@@ -15,10 +15,13 @@ class MyCart extends Component {
   render() {
     const { loading, data, handleOpen } = this.props;
     return (
-      <button onClick={handleOpen} onMouseEnter={() => handleOpen(true)}>
+      <StyledCartButton
+        onClick={handleOpen}
+        onMouseEnter={() => handleOpen(true)}
+      >
         <Shopping fill="#ffffff" />
         {!loading && <span>{!data || !data.cart ? 0 : data.cart.length}</span>}
-      </button>
+      </StyledCartButton>
     );
   }
 }
@@ -93,6 +96,7 @@ const CART_TYPE = `
     name
     price
     quantity
+    stock
   }
   quantity
   createdAt
@@ -127,32 +131,32 @@ const StyledCart = styled.div`
     top: 1rem;
     bottom: auto;
   }
+`;
 
-  button {
-    color: #ffffff;
+const StyledCartButton = styled.button`
+  color: #ffffff;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 4rem;
-    height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
 
-    border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.primary};
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  background-color: ${({ theme }) => theme.color.primary};
+
+  span {
+    font-size: 1em;
+    margin-left: 5px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 3rem;
+    height: 3rem;
 
     span {
-      font-size: 1em;
-      margin-left: 5px;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      width: 3rem;
-      height: 3rem;
-
-      span {
-        font-size: 0.875em;
-      }
+      font-size: 0.875em;
     }
   }
 `;
@@ -162,7 +166,7 @@ const StyledCartBox = styled.div`
   top: 4.5rem;
   right: 0;
 
-  width: 400px;
+  width: 500px;
   height: 500px;
 
   background-color: #ffffff;

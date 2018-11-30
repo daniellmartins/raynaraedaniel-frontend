@@ -1,13 +1,19 @@
 import React from "react";
+import { Mutation } from "react-apollo";
 import styled from "styled-components";
+
+import { formatMoney } from "../lib";
+import { CartUpdate, ADD_CART_MUTATION } from "./CartUpdate";
 
 export const ProductItem = ({ product }) => {
   const quantity =
     product.quantity > 1 ? `faltam ${product.quantity} itens` : `falta 1 item`;
   const stock = `${product.stock} ${product.stock > 1 ? `itens` : `item`}`;
-  const price = product.price.toFixed(2).replace(".", ",");
   return (
-    <StyledProductItem stock={product.stock === 0 ? true : false}>
+    <StyledProductItem
+      stock={product.stock === 0 ? true : false}
+      cart={product.cart ? true : false}
+    >
       <picture>
         <source
           type="image/webp"
@@ -26,15 +32,36 @@ export const ProductItem = ({ product }) => {
           alt=""
         />
       </picture>
-      <div>
+      <StyledContent>
         <h1>{product.name}</h1>
         <p>{stock} de</p>
-        <b>R$ {price}</b>
+        <b>R$ {formatMoney(product.price)}</b>
         <p>{quantity}</p>
-      </div>
-      <button disabled={product.stock === 0 ? true : false}>
-        {product.stock === 0 ? "Comprado" : "Comprar"}
-      </button>
+      </StyledContent>
+      {product.cart ? (
+        <StyledButtonGroup>
+          <CartUpdate product={product} quantity={product.cart.quantity - 1}>
+            -
+          </CartUpdate>
+          <div>{product.cart.quantity}</div>
+          <CartUpdate product={product} quantity={product.cart.quantity + 1}>
+            +
+          </CartUpdate>
+        </StyledButtonGroup>
+      ) : (
+        <Mutation mutation={ADD_CART_MUTATION}>
+          {(update, { loading }) => (
+            <StyledButton
+              disabled={loading || product.stock === 0 ? true : false}
+              onClick={() => {
+                update({ variables: { productId: product._id, quantity: 1 } });
+              }}
+            >
+              {product.stock === 0 ? "Comprado" : "Comprar"}
+            </StyledButton>
+          )}
+        </Mutation>
+      )}
     </StyledProductItem>
   );
 };
@@ -48,7 +75,10 @@ const StyledProductItem = styled.article`
   padding-bottom: 1em;
 
   opacity: ${({ stock }) => (stock ? "0.5" : "1")};
-  border: 1px solid transparent;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${({ theme, cart }) =>
+    cart ? theme.color.primary : "transparent"};
   background-color: #ffffff;
 
   transition: border 0.15s linear;
@@ -56,7 +86,6 @@ const StyledProductItem = styled.article`
   &:hover {
     border-color: ${({ theme, stock }) =>
       stock ? "transparent" : theme.color.primary};
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); */
   }
 
   img {
@@ -77,37 +106,67 @@ const StyledProductItem = styled.article`
     font-size: 0.875em;
     margin: 0;
   }
+`;
 
-  div {
-    padding: 0 0.75rem 1em;
+const StyledContent = styled.div`
+  padding: 0 0.75rem 1em;
+`;
+
+const StyledButton = styled.button`
+  color: ${({ theme }) => theme.color.primary};
+  font-size: 0.875em;
+
+  padding: 0.625em 1em;
+  width: 80%;
+
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  background-color: #ffffff;
+
+  &:hover {
+    color: #ffffff;
+    background-color: ${({ theme }) => theme.color.primary};
   }
 
-  button {
-    color: ${({ theme }) => theme.color.primary};
-    font-size: 0.875em;
+  &:disabled {
+    color: #cccccc;
+    border-color: #cccccc;
 
-    padding: 0.625em 1em;
-    width: 80%;
-
-    border-radius: 6px;
-    border: 1px solid ${({ theme }) => theme.color.primary};
-    background-color: #ffffff;
+    cursor: default;
 
     &:hover {
-      color: #ffffff;
-      background-color: ${({ theme }) => theme.color.primary};
-    }
-
-    &:disabled {
       color: #cccccc;
-      border-color: #cccccc;
+      background-color: #ffffff;
+    }
+  }
+`;
 
-      cursor: default;
+const StyledButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
 
-      &:hover {
-        color: #cccccc;
-        background-color: #ffffff;
-      }
+  border-radius: 6px;
+  border: 1px solid ${({ theme }) => theme.color.primary};
+  background-color: #ffffff;
+  overflow: hidden;
+
+  button {
+    width: auto;
+    height: auto;
+    padding: 0.625em 1em;
+
+    border-radius: 0;
+    border-top: 0;
+    border-bottom: 0;
+
+    &:first-child {
+      border-left: 0;
+    }
+    &:last-child {
+      border-right: 0;
     }
   }
 `;

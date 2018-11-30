@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+
+import { Container, CartList } from "../components";
 
 export default class Cart extends Component {
   state = {
@@ -73,9 +76,9 @@ export default class Cart extends Component {
     const { card } = this.state;
     console.log(this.state);
     return (
-      <div>
-        <h1>cart</h1>
-
+      <StyledContainer>
+        <h1>Carrinho</h1>
+        <CartList />
         <input
           type="text"
           placeholder="cardNumber"
@@ -122,7 +125,11 @@ export default class Cart extends Component {
           type="text/javascript"
           src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"
         />
-      </div>
+      </StyledContainer>
     );
   }
 }
+
+const StyledContainer = styled(Container)`
+  max-width: 600px;
+`;

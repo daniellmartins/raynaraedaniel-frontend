@@ -118,6 +118,10 @@ const PRODUCT_TYPE = `
   stock
   reserved
   active
+  cart {
+    _id
+    quantity
+  }
 `;
 
 const PRODUCTS_QUERY = gql`
