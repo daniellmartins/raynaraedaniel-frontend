@@ -297,8 +297,28 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button,
-  a {
+  a,
+  input,
+  select,
+  textarea {
     transition: all 0.25s linear;
+  }
+
+  input,
+  select {
+    outline: none;
+    padding: .75rem .675rem;
+
+    border: 1px solid ${({ theme }) => theme.color.grey};
+    border-radius: 4px;
+
+    &:focus {
+      border-color: ${({ theme }) => theme.color.primary};
+    }
+  }
+
+  ::placeholder {
+    color: ${({ theme }) => theme.color.grey};
   }
 
   @keyframes header {

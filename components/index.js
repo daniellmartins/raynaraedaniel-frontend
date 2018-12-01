@@ -5,6 +5,7 @@ export * from "./Header";
 export * from "./Menu";
 export * from "./MenuItem";
 export * from "./Modal";
+export * from "./Button";
 export * from "./Footer";
 
 export * from "./Photo";

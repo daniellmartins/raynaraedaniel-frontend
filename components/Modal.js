@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { createPortal } from "react-dom";
-import isNil from "lodash/fp/isNil";
+import _isNil from "lodash/fp/isNil";
 import styled, { css, keyframes } from "styled-components";
 
 export class Modal extends Component {
@@ -10,25 +9,11 @@ export class Modal extends Component {
   }
 
   componentDidMount() {
-    this.modalRoot = document.getElementById("modal");
-    this.el = document.createElement("div");
-    this.modalRoot.appendChild(this.el);
     this._addEventListener();
     document.querySelector("body").style.overflow = "hidden";
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.loading !== this.props.loading) {
-      if (this.props.loading) {
-        this._removeEventListener();
-      } else {
-        this._addEventListener();
-      }
-    }
-  }
-
   componentWillUnmount() {
-    this.modalRoot.removeChild(this.el);
     this._removeEventListener();
     document.querySelector("body").style.overflow = "auto";
   }
@@ -44,11 +29,10 @@ export class Modal extends Component {
   };
 
   _handleKeyUp = e => {
-    const { onCloseRequest } = this.props;
     const keys = {
       27: () => {
         e.preventDefault();
-        onCloseRequest();
+        window.history.back();
         window.removeEventListener("keyup", this._handleKeyUp, false);
       }
     };
@@ -58,22 +42,19 @@ export class Modal extends Component {
   };
 
   _handleOutsideClick = e => {
-    const { onCloseRequest } = this.props;
-    if (!isNil(this.modalOverlay)) {
+    if (!_isNil(this.modalOverlay)) {
       if (this.modalOverlay.current === e.target) {
-        onCloseRequest();
+        window.history.back();
         document.removeEventListener("click", this._handleOutsideClick, false);
       }
     }
   };
 
   render() {
-    const { children } = this.props;
-    return createPortal(
+    return (
       <StyledModalOverlay ref={this.modalOverlay}>
-        <StyledModal>{children}</StyledModal>
-      </StyledModalOverlay>,
-      this.el
+        <StyledModal>{this.props.children}</StyledModal>
+      </StyledModalOverlay>
     );
   }
 }
@@ -100,7 +81,7 @@ const StyledModalOverlay = styled.div`
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 9999;
+  z-index: 999999;
 
   display: flex;
   align-items: center;
@@ -110,10 +91,9 @@ const StyledModalOverlay = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
 
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.8);
 
-  animation: ${show} 0.5s ease;
+  animation: ${show} 0.5s ease forwards;
 `;
 
 const StyledModal = styled.div`

@@ -17,7 +17,7 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = styled.li`
   a {
-    color: ${({ theme }) => theme.color.grey};
+    color: #eeeeee;
     font-size: 0.8125rem;
     text-align: center;
     text-transform: uppercase;

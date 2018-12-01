@@ -4,11 +4,11 @@ import { Mutation } from "react-apollo";
 import styled from "styled-components";
 
 import { formatMoney } from "../lib";
-import { CartUpdate, ADD_CART_MUTATION } from "./";
+import { Button, CartUpdate, ADD_CART_MUTATION } from "./";
 
 export const ProductItem = ({ product }) => {
   const quantity =
-    product.quantity > 1 ? `faltam ${product.quantity} itens` : `falta 1 item`;
+    product.quantity > 1 ? `faltam ${product.quantity} itens` : null;
   const stock = `${product.stock} ${product.stock > 1 ? `itens` : `item`}`;
   return (
     <StyledProductItem
@@ -37,18 +37,20 @@ export const ProductItem = ({ product }) => {
         <h1>{product.name}</h1>
         <p>{stock} de</p>
         <b>R$ {formatMoney(product.price)}</b>
-        <p>{quantity}</p>
+        {quantity && <p>{quantity}</p>}
         {product.reserved && (
-          <Link
-            scroll={false}
-            href={{
-              pathname: "/products",
-              query: { id: product._id }
-            }}
-            as={`/lista-de-presentes/${product._id}`}
-          >
-            <a>Comprar em loja física</a>
-          </Link>
+          <p>
+            <Link
+              scroll={false}
+              href={{
+                pathname: "/products",
+                query: { id: product._id }
+              }}
+              as={`/lista-de-presentes/${product._id}`}
+            >
+              <a>Comprar em loja física</a>
+            </Link>
+          </p>
         )}
       </StyledContent>
       {product.cart ? (
@@ -64,14 +66,16 @@ export const ProductItem = ({ product }) => {
       ) : (
         <Mutation mutation={ADD_CART_MUTATION}>
           {(update, { loading }) => (
-            <StyledButton
+            <Button
+              block
+              size="small"
               disabled={loading || product.stock === 0 ? true : false}
               onClick={() => {
                 update({ variables: { productId: product._id, quantity: 1 } });
               }}
             >
               {product.stock === 0 ? "Comprado" : "Comprar"}
-            </StyledButton>
+            </Button>
           )}
         </Mutation>
       )}
@@ -82,6 +86,11 @@ export const ProductItem = ({ product }) => {
 const StyledProductItem = styled.article`
   color: ${({ theme }) => theme.color.dark};
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 
   cursor: ${({ stock }) => (stock ? "default" : "pointer")};
   overflow: hidden;
@@ -116,42 +125,20 @@ const StyledProductItem = styled.article`
 
   p {
     opacity: ${({ stock }) => (stock ? "0" : "0.6")};
-    font-size: 0.875em;
+    font-size: 0.875rem;
     margin: 0;
+
+    a {
+      color: #2d2d2d;
+      font-size: 0.75rem;
+      display: block;
+      margin-top: 10px;
+    }
   }
 `;
 
 const StyledContent = styled.div`
   padding: 0 0.75rem 1em;
-`;
-
-const StyledButton = styled.button`
-  color: ${({ theme }) => theme.color.primary};
-  font-size: 0.875em;
-
-  padding: 0.625em 1em;
-  width: 80%;
-
-  border-radius: 6px;
-  border: 1px solid ${({ theme }) => theme.color.primary};
-  background-color: #ffffff;
-
-  &:hover {
-    color: #ffffff;
-    background-color: ${({ theme }) => theme.color.primary};
-  }
-
-  &:disabled {
-    color: #cccccc;
-    border-color: #cccccc;
-
-    cursor: default;
-
-    &:hover {
-      color: #cccccc;
-      background-color: #ffffff;
-    }
-  }
 `;
 
 const StyledButtonGroup = styled.div`

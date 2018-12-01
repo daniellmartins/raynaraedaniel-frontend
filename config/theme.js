@@ -4,7 +4,7 @@ export const theme = {
     text: "#6c6975",
     dark: "#2d2d2d",
     darklight: "#d2d2d2",
-    grey: "#eeeeee"
+    grey: "#dddddd"
   },
   metric: {
     margin: "1rem",

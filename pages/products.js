@@ -40,7 +40,9 @@ class Products extends Component {
     if (!me) return <SignIn />;
     return (
       <Fragment>
-        {/* {router.query && router.query.id && <ProductReserved />} */}
+        {router.query && router.query.id && (
+          <ProductReserved productId={router.query.id} />
+        )}
         <Cart />
         <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
           {({ subscribeToMore, ...rest }) => (
