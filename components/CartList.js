@@ -2,9 +2,8 @@ import React from "react";
 import { Query } from "react-apollo";
 import styled from "styled-components";
 
-import { CART_QUERY } from "./";
+import { CartItem, CART_QUERY } from "./";
 import { calcTotalPrice, formatMoney } from "../lib";
-import { CartUpdate } from "./CartUpdate";
 
 export const CartList = () => (
   <StyledCartList>
@@ -25,40 +24,9 @@ export const CartList = () => (
                   </tr>
                 </thead>
                 <tbody>
-                  {data.cart.map(cart => {
-                    const price = formatMoney(cart.product.price);
-                    const total = formatMoney(
-                      cart.product.price * cart.quantity
-                    );
-                    return (
-                      <tr key={cart._id}>
-                        <td align="left">{cart.product.name}</td>
-                        <td align="right" width="90">
-                          R$ {price}
-                        </td>
-                        <td align="center">
-                          <StyledQuantity>
-                            <CartUpdate
-                              quantity={cart.quantity - 1}
-                              product={cart.product}
-                            >
-                              -
-                            </CartUpdate>
-                            <span>{cart.quantity}</span>
-                            <CartUpdate
-                              quantity={cart.quantity + 1}
-                              product={cart.product}
-                            >
-                              +
-                            </CartUpdate>
-                          </StyledQuantity>
-                        </td>
-                        <td align="right" width="90">
-                          R$ {total}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {data.cart.map(cart => (
+                    <CartItem key={cart._id} cart={cart} />
+                  ))}
                 </tbody>
               </table>
             </StyledCartListTable>
@@ -142,16 +110,6 @@ const StyledCartFooter = styled.div`
       border: 1px solid ${({ theme }) => theme.color.primary};
       background-color: ${({ theme }) => theme.color.primary};
     }
-  }
-`;
-
-const StyledQuantity = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  span {
-    margin: 0 0.4em;
   }
 `;
 
