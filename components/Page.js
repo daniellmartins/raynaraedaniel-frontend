@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Router from "next/router";
+import Router, { withRouter } from "next/router";
 import styled, {
   ThemeProvider,
   css,
@@ -7,9 +7,8 @@ import styled, {
 } from "styled-components";
 
 import { theme } from "../config";
-import { Meta, Header } from "./";
 
-export class Page extends Component {
+class MyPage extends Component {
   state = { loading: true, headerFixed: false, headerShow: false };
 
   componentDidMount() {
@@ -44,7 +43,7 @@ export class Page extends Component {
   };
 
   handleScrollTo = () => {
-    const { asPath } = this.props;
+    const { asPath } = this.props.router;
     let id;
 
     this.setState({ loading: false });
@@ -80,9 +79,7 @@ export class Page extends Component {
     return (
       <ThemeProvider theme={{ ...theme, headerFixed }}>
         <StyledPage>
-          <Meta />
           <Loading loading={loading} />
-          <Header />
           {children}
           <GlobalStyles />
         </StyledPage>
@@ -90,6 +87,8 @@ export class Page extends Component {
     );
   }
 }
+
+export const Page = withRouter(MyPage);
 
 const Loading = ({ loading }) => (
   <StyledLoading loading={loading}>

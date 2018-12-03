@@ -2,6 +2,9 @@ import React from "react";
 import styled, { css, keyframes } from "styled-components";
 
 import {
+  Page,
+  Meta,
+  Header,
   Banner,
   CountDown,
   About,
@@ -13,7 +16,9 @@ import {
 import { countDownDate } from "../lib";
 
 const Home = ({ countDown }) => (
-  <React.Fragment>
+  <Page>
+    <Meta />
+    <Header />
     <Banner>
       <img src="/static/line_top.png" alt="" />
       <SubTitle>Nós decidimos viver felizes juntos</SubTitle>
@@ -26,7 +31,7 @@ const Home = ({ countDown }) => (
     <Galley />
     <Friends />
     <Footer />
-  </React.Fragment>
+  </Page>
 );
 
 Home.getInitialProps = () => {
