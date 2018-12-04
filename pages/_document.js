@@ -25,6 +25,10 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <script
+            type="text/javascript"
+            src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"
+          />
         </body>
       </html>
     );

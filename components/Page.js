@@ -335,7 +335,16 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  @keyframes banner {
+  @keyframes banner-small {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-65vh);
+    }
+  }
+
+  @keyframes banner-medium {
     0% {
       transform: translateY(0);
     }

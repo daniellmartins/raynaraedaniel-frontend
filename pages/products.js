@@ -110,7 +110,7 @@ class Products extends Component {
         <Meta />
         <Header />
         <Cart />
-        <Banner cover={me ? true : false}>
+        <Banner size={me && "medium"}>
           <Title>Lista de Presentes</Title>
           <SubTitle>
             Ajude os noivos a montar a casa nova <br />

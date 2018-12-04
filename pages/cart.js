@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { Container, CartList } from "../components";
+import {
+  Page,
+  Meta,
+  Header,
+  Banner,
+  Footer,
+  Container,
+  CartList
+} from "../components";
 
 export default class Cart extends Component {
   state = {
@@ -76,59 +84,69 @@ export default class Cart extends Component {
     const { card } = this.state;
     console.log(this.state);
     return (
-      <StyledContainer>
-        <h1>Carrinho</h1>
-        <CartList />
-        <input
-          type="text"
-          placeholder="cardNumber"
-          name="cardNumber"
-          value={card.cardNumber}
-          onChange={this.handleInput}
-        />
-        <input
-          type="text"
-          placeholder="cvv"
-          name="cvv"
-          value={card.cvv}
-          onChange={this.handleInput}
-        />
-        <br />
-        <input
-          type="text"
-          placeholder="brand"
-          name="brand"
-          value={card.brand}
-          onChange={this.handleInput}
-        />
-        <br />
-        <input
-          type="text"
-          placeholder="expirationMonth"
-          name="expirationMonth"
-          value={card.expirationMonth}
-          onChange={this.handleInput}
-        />
-        <br />
-        <input
-          type="text"
-          placeholder="expirationYear"
-          name="expirationYear"
-          value={card.expirationYear}
-          onChange={this.handleInput}
-        />
+      <Page>
+        <Meta />
+        <Header />
+        <Banner size="small" />
+        <StyledCart>
+          <StyledContainer>
+            <CartList />
+            <input
+              type="text"
+              placeholder="cardNumber"
+              name="cardNumber"
+              value={card.cardNumber}
+              onChange={this.handleInput}
+            />
+            <input
+              type="text"
+              placeholder="cvv"
+              name="cvv"
+              value={card.cvv}
+              onChange={this.handleInput}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="brand"
+              name="brand"
+              value={card.brand}
+              onChange={this.handleInput}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="expirationMonth"
+              name="expirationMonth"
+              value={card.expirationMonth}
+              onChange={this.handleInput}
+            />
+            <br />
+            <input
+              type="text"
+              placeholder="expirationYear"
+              name="expirationYear"
+              value={card.expirationYear}
+              onChange={this.handleInput}
+            />
 
-        <button onClick={this.onSenderHashReady}>UserID</button>
-        <button onClick={this.getPaymentMethods}>PaymentMethods</button>
-        <button onClick={this.createCardToken}>CardToken</button>
-        <script
-          type="text/javascript"
-          src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"
-        />
-      </StyledContainer>
+            <button onClick={this.onSenderHashReady}>UserID</button>
+            <button onClick={this.getPaymentMethods}>PaymentMethods</button>
+            <button onClick={this.createCardToken}>CardToken</button>
+          </StyledContainer>
+        </StyledCart>
+        <Footer />
+      </Page>
     );
   }
 }
+
+const StyledCart = styled.div`
+  background-color: #ffffff;
+  animation: banner-small 0.25s forwards;
+
+  padding: 3rem 0;
+`;
 
 const StyledContainer = styled(Container)`
   max-width: 600px;

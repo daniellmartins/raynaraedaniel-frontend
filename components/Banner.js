@@ -16,13 +16,13 @@ export const Banner = styled.div`
     margin-top: -81px;
   }
 
-  ${({ cover }) =>
-    cover
+  ${({ size }) =>
+    size
       ? css`
           justify-content: flex-end;
-          animation: banner 0.25s forwards;
+          animation: ${`banner-${size}`} 0.25s forwards;
         `
       : css`
-          animation: banner 0.25s forwards reverse;
+          animation: ${`banner-${size}`} 0.25s forwards reverse;
         `}
 `;

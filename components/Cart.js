@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "next/router";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import _orderBy from "lodash/orderBy";
@@ -7,7 +8,7 @@ import styled from "styled-components";
 import { CartList } from "../components";
 import { Shopping } from "../components/icons";
 
-class MyCart extends Component {
+class CartButton extends Component {
   componentDidMount() {
     this.props.subscribeToMore();
   }
@@ -26,11 +27,15 @@ class MyCart extends Component {
   }
 }
 
-export class Cart extends Component {
+class MyCart extends Component {
   state = { open: false };
 
   handleOpen = value => {
-    this.setState({ open: value === true ? true : !this.state.open });
+    if (window.innerWidth <= 768) {
+      return this.props.router.push("/cart", "/carrinho");
+    }
+
+    return this.setState({ open: value === true ? true : !this.state.open });
   };
 
   render() {
@@ -39,7 +44,7 @@ export class Cart extends Component {
       <StyledCart>
         <Query query={CART_QUERY}>
           {({ subscribeToMore, ...rest }) => (
-            <MyCart
+            <CartButton
               {...rest}
               handleOpen={this.handleOpen}
               subscribeToMore={() => {
@@ -88,6 +93,8 @@ export class Cart extends Component {
     );
   }
 }
+
+export const Cart = withRouter(MyCart);
 
 const CART_TYPE = `
   _id

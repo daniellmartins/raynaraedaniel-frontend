@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { site } from "../config";
 import { Container, Menu } from "../components";
 
-export const Header = () => (
+export const Header = ({ children }) => (
   <StyledHeader>
     <StyledContainer>
       <StyledLogo>
@@ -14,6 +14,7 @@ export const Header = () => (
         </Link>
       </StyledLogo>
       <Menu />
+      {children}
     </StyledContainer>
   </StyledHeader>
 );
