@@ -49,13 +49,26 @@ export const Menu = () => (
   </StyledMenu>
 );
 
-const StyledMenu = styled.div``;
+const StyledMenu = styled.div`
+  /* position: relative; */
+`;
 
 const MenuList = styled.ul`
-  display: none;
+  position: absolute;
+  top: ${({ theme }) => theme.metric.header.height.sm};
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+
   list-style: none;
   margin: 0;
   padding: 0;
+
+  background-color: #ffffff;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     display: block;

@@ -7,7 +7,11 @@ export default class MyDocument extends Document {
     const page = renderPage(App => props =>
       sheet.collectStyles(<App {...props} />)
     );
-    const styleTags = sheet.getStyleElement();
+    let styleTags = sheet.getStyleElement();
+    styleTags[0].props.dangerouslySetInnerHTML.__html = styleTags[0].props.dangerouslySetInnerHTML.__html.replace(
+      /(\n)/gm,
+      ""
+    );
     return { ...page, styleTags };
   }
 
