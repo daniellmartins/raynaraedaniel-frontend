@@ -1,56 +1,98 @@
-import React from "react";
+import React, { Component } from "react";
 import Link from "next/link";
 import styled, { css } from "styled-components";
 
 import { site } from "../config";
 import { Container, Menu } from "../components";
 
-export const Header = ({ children }) => (
-  <StyledHeader>
-    <StyledContainer>
-      <StyledLogo>
-        <Link href="/" scroll={false}>
-          <a>{site.name}</a>
-        </Link>
-      </StyledLogo>
-      <Menu />
-      {children}
-    </StyledContainer>
-  </StyledHeader>
-);
+export class Header extends Component {
+  state = { light: false };
 
-const StyledHeader = styled.header`
-  color: ${({ theme }) => theme.color.text};
+  componentDidMount() {
+    this.handleScroll();
+    window.addEventListener("scroll", this.handleScroll);
+  }
 
-  position: relative;
+  handleScroll = () => {
+    const scrollY = window.scrollY;
+    if (scrollY >= 80 && !this.state.light) {
+      this.setState({ light: true });
+    }
+    if (scrollY < 80 && this.state.light === true) {
+      this.setState({ light: false });
+    }
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  render() {
+    return (
+      <StyledHeaderWrap>
+        <StyledHeader light={this.state.light}>
+          <StyledContainer>
+            <StyledLogo>
+              <Link href="/" scroll={false}>
+                <a>{site.name}</a>
+              </Link>
+            </StyledLogo>
+            <Menu />
+            {this.props.children}
+          </StyledContainer>
+        </StyledHeader>
+      </StyledHeaderWrap>
+    );
+  }
+}
+
+const StyledHeaderWrap = styled.header`
+  position: fixed;
   top: 0;
   z-index: 1090;
 
   width: 100%;
+`;
+
+const StyledHeader = styled.div`
+  color: ${({ theme }) => theme.color.text};
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   background-color: #ffffff;
 
-  ${({ theme }) =>
-    theme.headerFixed &&
+  a {
+    color: ${({ theme }) => theme.color.text};
+    text-decoration: none;
+    &:hover {
+      color: ${({ theme }) => theme.color.primary};
+    }
+  }
+
+  ${({ light }) =>
+    light &&
     css`
-      position: fixed;
-      animation-name: header;
-      animation-duration: 1s;
-      animation-fill-mode: both;
-      background-color: rgba(255, 255, 255, 0.98);
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     `}
-    
+
+  transition: background-color .25s ease;
+
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     color: #ffffff;
     background-color: transparent;
 
-    ${({ theme }) =>
-      theme.headerFixed &&
-      css`
-        background-color: rgba(255, 255, 255, 0.98);
-      `}
+    ${({ light }) =>
+      light
+        ? css`
+            background-color: rgba(255, 255, 255, 0.98);
+          `
+        : css`
+            a {
+              color: #dddddd;
+              &:hover {
+                color: #ffffff;
+              }
+            }
+          `}
   }
 `;
 
@@ -66,21 +108,9 @@ const StyledContainer = styled(Container)`
 `;
 
 const StyledLogo = styled.h1`
-  color: inherit;
   font-family: "Tangerine", sans-serif;
   font-size: 2em;
   font-weight: 600;
 
   margin: 0;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-
-    ${({ theme }) =>
-      theme.headerFixed &&
-      css`
-        color: ${theme.color.text};
-      `}
-  }
 `;

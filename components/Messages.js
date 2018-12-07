@@ -14,15 +14,15 @@ export const Messages = () => (
 const StyledMessages = styled.div`
   background-color: #d2d2d2;
   background-image: url("/static/02.jpg");
-  background-position: 50px center;
+  background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
 `;
 
 const StyledContainer = styled(Container)`
   display: flex;
-  padding-top: 6em;
-  padding-bottom: 6em;
+  padding-top: 9rem;
+  padding-bottom: 9rem;
 
   div {
     width: 540px;

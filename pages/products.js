@@ -27,10 +27,6 @@ class Products extends Component {
     return { ...me };
   }
 
-  onChangeOrderBy = e => {
-    this.setState({ orderBy: e.target.value });
-  };
-
   sort = () => {
     const sort = this.state.orderBy ? this.state.orderBy.split("_") : "";
     return [sort[0], sort[1].toLowerCase()];
@@ -42,65 +38,67 @@ class Products extends Component {
 
     if (!me) return <SignIn />;
     return (
-      <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
-        {({ subscribeToMore, ...rest }) => (
-          <ProductList
-            orderBy={orderBy}
-            onChangeOrderBy={this.onChangeOrderBy}
-            {...rest}
-            subscribeToMore={() => {
-              subscribeToMore({
-                document: PRODUCT_SUBSCRIPTION,
-                variables: { orderBy },
-                onError: error => console.log(error),
-                updateQuery: (prev, { subscriptionData }) => {
-                  if (!subscriptionData.data) return prev;
-                  const { mutation, node } = subscriptionData.data.product;
-                  let products;
+      <>
+        <Query query={PRODUCTS_QUERY} variables={{ orderBy }}>
+          {({ subscribeToMore, ...rest }) => (
+            <ProductList
+              {...rest}
+              subscribeToMore={() => {
+                subscribeToMore({
+                  document: PRODUCT_SUBSCRIPTION,
+                  variables: { orderBy },
+                  onError: error => console.log(error),
+                  updateQuery: (prev, { subscriptionData }) => {
+                    if (!subscriptionData.data) return prev;
+                    const { mutation, node } = subscriptionData.data.product;
+                    let products;
 
-                  switch (mutation) {
-                    case "CREATED":
-                      products = [node, ...prev.products];
-                      break;
-                    case "UPDATED":
-                      products = [
-                        node,
-                        ...prev.products.filter(
+                    switch (mutation) {
+                      case "CREATED":
+                        products = [node, ...prev.products];
+                        break;
+                      case "UPDATED":
+                        products = [
+                          node,
+                          ...prev.products.filter(
+                            product => product._id !== node._id
+                          )
+                        ];
+                        break;
+                      case "DELETED":
+                        products = prev.products.filter(
                           product => product._id !== node._id
-                        )
-                      ];
-                      break;
-                    case "DELETED":
-                      products = prev.products.filter(
-                        product => product._id !== node._id
-                      );
-                      break;
-                    default:
-                      break;
-                  }
+                        );
+                        break;
+                      default:
+                        break;
+                    }
 
-                  return {
-                    ...prev,
-                    products: _remove(
-                      _orderBy(
-                        products,
-                        ["quantity", this.sort()[0]],
-                        ["asc", this.sort()[1]]
-                      ),
-                      product => product.active
-                    )
-                  };
-                }
-              });
-            }}
-          />
-        )}
-      </Query>
+                    return {
+                      ...prev,
+                      products: _remove(
+                        _orderBy(
+                          products,
+                          ["quantity", this.sort()[0]],
+                          ["asc", this.sort()[1]]
+                        ),
+                        product => product.active
+                      )
+                    };
+                  }
+                });
+              }}
+            />
+          )}
+        </Query>
+        <Footer />
+      </>
     );
   };
 
   render() {
     const { me, router } = this.props;
+    const { animate } = this.state;
 
     return (
       <Page>
@@ -118,7 +116,6 @@ class Products extends Component {
           </SubTitle>
         </Banner>
         {this.renderProducts()}
-        <Footer />
       </Page>
     );
   }

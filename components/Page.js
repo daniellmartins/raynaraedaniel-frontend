@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import Router, { withRouter } from "next/router";
-import styled, {
-  ThemeProvider,
-  css,
-  createGlobalStyle
-} from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 
 import { theme } from "../config";
+import { Loading } from "./";
 
 class MyPage extends Component {
-  state = { loading: true, headerFixed: false, headerShow: false };
+  state = { loading: true };
 
   componentDidMount() {
-    this.handleScroll();
     this.handleScrollTo();
-    window.addEventListener("scroll", this.handleScroll);
-
     Router.events.on("routeChangeStart", () => {
       this.setState({ loading: true });
     });
@@ -24,23 +18,10 @@ class MyPage extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
     Router.events.off("routeChangeStart", this.handleScrollTo);
     Router.events.off("routeChangeComplete", this.handleScrollTo);
     Router.events.off("routeChangeError", this.handleScrollTo);
   }
-
-  handleScroll = () => {
-    const scrollY = window.scrollY;
-    const { headerFixed } = this.state;
-    if (scrollY >= 80 && !headerFixed) {
-      this.setState({ headerFixed: true });
-    }
-
-    if (scrollY < 80 && headerFixed) {
-      this.setState({ headerFixed: false });
-    }
-  };
 
   handleScrollTo = () => {
     const { asPath } = this.props.router;
@@ -74,13 +55,11 @@ class MyPage extends Component {
   };
 
   render() {
-    const { children } = this.props;
-    const { loading, headerFixed } = this.state;
     return (
-      <ThemeProvider theme={{ ...theme, headerFixed }}>
+      <ThemeProvider theme={theme}>
         <StyledPage>
-          <Loading loading={loading} />
-          {children}
+          <Loading loading={this.state.loading} />
+          {this.props.children}
           <GlobalStyles />
         </StyledPage>
       </ThemeProvider>
@@ -90,81 +69,9 @@ class MyPage extends Component {
 
 export const Page = withRouter(MyPage);
 
-const Loading = ({ loading }) => (
-  <StyledLoading loading={loading}>
-    {loading && (
-      <div className="loading">
-        <div className="loading-1" />
-        <div className="loading-2" />
-        <div className="loading-3" />
-        <div className="loading-4" />
-      </div>
-    )}
-  </StyledLoading>
-);
-
-const StyledLoading = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2010;
-
-  pointer-events: none;
-  transform-origin: 50% 0%;
-  transform: ${({ loading }) => (loading ? "scaleY(1)" : "scaleY(0)")};
-  transition: transform 0.2s ease;
-
-  .loading {
-    position: relative;
-    height: 2px;
-
-    div {
-      background: ${({ theme }) => theme.color.primary};
-      bottom: 0;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      transform-origin: 0% 0%;
-      transform: scaleX(0);
-    }
-  }
-
-  .loading-1 {
-    background-color: ${({ theme }) => theme.color.primary};
-    animation: progress-indeterminate-1 2.5s linear infinite;
-    z-index: 1;
-  }
-
-  .loading-2 {
-    animation: progress-indeterminate-2 2.5s ease-in infinite;
-    z-index: 2;
-  }
-  .loading-3 {
-    background-color: ${({ theme }) => theme.color.primary};
-    animation: progress-indeterminate-3 2.5s ease-out infinite;
-    z-index: 3;
-  }
-  .loading-4 {
-    animation: progress-indeterminate-4 2.5s ease-out infinite;
-    z-index: 4;
-  }
-`;
-
 const StyledPage = styled.main`
   position: relative;
   margin: 0;
-
-  ${({ theme }) =>
-    theme.headerFixed &&
-    css`
-      padding-top: ${({ theme }) => theme.metric.header.height.sm};
-
-      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-        padding-top: ${({ theme }) => theme.metric.header.height.md};
-      }
-    `};
 `;
 
 const GlobalStyles = createGlobalStyle`
@@ -318,21 +225,6 @@ const GlobalStyles = createGlobalStyle`
 
   ::placeholder {
     color: ${({ theme }) => theme.color.grey};
-  }
-
-  @keyframes header {
-    0% {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
-
-    80% {
-      opacity: 1;
-    }
-
-    100% {
-      transform: translateY(0);
-    }
   }
 
   @keyframes banner-small {
