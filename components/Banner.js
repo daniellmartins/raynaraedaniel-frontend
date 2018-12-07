@@ -11,6 +11,11 @@ export const Banner = styled.div`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.color.darklight};
+  background-image: url("/static/01.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     margin-top: -81px;
