@@ -1,48 +1,45 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { countDownDate } from "../lib";
 import { SectionTitle } from "../components";
 
-export class CountDown extends Component {
-  state = { countDown: this.props.countDown };
+export function CountDown({ countDown }) {
+  const [count, setCount] = useState(countDown);
 
-  componentDidMount() {
-    this.countDownInterval = setInterval(() => {
-      this.setState({ countDown: countDownDate("2/2/2019 15:00:00") });
+  useEffect(() => {
+    let countDownInterval = setInterval(() => {
+      setCount(countDownDate("2/2/2019 15:00:00"));
     }, 1000);
-  }
 
-  componentWillUnmount() {
-    clearInterval(this.countDownInterval);
-  }
+    return () => {
+      clearInterval(countDownInterval);
+    };
+  });
 
-  render() {
-    const { countDown } = this.state;
-    return (
-      <StyledCountDown>
-        <SectionTitle>2 de Fevereiro de 2018</SectionTitle>
-        <StyledScore>
-          <div>
-            <h1>{countDown.days.value}</h1>
-            <span>{countDown.days.label}</span>
-          </div>
-          <div>
-            <h1>{countDown.hours.value}</h1>
-            <span>{countDown.hours.label}</span>
-          </div>
-          <div>
-            <h1>{countDown.minutes.value}</h1>
-            <span>{countDown.minutes.label}</span>
-          </div>
-          <div>
-            <h1>{countDown.seconds.value}</h1>
-            <span>{countDown.seconds.label}</span>
-          </div>
-        </StyledScore>
-      </StyledCountDown>
-    );
-  }
+  return (
+    <StyledCountDown>
+      <SectionTitle>2 de Fevereiro de 2018</SectionTitle>
+      <StyledScore>
+        <div>
+          <h1>{count.days.value}</h1>
+          <span>{count.days.label}</span>
+        </div>
+        <div>
+          <h1>{count.hours.value}</h1>
+          <span>{count.hours.label}</span>
+        </div>
+        <div>
+          <h1>{count.minutes.value}</h1>
+          <span>{count.minutes.label}</span>
+        </div>
+        <div>
+          <h1>{count.seconds.value}</h1>
+          <span>{count.seconds.label}</span>
+        </div>
+      </StyledScore>
+    </StyledCountDown>
+  );
 }
 
 const StyledCountDown = styled.div`

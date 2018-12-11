@@ -1,66 +1,64 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
 import { theme } from "../config";
 import { MenuItem } from "./";
 import { Heart } from "./icons";
 
-export class Menu extends Component {
-  state = { open: false };
+export function Menu() {
+  const [open, setOpen] = useState(false);
 
-  handleMenu = () => {
-    this.setState({ open: !this.state.open });
+  const handleMenu = () => {
+    setOpen(!open);
   };
 
-  render() {
-    return (
-      <StyledMenu>
-        <StyledButton onClick={this.handleMenu}>
-          <span />
-          <span />
-        </StyledButton>
-        <MenuList open={this.state.open}>
-          <MenuItem scroll={false} href="/" label="Home" />
-          <li>
-            <Heart fill={theme.color.primary} width={14} height={10} />
-          </li>
-          <MenuItem
-            scroll={false}
-            href="/"
-            as="/nossa-historia"
-            label="Nossa História"
-          />
-          <li>
-            <Heart fill={theme.color.primary} width={14} height={10} />
-          </li>
-          <MenuItem
-            scroll={false}
-            href="/"
-            as="/nossa-galeria"
-            label="Nossa Galeria"
-          />
-          <li>
-            <Heart fill={theme.color.primary} width={14} height={10} />
-          </li>
-          <MenuItem
-            scroll={false}
-            href="/"
-            as="/padrinhos-e-madrinhas"
-            label="Padrinhos e Madrinhas"
-          />
-          <li>
-            <Heart fill={theme.color.primary} width={14} height={10} />
-          </li>
-          <MenuItem
-            prefetch
-            href="/products"
-            as="/lista-de-presentes"
-            label="Lista de Presentes"
-          />
-        </MenuList>
-      </StyledMenu>
-    );
-  }
+  return (
+    <StyledMenu>
+      <StyledButton open={open} onClick={handleMenu}>
+        <span />
+        <span />
+      </StyledButton>
+      <MenuList open={open}>
+        <MenuItem scroll={false} href="/" label="Home" />
+        <li>
+          <Heart fill={theme.color.primary} width={14} height={10} />
+        </li>
+        <MenuItem
+          scroll={false}
+          href="/"
+          as="/nossa-historia"
+          label="Nossa História"
+        />
+        <li>
+          <Heart fill={theme.color.primary} width={14} height={10} />
+        </li>
+        <MenuItem
+          scroll={false}
+          href="/"
+          as="/nossa-galeria"
+          label="Nossa Galeria"
+        />
+        <li>
+          <Heart fill={theme.color.primary} width={14} height={10} />
+        </li>
+        <MenuItem
+          scroll={false}
+          href="/"
+          as="/padrinhos-e-madrinhas"
+          label="Padrinhos e Madrinhas"
+        />
+        <li>
+          <Heart fill={theme.color.primary} width={14} height={10} />
+        </li>
+        <MenuItem
+          prefetch
+          href="/products"
+          as="/lista-de-presentes"
+          label="Lista de Presentes"
+        />
+      </MenuList>
+    </StyledMenu>
+  );
 }
 
 const StyledMenu = styled.div`
@@ -99,11 +97,17 @@ const StyledButton = styled.button`
     height: 0.15rem;
 
     background-color: ${({ theme }) => theme.color.primary};
+    transform-origin: center;
+    transition: transform 0.3s ease;
 
-    transform: rotate(90deg) translateX(-3px);
+    &:first-child {
+      transform: ${({ open }) =>
+        open ? "rotate(-45deg) translateY(0)" : "rotate(0) translateY(-3px)"};
+    }
 
     &:last-child {
-      transform: rotate(0) translateY(3px);
+      transform: ${({ open }) =>
+        open ? "rotate(45deg) translateY(0)" : "rotate(0) translateY(3px)"};
     }
   }
 `;
