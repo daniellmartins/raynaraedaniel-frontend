@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { formatMoney } from "../lib";
+import { formatMoney } from "../../lib";
 import { CartUpdate } from "./CartUpdate";
 
 export const CartItem = ({ cart }) => {

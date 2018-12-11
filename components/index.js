@@ -20,12 +20,7 @@ export * from "./Gallery";
 export * from "./Friends";
 
 export * from "./Cart";
-export * from "./CartList";
-export * from "./CartItem";
-export * from "./CartUpdate";
 
 export * from "./SignIn";
 
-export * from "./ProductList";
-export * from "./ProductItem";
-export * from "./ProductReserved";
+export * from "./Product";

@@ -3,7 +3,7 @@ import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import styled from "styled-components";
 
-import { Modal, Button } from "./";
+import { Modal, Button } from "../";
 
 export class ProductReserved extends Component {
   state = {

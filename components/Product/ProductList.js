@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import { Container, ProductItem } from "./";
+import { Container, ProductItem } from "../";
 
 export class ProductList extends Component {
   componentDidMount() {

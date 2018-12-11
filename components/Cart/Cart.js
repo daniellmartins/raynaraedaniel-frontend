@@ -5,8 +5,8 @@ import gql from "graphql-tag";
 import _orderBy from "lodash/orderBy";
 import styled from "styled-components";
 
-import { CartList } from "../components";
-import { Shopping } from "../components/icons";
+import { CartList } from "./";
+import { Shopping } from "../icons";
 
 class CartButton extends Component {
   componentDidMount() {

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Mutation } from "react-apollo";
 import styled from "styled-components";
 
-import { formatMoney } from "../lib";
-import { Button, CartUpdate, ADD_CART_MUTATION } from "./";
+import { formatMoney } from "../../lib";
+import { Button, CartUpdate, ADD_CART_MUTATION } from "../";
 
 export const ProductItem = ({ product }) => {
   const quantity =

@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import styled from "styled-components";
 
 import { CartItem, CART_QUERY } from "./";
-import { calcTotalPrice, formatMoney } from "../lib";
+import { calcTotalPrice, formatMoney } from "../../lib";
 
 export const CartList = () => (
   <StyledCartList>
