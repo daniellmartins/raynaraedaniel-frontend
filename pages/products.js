@@ -98,7 +98,6 @@ class Products extends Component {
 
   render() {
     const { me, router } = this.props;
-    const { animate } = this.state;
 
     return (
       <Page>
@@ -107,7 +106,7 @@ class Products extends Component {
         )}
         <Meta />
         <Header />
-        <Cart />
+        {me && <Cart />}
         <Banner size={me && "medium"}>
           <Title>Lista de Presentes</Title>
           <SubTitle>
