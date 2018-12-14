@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Page, Meta, Header, Banner, Footer, Container } from "../components";
 
-export function Checkout() {
+export default function Checkout() {
   const [checkout, setCheckout] = useState({
     formOfPayment: "ticket", // ticket, creditCard and debitCard
     senderHash: ""
@@ -17,14 +17,62 @@ export function Checkout() {
     expirationYear: ""
   });
 
-  handleCheckout = e => {
+  const handleCheckout = e => {
     const { name, value } = e.target;
     setCheckout({ ...checkout, [name]: value });
   };
 
-  handleCard = e => {
+  const handleCard = e => {
     const { name, value } = e.target;
     setCard({ ...card, [name]: value });
+  };
+
+  const onSenderHashReady = () => {
+    PagSeguroDirectPayment.onSenderHashReady(response => {
+      if (response.status === "error") {
+        console.log(response.message);
+        return false;
+      }
+
+      setCheckout({ ...checkout, senderHash: response.senderHash || "" });
+    });
+  };
+
+  const getPaymentMethods = () => {
+    PagSeguroDirectPayment.getPaymentMethods({
+      amount: 500.0,
+      success: response => {
+        //meios de pagamento disponíveis
+        console.log(response.paymentMethods);
+      },
+      error: response => {
+        if (response.error) {
+          console.log(response);
+        }
+      },
+      complete: response => {
+        //tratamento comum para todas chamadas
+      }
+    });
+  };
+
+  const createCardToken = () => {
+    const param = {
+      ...card,
+      success: response => {
+        //token gerado, esse deve ser usado na chamada da API do Checkout Transparente
+        console.log(response);
+      },
+      error: response => {
+        //tratamento do erro
+        console.log(response);
+      },
+      complete: response => {
+        //tratamento comum para todas chamadas
+        console.log(response);
+      }
+    };
+    PagSeguroDirectPayment.createCardToken(param);
   };
 
   return (
@@ -50,7 +98,7 @@ export function Checkout() {
           </div>
           <input
             placeholder="cardNumber"
-            name="cardNumber"
+            name="number"
             value={card.number}
             onChange={handleCard}
           />
