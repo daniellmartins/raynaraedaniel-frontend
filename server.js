@@ -12,6 +12,10 @@ app.prepare().then(() => {
   const server = express();
   server.use(compression());
 
+  server.get("/finalizar-compra", (req, res) => {
+    return app.render(req, res, "/checkout");
+  });
+
   server.get("/carrinho", (req, res) => {
     return app.render(req, res, "/cart");
   });
