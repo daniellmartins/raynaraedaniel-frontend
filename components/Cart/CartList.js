@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Query } from "react-apollo";
 import styled from "styled-components";
 
@@ -31,7 +32,9 @@ export const CartList = () => (
               </table>
             </StyledCartListTable>
             <StyledCartFooter>
-              <StyledButton>Finalizar Compra</StyledButton>
+              <Link href="/checkout" as="/finalizar-compra">
+                <StyledButton>Finalizar Compra</StyledButton>
+              </Link>
               <div>
                 Total: <span>R$ {formatMoney(calcTotalPrice(data.cart))}</span>
               </div>
@@ -113,10 +116,11 @@ const StyledCartFooter = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled.a`
   color: ${({ theme }) => theme.color.primary};
   font-size: 0.875em;
 
+  cursor: pointer;
   padding: 0.625em 1em;
 
   border-radius: 6px;

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import {
@@ -11,139 +11,40 @@ import {
   CartList
 } from "../components";
 
-export default class Cart extends Component {
-  state = {
-    senderHash: "",
-    card: {
-      cardNumber: "",
-      brand: "",
-      cvv: "",
-      expirationMonth: "",
-      expirationYear: ""
-    }
-  };
-
-  componentDidMount() {
-    PagSeguroDirectPayment.setSessionId("e3530d0253864755819c89946b04e841");
-  }
-
-  handleInput = e => {
-    const { name, value } = e.target;
-    this.setState({ card: { ...this.state.card, [name]: value } });
-  };
-
-  onSenderHashReady = () => {
-    PagSeguroDirectPayment.onSenderHashReady(response => {
-      if (response.status === "error") {
-        console.log(response.message);
-        return false;
-      }
-
-      this.setState({ senderHash: response.senderHash || "" });
-    });
-  };
-
-  getPaymentMethods = () => {
-    PagSeguroDirectPayment.getPaymentMethods({
-      amount: 500.0,
-      success: response => {
-        //meios de pagamento disponíveis
-        console.log(response.paymentMethods);
-      },
-      error: response => {
-        if (response.error) {
-          console.log(response);
-        }
-      },
-      complete: response => {
-        //tratamento comum para todas chamadas
-      }
-    });
-  };
-
-  createCardToken = () => {
-    const param = {
-      ...this.state.card,
-      success: response => {
-        //token gerado, esse deve ser usado na chamada da API do Checkout Transparente
-        console.log(response);
-      },
-      error: response => {
-        //tratamento do erro
-        console.log(response);
-      },
-      complete: response => {
-        //tratamento comum para todas chamadas
-        console.log(response);
-      }
-    };
-    PagSeguroDirectPayment.createCardToken(param);
-  };
-
-  render() {
-    const { card } = this.state;
-    console.log(this.state);
-    return (
-      <Page>
-        <Meta />
-        <Header />
-        <Banner size="small" />
-        <StyledCart>
-          <StyledContainer>
-            <CartList />
-            <input
-              type="text"
-              placeholder="cardNumber"
-              name="cardNumber"
-              value={card.cardNumber}
-              onChange={this.handleInput}
-            />
-            <input
-              type="text"
-              placeholder="cvv"
-              name="cvv"
-              value={card.cvv}
-              onChange={this.handleInput}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="brand"
-              name="brand"
-              value={card.brand}
-              onChange={this.handleInput}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="expirationMonth"
-              name="expirationMonth"
-              value={card.expirationMonth}
-              onChange={this.handleInput}
-            />
-            <br />
-            <input
-              type="text"
-              placeholder="expirationYear"
-              name="expirationYear"
-              value={card.expirationYear}
-              onChange={this.handleInput}
-            />
-
-            <button onClick={this.onSenderHashReady}>UserID</button>
-            <button onClick={this.getPaymentMethods}>PaymentMethods</button>
-            <button onClick={this.createCardToken}>CardToken</button>
-          </StyledContainer>
-        </StyledCart>
-        <Footer />
-      </Page>
-    );
-  }
+export default function Cart() {
+  return (
+    <Page>
+      <Meta />
+      <Header />
+      <Banner size="medium">
+        <Title>Carrinho de Compras</Title>
+      </Banner>
+      <StyledCart>
+        <StyledContainer>
+          <CartList />
+        </StyledContainer>
+      </StyledCart>
+      <Footer />
+    </Page>
+  );
 }
+
+const Title = styled.h1`
+  color: #ffffff;
+  font-family: "Tangerine", sans-serif;
+  font-size: 2.5em;
+
+  padding-top: 80px;
+  margin: 2rem 0 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: 3.5em;
+  }
+`;
 
 const StyledCart = styled.div`
   background-color: #ffffff;
-  animation: banner-small 0.25s forwards;
+  animation: banner-medium 0.25s forwards;
 
   padding: 3rem 0;
 `;

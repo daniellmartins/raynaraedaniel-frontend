@@ -26,5 +26,22 @@ export const theme = {
     md: "48rem", // 768px
     lg: "62rem", // 992px
     xl: "75rem" // 1280px
+  },
+  flexboxgrid: {
+    gridSize: 12,
+    gutterWidth: 1,
+    outerMargin: 2,
+    mediaQuery: "only screen",
+    container: {
+      sm: 37,
+      md: 60,
+      lg: 73
+    },
+    breakpoints: {
+      xs: 0,
+      sm: 36,
+      md: 48,
+      lg: 62
+    }
   }
 };
