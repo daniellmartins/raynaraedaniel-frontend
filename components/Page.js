@@ -214,6 +214,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    position: relative;
     color: ${({ theme }) => theme.color.text};
     font-family: "Poppins", sans-serif;
     font-size: 16px;
