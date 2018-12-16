@@ -29,6 +29,10 @@ export default class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          <script
+            type="text/javascript"
+            src={process.env.PAGSEGURO_SCRIPT_URL}
+          />
         </body>
       </html>
     );
