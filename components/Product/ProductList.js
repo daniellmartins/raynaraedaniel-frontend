@@ -10,8 +10,9 @@ export class ProductList extends Component {
 
   renderProducts = () => {
     const { loading, error, data } = this.props;
-    if (loading) return <p>loading...</p>;
-    if (error) return <p>error</p>;
+    if (loading) return <p>Carregando...</p>;
+    if (error)
+      return <p>Error! Por favor, verifique sua conexão com a internet!</p>;
     return (
       <StyledProductListGrid>
         {data.products.map(product => (
