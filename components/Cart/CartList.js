@@ -10,8 +10,9 @@ export const CartList = () => (
   <StyledCartList>
     <Query query={CART_QUERY}>
       {({ loading, error, data }) => {
-        if (loading) return <p>loading...</p>;
-        if (error) return <p>error</p>;
+        if (loading) return <p>Carregando...</p>;
+        if (error)
+          return <p>Error! Por favor, verifique sua conexão com a internet!</p>;
         return (
           <div>
             <StyledCartListTable>
@@ -32,7 +33,7 @@ export const CartList = () => (
               </table>
             </StyledCartListTable>
             <StyledCartFooter>
-              <Link href="/checkout" as="/finalizar-compra">
+              <Link scroll href="/checkout" as="/finalizar-compra">
                 <StyledButton>Finalizar Compra</StyledButton>
               </Link>
               <div>
@@ -95,13 +96,17 @@ const StyledCartListTable = styled.div`
 const StyledCartFooter = styled.div`
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -1rem;
   right: 0;
 
   display: flex;
   justify-content: space-between;
 
   padding: 1rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    bottom: 0;
+  }
 
   div {
     span {
