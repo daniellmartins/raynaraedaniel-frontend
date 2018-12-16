@@ -5,17 +5,23 @@ import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import gql from "graphql-tag";
 
 import { theme } from "../config";
+import { initGA, logPageView } from "../lib";
 import { Loading } from "./";
 
 class MyPage extends Component {
   state = { loading: true };
 
   componentDidMount() {
+    initGA();
+    logPageView();
     this.handleScrollTo();
     Router.events.on("routeChangeStart", () => {
       this.setState({ loading: true });
     });
-    Router.events.on("routeChangeComplete", this.handleScrollTo);
+    Router.events.on("routeChangeComplete", () => {
+      logPageView();
+      this.handleScrollTo();
+    });
     Router.events.on("routeChangeError", this.handleScrollTo);
   }
 
