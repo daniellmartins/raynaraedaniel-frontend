@@ -28,7 +28,11 @@ app.prepare().then(() => {
     return app.render(req, res, "/products");
   });
 
-  server.get("/padrinhos-e-madrinhas", (req, res) => {
+  server.get("/confirmacao", (req, res) => {
+    return app.render(req, res, "/");
+  });
+
+  server.get("/madrinhas-e-padrinhos", (req, res) => {
     return app.render(req, res, "/");
   });
 

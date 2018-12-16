@@ -38,7 +38,7 @@ class MyPage extends Component {
     this.setState({ loading: false });
 
     switch (asPath) {
-      case "/padrinhos-e-madrinhas":
+      case "/madrinhas-e-padrinhos":
         id = "#friends";
         break;
       case "/nossa-galeria":
@@ -46,6 +46,9 @@ class MyPage extends Component {
         break;
       case "/nossa-historia":
         id = "#history";
+        break;
+      case "/confirmacao":
+        id = "#confimation";
         break;
       case "/":
         id = "body";

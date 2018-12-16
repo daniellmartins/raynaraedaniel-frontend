@@ -11,6 +11,7 @@ import {
   Messages,
   Galley,
   Friends,
+  Confirmation,
   Footer
 } from "../components";
 import { countDownDate } from "../lib";
@@ -30,6 +31,7 @@ const Home = ({ countDown }) => (
     <Messages />
     <Galley />
     <Friends />
+    <Confirmation />
     <Footer />
   </Page>
 );

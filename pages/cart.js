@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import { checkLoggedIn } from "../lib";
 import {
   Page,
   Meta,
@@ -8,14 +9,16 @@ import {
   Banner,
   Footer,
   Container,
+  Cart as MyCart,
   CartList
 } from "../components";
 
-export default function Cart() {
+export default function Cart({ me }) {
   return (
     <Page>
       <Meta />
       <Header />
+      {me && <MyCart />}
       <Banner size="medium">
         <Title>Carrinho de Compras</Title>
       </Banner>
@@ -28,6 +31,11 @@ export default function Cart() {
     </Page>
   );
 }
+
+Cart.getInitialProps = async ({ apolloClient }) => {
+  const { me } = await checkLoggedIn(apolloClient);
+  return { ...me };
+};
 
 const Title = styled.h1`
   color: #ffffff;

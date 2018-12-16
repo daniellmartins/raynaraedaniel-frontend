@@ -18,6 +18,8 @@ export * from "./About";
 export * from "./Messages";
 export * from "./Gallery";
 export * from "./Friends";
+export * from "./Music";
+export * from "./Confirmation";
 
 export * from "./Cart";
 

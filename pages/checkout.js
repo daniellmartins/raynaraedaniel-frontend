@@ -45,7 +45,7 @@ class Checkout extends Component {
 
   componentDidMount() {
     PagSeguroDirectPayment.onSenderHashReady(response => {
-      if (response.status === "error") {
+      if (response && response.status && response.status === "error") {
         console.log(response.message);
         return false;
       }

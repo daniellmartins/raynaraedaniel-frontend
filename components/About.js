@@ -7,7 +7,7 @@ import { Heart } from "../components/icons";
 
 export const About = () => (
   <StyledAbout id="history">
-    <SectionTitle>Sobre nós</SectionTitle>
+    <SectionTitle>Nossa História</SectionTitle>
     <StyledContainer>
       <StyledHeart>
         <Heart fill={theme.color.primary} width={58} height={54} />

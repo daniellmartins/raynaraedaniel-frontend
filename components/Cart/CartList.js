@@ -33,9 +33,16 @@ export const CartList = () => (
               </table>
             </StyledCartListTable>
             <StyledCartFooter>
-              <Link scroll href="/checkout" as="/finalizar-compra">
-                <StyledButton>Finalizar Compra</StyledButton>
-              </Link>
+              {data.cart.length > 0 ? (
+                <Link scroll href="/checkout" as="/finalizar-compra">
+                  <StyledButton>Finalizar Compra</StyledButton>
+                </Link>
+              ) : (
+                <Link scroll href="/products" as="/lista-de-presentes">
+                  <StyledButton>Voltar</StyledButton>
+                </Link>
+              )}
+
               <div>
                 Total: <span>R$ {formatMoney(calcTotalPrice(data.cart))}</span>
               </div>
@@ -94,18 +101,16 @@ const StyledCartListTable = styled.div`
 `;
 
 const StyledCartFooter = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: -1rem;
-  right: 0;
-
   display: flex;
   justify-content: space-between;
 
   padding: 1rem;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    position: absolute;
+    left: 0;
     bottom: 0;
+    right: 0;
   }
 
   div {

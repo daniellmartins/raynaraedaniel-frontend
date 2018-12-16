@@ -7,14 +7,14 @@ import { Heart } from "../components/icons";
 
 export const Friends = () => (
   <StyledFriends id="friends">
-    <SectionTitle>Padrinhos e Madrinhas</SectionTitle>
+    <SectionTitle>Madrinhas & Padrinhos</SectionTitle>
     <StyledContainer>
       <StyledPhoto>
         <StyledHeart>
           <Heart fill={theme.color.primary} width={58} height={54} />
         </StyledHeart>
-        <Photo name="Lourrane" url="/static/lourrane.jpg" />
-        <Photo name="Rafael" url="/static/rafael.jpg" />
+        <Photo name="Renata" url="/static/renata.jpg" />
+        <Photo name="Roberto" url="/static/roberto.jpg" />
       </StyledPhoto>
       <StyledPhoto>
         <StyledHeart>
@@ -27,8 +27,8 @@ export const Friends = () => (
         <StyledHeart>
           <Heart fill={theme.color.primary} width={58} height={54} />
         </StyledHeart>
-        <Photo name="Renata" url="/static/renata.jpg" />
-        <Photo name="Roberto" url="/static/roberto.jpg" />
+        <Photo name="Lourrane" url="/static/lourrane.jpg" />
+        <Photo name="Rafael" url="/static/rafael.jpg" />
       </StyledPhoto>
       <StyledPhoto>
         <Photo name="Jussara" url="/static/jussara.jpg" />

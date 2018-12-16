@@ -44,8 +44,17 @@ export function Menu() {
         <MenuItem
           scroll={false}
           href="/"
-          as="/padrinhos-e-madrinhas"
-          label="Padrinhos e Madrinhas"
+          as="/madrinhas-e-padrinhos"
+          label="Madrinhas & Padrinhos"
+        />
+        <li>
+          <Heart fill={theme.color.primary} width={14} height={10} />
+        </li>
+        <MenuItem
+          scroll={false}
+          href="/"
+          as="/confirmacao"
+          label="Confirmar Presença"
         />
         <li>
           <Heart fill={theme.color.primary} width={14} height={10} />
