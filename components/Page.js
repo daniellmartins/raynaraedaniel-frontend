@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { Query } from "react-apollo";
 import Router, { withRouter } from "next/router";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
+import gql from "graphql-tag";
 
 import { theme } from "../config";
 import { Loading } from "./";
@@ -60,6 +62,15 @@ class MyPage extends Component {
         <StyledPage>
           <Loading loading={this.state.loading} />
           {this.props.children}
+          <Query query={GET_SESSION_ID_QUERY} ssr={false} pollInterval={300000}>
+            {({ loading, data, error }) => {
+              if (loading) return null;
+              if (error || !data) return null;
+              localStorage.setItem("getSessionId", data.getSessionId);
+              PagSeguroDirectPayment.setSessionId(data.getSessionId);
+              return null;
+            }}
+          </Query>
           <GlobalStyles />
         </StyledPage>
       </ThemeProvider>
@@ -68,6 +79,12 @@ class MyPage extends Component {
 }
 
 export const Page = withRouter(MyPage);
+
+const GET_SESSION_ID_QUERY = gql`
+  {
+    getSessionId
+  }
+`;
 
 const StyledPage = styled.main`
   position: relative;
