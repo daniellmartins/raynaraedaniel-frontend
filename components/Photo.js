@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Photo = ({ name }) => (
+export const Photo = ({ name, url }) => (
   <StyledPhoto>
-    <img src="/static/photo.svg" alt="" />
+    <img src={url} alt="" />
     <h1>{name}</h1>
   </StyledPhoto>
 );
@@ -14,6 +14,7 @@ const StyledPhoto = styled.article`
   img {
     width: 100%;
     max-width: 240px;
+    border-radius: 50%;
   }
 
   h1 {

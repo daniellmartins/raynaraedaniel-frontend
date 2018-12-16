@@ -13,26 +13,26 @@ export const Friends = () => (
         <StyledHeart>
           <Heart fill={theme.color.primary} width={58} height={54} />
         </StyledHeart>
-        <Photo name="Lourrane" />
-        <Photo name="Rafael" />
+        <Photo name="Lourrane" url="/static/lourrane.jpg" />
+        <Photo name="Rafael" url="/static/rafael.jpg" />
       </StyledPhoto>
       <StyledPhoto>
         <StyledHeart>
           <Heart fill={theme.color.primary} width={58} height={54} />
         </StyledHeart>
-        <Photo name="Beatriz" />
-        <Photo name="Luan" />
+        <Photo name="Beatriz" url="/static/beatriz.jpg" />
+        <Photo name="Luan" url="/static/luan.jpg" />
       </StyledPhoto>
       <StyledPhoto>
         <StyledHeart>
           <Heart fill={theme.color.primary} width={58} height={54} />
         </StyledHeart>
-        <Photo name="Renata" />
-        <Photo name="Roberto" />
+        <Photo name="Renata" url="/static/renata.jpg" />
+        <Photo name="Roberto" url="/static/roberto.jpg" />
       </StyledPhoto>
       <StyledPhoto>
-        <Photo name="Jussara" />
-        <Photo name="Victor" />
+        <Photo name="Jussara" url="/static/jussara.jpg" />
+        <Photo name="Victor" url="/static/victor.jpg" />
       </StyledPhoto>
     </StyledContainer>
   </StyledFriends>

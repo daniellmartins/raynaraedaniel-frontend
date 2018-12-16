@@ -14,9 +14,13 @@ export const Messages = () => (
 const StyledMessages = styled.div`
   background-color: #d2d2d2;
   background-image: url("/static/02.jpg");
-  background-position: center center;
+  background-position: 78% center;
   background-size: cover;
   background-repeat: no-repeat;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    background-position: center center;
+  }
 `;
 
 const StyledContainer = styled(Container)`
@@ -27,6 +31,6 @@ const StyledContainer = styled(Container)`
   div {
     width: 540px;
     height: 320px;
-    background-color: #fafafa;
+    background-color: transparent;
   }
 `;

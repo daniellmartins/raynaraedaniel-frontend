@@ -12,8 +12,8 @@ export const About = () => (
       <StyledHeart>
         <Heart fill={theme.color.primary} width={58} height={54} />
       </StyledHeart>
-      <Photo name="Raynara" />
-      <Photo name="Daniel" />
+      <Photo name="Raynara" url="/static/raynara@2x.jpg" />
+      <Photo name="Daniel" url="/static/daniel@2x.jpg" />
     </StyledContainer>
   </StyledAbout>
 );
@@ -28,7 +28,11 @@ const StyledContainer = styled(Container)`
 
   display: flex;
   justify-content: space-between;
-  padding: 0 15%;
+  padding: 0 1rem;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding: 0 15%;
+  }
 `;
 
 const StyledHeart = styled.div`

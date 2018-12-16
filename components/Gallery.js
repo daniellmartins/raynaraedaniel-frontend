@@ -7,15 +7,15 @@ export const Galley = () => (
   <StyledGalley id="gallery">
     <SectionTitle>Nossa Galeria</SectionTitle>
     <StyledContainer>
-      <div />
-      <div />
-      <div />
-      <div />
-      <div />
-      <div />
-      <div />
-      <div />
-      <div />
+      <img src="/static/03@2x.jpg" alt="Raynara e Daniel 03" />
+      <img src="/static/04@2x.jpg" alt="Raynara e Daniel 04" />
+      <img src="/static/05@2x.jpg" alt="Raynara e Daniel 05" />
+      <img src="/static/06@2x.jpg" alt="Raynara e Daniel 06" />
+      <img src="/static/07@2x.jpg" alt="Raynara e Daniel 07" />
+      <img src="/static/08@2x.jpg" alt="Raynara e Daniel 08" />
+      <img src="/static/09@2x.jpg" alt="Raynara e Daniel 09" />
+      <img src="/static/10@2x.jpg" alt="Raynara e Daniel 10" />
+      <img src="/static/11@2x.jpg" alt="Raynara e Daniel 11" />
     </StyledContainer>
   </StyledGalley>
 );
@@ -40,12 +40,12 @@ const StyledContainer = styled(Container)`
     grid-gap: 4em;
   }
 
-  div {
-    height: 250px;
-    background-color: ${({ theme }) => theme.color.darklight};
+  img {
+    width: 100%;
+    /* height: 250px; */
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      height: 350px;
+      /* height: 350px; */
     }
   }
 `;
