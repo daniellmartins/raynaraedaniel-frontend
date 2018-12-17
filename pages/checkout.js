@@ -241,7 +241,7 @@ class Checkout extends Component {
                             {this.state.paymentMethod === "boleto" && (
                               <p>
                                 <Link href="/products" as="/lista-de-presentes">
-                                  Escolher um presente
+                                  <a>Escolher um presente</a>
                                 </Link>
                               </p>
                             )}

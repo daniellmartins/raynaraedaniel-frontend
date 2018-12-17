@@ -123,7 +123,7 @@ export class Confirmation extends Component {
                 </Mutation>
                 <h2 className="link">
                   <Link scroll href="/products" as="/lista-de-presentes">
-                    Veja nossa lista de presentes
+                    <a>Veja nossa lista de presentes</a>
                   </Link>
                 </h2>
               </StyledForm>
