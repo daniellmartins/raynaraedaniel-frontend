@@ -75,7 +75,11 @@ export const ProductItem = ({ product }) => {
                 update({ variables: { productId: product._id, quantity: 1 } });
               }}
             >
-              {product.stock === 0 ? "Comprado" : "Comprar"}
+              {loading
+                ? "Carregando..."
+                : product.stock === 0
+                ? "Comprado"
+                : "Comprar"}
             </Button>
           )}
         </Mutation>

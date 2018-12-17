@@ -115,7 +115,7 @@ export class Confirmation extends Component {
                           </select>
                         </div>
                         <Button disabled={loading}>
-                          {loading ? "Carregando" : "Confirmar"}
+                          {loading ? "Carregando..." : "Confirmar"}
                         </Button>
                       </form>
                     );

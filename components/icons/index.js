@@ -1,4 +1,5 @@
-export { Heart } from "./Heart";
-export { Shopping } from "./Shopping";
-export { Play } from "./Play";
-export { Pause } from "./Pause";
+export * from "./Heart";
+export * from "./Shopping";
+export * from "./Play";
+export * from "./Pause";
+export * from "./Spinner";
