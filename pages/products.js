@@ -79,8 +79,8 @@ class Products extends Component {
                       products: _remove(
                         _orderBy(
                           products,
-                          ["quantity", this.sort()[0]],
-                          ["asc", this.sort()[1]]
+                          ["quantity", this.sort()[0], "name"],
+                          ["asc", this.sort()[1], "asc"]
                         ),
                         product => product.active
                       )
