@@ -7,9 +7,10 @@ import { formatMoney } from "../../lib";
 import { Button, CartUpdate, ADD_CART_MUTATION } from "../";
 
 export const ProductItem = ({ product }) => {
-  const quantity =
-    product.quantity > 1 ? `faltam ${product.quantity} itens` : null;
-  const stock = `${product.stock} ${product.stock > 1 ? `itens` : `item`}`;
+  const quantity = product.stock > 1 ? `faltam ${product.stock} itens` : null;
+  const stock = `${product.quantity} ${
+    product.quantity > 1 ? `itens` : `item`
+  }`;
   return (
     <StyledProductItem
       stock={product.stock === 0 ? true : false}

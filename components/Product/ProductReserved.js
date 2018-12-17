@@ -32,7 +32,7 @@ export class ProductReserved extends Component {
     this.setState({ completed: true }, () => {
       setTimeout(() => {
         window.history.back();
-      }, 500);
+      }, 2000);
     });
   };
 

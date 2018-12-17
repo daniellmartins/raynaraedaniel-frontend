@@ -14,7 +14,8 @@ class CartButton extends Component {
   }
 
   render() {
-    const { loading, data, handleOpen } = this.props;
+    const { loading, data, handleOpen, hidden } = this.props;
+    if (hidden) return null;
     return (
       <StyledCartButton
         onClick={handleOpen}
@@ -45,6 +46,7 @@ class MyCart extends Component {
         <Query query={CART_QUERY}>
           {({ subscribeToMore, ...rest }) => (
             <CartButton
+              hidden={this.props.hidden}
               {...rest}
               handleOpen={this.handleOpen}
               subscribeToMore={() => {
