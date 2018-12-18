@@ -28,7 +28,7 @@ export default class Cart extends Component {
       <Page>
         <Meta />
         <Header />
-        {me && <MyCart />}
+        {me && <MyCart hidden />}
         <Banner size="medium">
           <Title>Carrinho de Compras</Title>
         </Banner>
