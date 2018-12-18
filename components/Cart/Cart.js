@@ -88,7 +88,7 @@ class MyCart extends Component {
 
         {open && (
           <StyledCartBox>
-            <CartList />
+            <CartList fixed />
           </StyledCartBox>
         )}
       </StyledCart>

@@ -8,7 +8,6 @@ import {
   Header,
   Banner,
   Footer,
-  Container,
   Cart as MyCart,
   CartList
 } from "../components";
@@ -59,11 +58,15 @@ const Title = styled.h1`
 
 const StyledCart = styled.div`
   background-color: #ffffff;
+  margin-bottom: -50vh;
   animation: banner-medium 0.25s forwards;
 
-  padding: 3rem 0;
+  padding: 3rem 0 0;
 `;
 
-const StyledContainer = styled(Container)`
+const StyledContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
   max-width: 600px;
 `;
