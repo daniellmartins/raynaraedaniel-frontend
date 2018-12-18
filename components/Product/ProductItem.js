@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 import Link from "next/link";
 import { Mutation } from "react-apollo";
 import styled from "styled-components";
@@ -65,7 +66,10 @@ export const ProductItem = ({ product }) => {
           </CartUpdate>
         </StyledButtonGroup>
       ) : (
-        <Mutation mutation={ADD_CART_MUTATION}>
+        <Mutation
+          mutation={ADD_CART_MUTATION}
+          onCompleted={data => console.log(data)}
+        >
           {(update, { loading }) => (
             <Button
               block
@@ -73,6 +77,7 @@ export const ProductItem = ({ product }) => {
               disabled={loading || product.stock === 0 ? true : false}
               onClick={() => {
                 update({ variables: { productId: product._id, quantity: 1 } });
+                Router.push("/cart", "/carrinho");
               }}
             >
               {loading

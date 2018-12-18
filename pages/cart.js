@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
@@ -13,29 +13,36 @@ import {
   CartList
 } from "../components";
 
-export default function Cart({ me }) {
-  return (
-    <Page>
-      <Meta />
-      <Header />
-      {me && <MyCart />}
-      <Banner size="medium">
-        <Title>Carrinho de Compras</Title>
-      </Banner>
-      <StyledCart>
-        <StyledContainer>
-          <CartList />
-        </StyledContainer>
-      </StyledCart>
-      <Footer />
-    </Page>
-  );
-}
+export default class Cart extends Component {
+  static async getInitialProps({ apolloClient }) {
+    const { me } = await checkLoggedIn(apolloClient);
+    return { ...me };
+  }
 
-Cart.getInitialProps = async ({ apolloClient }) => {
-  const { me } = await checkLoggedIn(apolloClient);
-  return { ...me };
-};
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
+  render() {
+    const { me } = this.props;
+    return (
+      <Page>
+        <Meta />
+        <Header />
+        {me && <MyCart />}
+        <Banner size="medium">
+          <Title>Carrinho de Compras</Title>
+        </Banner>
+        <StyledCart>
+          <StyledContainer>
+            <CartList />
+          </StyledContainer>
+        </StyledCart>
+        <Footer />
+      </Page>
+    );
+  }
+}
 
 const Title = styled.h1`
   color: #ffffff;
