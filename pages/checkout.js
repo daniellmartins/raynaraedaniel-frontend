@@ -208,7 +208,7 @@ class Checkout extends Component {
 
           return (
             <Page>
-              <Meta />
+              <Meta title="Finalizar Compra" />
               <Header />
               <Banner size="medium">
                 <Title>Finalizar Compra</Title>

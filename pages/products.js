@@ -104,7 +104,7 @@ class Products extends Component {
         {router.query && router.query.id && (
           <ProductReserved productId={router.query.id} />
         )}
-        <Meta />
+        <Meta title="Lista de Presentes" />
         <Header />
         {me && <Cart />}
         <Banner size={me && "medium"}>

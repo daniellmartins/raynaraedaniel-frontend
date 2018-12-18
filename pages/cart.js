@@ -26,7 +26,7 @@ export default class Cart extends Component {
     const { me } = this.props;
     return (
       <Page>
-        <Meta />
+        <Meta title="Carrinho de Compras" />
         <Header />
         {me && <MyCart hidden />}
         <Banner size="medium">
