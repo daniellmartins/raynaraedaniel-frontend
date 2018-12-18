@@ -126,7 +126,21 @@ class Checkout extends Component {
         console.log(response);
         this.setState({ creditCardToken: response.card.token });
         const variables = {
-          ...this.state,
+          senderName: this.state.senderName,
+          senderAreaCode: this.state.senderAreaCode,
+          senderPhone: this.state.senderPhone,
+          senderEmail: this.state.senderEmail,
+          shippingAddressStreet: this.state.shippingAddressStreet,
+          shippingAddressNumber: this.state.shippingAddressNumber,
+          shippingAddressComplement: this.state.shippingAddressComplement,
+          shippingAddressDistrict: this.state.shippingAddressDistrict,
+          shippingAddressCity: this.state.shippingAddressCity,
+          paymentMethod: this.state.paymentMethod,
+          senderHash: this.state.senderHash,
+          installmentQuantity: this.state.installmentQuantity,
+          installmentValue: this.state.installmentValue,
+          noInterestInstallmentQuantity: this.state
+            .noInterestInstallmentQuantity,
           creditCardToken: response.card.token,
           senderCPF: this.state.senderCPF.replace(/[.-]/gi, ""),
           shippingAddressPostalCode: this.state.shippingAddressPostalCode.replace(
@@ -255,7 +269,28 @@ class Checkout extends Component {
                             e.preventDefault();
                             if (this.state.paymentMethod === "boleto") {
                               const variables = {
-                                ...this.state,
+                                senderName: this.state.senderName,
+                                senderAreaCode: this.state.senderAreaCode,
+                                senderPhone: this.state.senderPhone,
+                                senderEmail: this.state.senderEmail,
+                                shippingAddressStreet: this.state
+                                  .shippingAddressStreet,
+                                shippingAddressNumber: this.state
+                                  .shippingAddressNumber,
+                                shippingAddressComplement: this.state
+                                  .shippingAddressComplement,
+                                shippingAddressDistrict: this.state
+                                  .shippingAddressDistrict,
+                                shippingAddressCity: this.state
+                                  .shippingAddressCity,
+                                paymentMethod: this.state.paymentMethod,
+                                senderHash: this.state.senderHash,
+                                creditCardToken: this.state.creditCardToken,
+                                installmentQuantity: this.state
+                                  .installmentQuantity,
+                                installmentValue: this.state.installmentValue,
+                                noInterestInstallmentQuantity: this.state
+                                  .noInterestInstallmentQuantity,
                                 senderCPF: this.state.senderCPF.replace(
                                   /[.-]/gi,
                                   ""
@@ -266,7 +301,6 @@ class Checkout extends Component {
                                 )
                               };
 
-                              console.log(this.state);
                               createOrder({
                                 variables
                               });
