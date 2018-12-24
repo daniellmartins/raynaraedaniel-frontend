@@ -347,7 +347,7 @@ class Checkout extends Component {
                                 required
                                 name="creditCardHolderBirthDate"
                                 id="creditCardHolderBirthDate"
-                                mask="00/00/0000"
+                                mask="99/99/9999"
                                 placeholder="Ex: 10/12/1990"
                                 value={this.state.creditCardHolderBirthDate}
                                 onChange={this.handleInput}
