@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 import { checkLoggedIn } from "../lib";
@@ -8,34 +8,40 @@ import {
   Header,
   Banner,
   Footer,
-  Container,
   Cart as MyCart,
   CartList
 } from "../components";
 
-export default function Cart({ me }) {
-  return (
-    <Page>
-      <Meta />
-      <Header />
-      {me && <MyCart />}
-      <Banner size="medium">
-        <Title>Carrinho de Compras</Title>
-      </Banner>
-      <StyledCart>
-        <StyledContainer>
-          <CartList />
-        </StyledContainer>
-      </StyledCart>
-      <Footer />
-    </Page>
-  );
-}
+export default class Cart extends Component {
+  static async getInitialProps({ apolloClient }) {
+    const { me } = await checkLoggedIn(apolloClient);
+    return { ...me };
+  }
 
-Cart.getInitialProps = async ({ apolloClient }) => {
-  const { me } = await checkLoggedIn(apolloClient);
-  return { ...me };
-};
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
+  render() {
+    const { me } = this.props;
+    return (
+      <Page>
+        <Meta title="Carrinho de Compras" />
+        <Header />
+        {me && <MyCart hidden />}
+        <Banner size="medium">
+          <Title>Carrinho de Compras</Title>
+        </Banner>
+        <StyledCart>
+          <StyledContainer>
+            <CartList />
+          </StyledContainer>
+        </StyledCart>
+        <Footer />
+      </Page>
+    );
+  }
+}
 
 const Title = styled.h1`
   color: #ffffff;
@@ -52,11 +58,15 @@ const Title = styled.h1`
 
 const StyledCart = styled.div`
   background-color: #ffffff;
+  margin-bottom: -50vh;
   animation: banner-medium 0.25s forwards;
 
-  padding: 3rem 0;
+  padding: 3rem 0 0;
 `;
 
-const StyledContainer = styled(Container)`
+const StyledContainer = styled.div`
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
   max-width: 600px;
 `;

@@ -24,4 +24,16 @@ export const Banner = styled.div`
       : css`
           animation: ${`banner-small`} 0.25s forwards reverse ease-in;
         `}
+
+  ${({ size }) =>
+    size &&
+    css`
+      background-position: 45% 100%;
+      background-size: 130%;
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        background-position: 45% center;
+        background-size: cover;
+      }
+    `}
 `;

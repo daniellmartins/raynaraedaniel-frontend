@@ -210,7 +210,7 @@ class Checkout extends Component {
 
           return (
             <Page>
-              <Meta />
+              <Meta title="Finalizar Compra" />
               <Header />
               <Banner size="medium">
                 <Title>Finalizar Compra</Title>
@@ -679,6 +679,7 @@ const Title = styled.h1`
 
 const StyledCheckout = styled.div`
   background-color: #ffffff;
+  margin-bottom: -50vh;
   animation: banner-medium 0.25s forwards;
 
   padding: 3rem 0;

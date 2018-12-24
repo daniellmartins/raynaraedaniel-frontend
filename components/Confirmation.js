@@ -24,10 +24,11 @@ export class Confirmation extends Component {
               <StyledMap>
                 <iframe
                   width="100%"
-                  height="400px"
                   frameBorder="0"
                   style={{ border: 0 }}
-                  src="https://www.google.com/maps/embed/v1/place?q=%20Esperan%C3%A7a%20PB%20sitio%20lago%20dourado&key=AIzaSyD-rGGZGoqwYkBom9p5aIK2zzgWAhUVxio"
+                  src={`https://www.google.com/maps/embed/v1/place?q=%20Esperan%C3%A7a%20PB%20sitio%20lago%20dourado&key=${
+                    process.env.GOOGLE_API_KEY
+                  }`}
                   allowFullScreen
                 />
               </StyledMap>
@@ -174,7 +175,16 @@ const SubTitle = styled.h2`
   margin-bottom: 2rem;
 `;
 
-const StyledMap = styled.div``;
+const StyledMap = styled.div`
+  display: flex;
+  iframe {
+    height: 200px;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      height: 520px;
+    }
+  }
+`;
 
 const StyledForm = styled.div`
   text-align: center;

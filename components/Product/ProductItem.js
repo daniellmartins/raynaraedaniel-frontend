@@ -1,4 +1,5 @@
 import React from "react";
+import Router from "next/router";
 import Link from "next/link";
 import { Mutation } from "react-apollo";
 import styled from "styled-components";
@@ -54,36 +55,52 @@ export const ProductItem = ({ product }) => {
           </p>
         )}
       </StyledContent>
-      {product.cart ? (
-        <StyledButtonGroup>
-          <CartUpdate product={product} quantity={product.cart.quantity - 1}>
-            -
-          </CartUpdate>
-          <div>{product.cart.quantity}</div>
-          <CartUpdate product={product} quantity={product.cart.quantity + 1}>
-            +
-          </CartUpdate>
-        </StyledButtonGroup>
-      ) : (
-        <Mutation mutation={ADD_CART_MUTATION}>
-          {(update, { loading }) => (
-            <Button
-              block
-              size="small"
-              disabled={loading || product.stock === 0 ? true : false}
-              onClick={() => {
-                update({ variables: { productId: product._id, quantity: 1 } });
-              }}
-            >
-              {loading
-                ? "Carregando..."
-                : product.stock === 0
-                ? "Comprado"
-                : "Comprar"}
-            </Button>
-          )}
-        </Mutation>
-      )}
+      <Mutation
+        mutation={ADD_CART_MUTATION}
+        onCompleted={data => {
+          if (!data && !data.addCart) return;
+          Router.push("/cart", "/carrinho");
+        }}
+      >
+        {(update, { loading }) => (
+          <>
+            {product.cart ? (
+              <StyledButtonGroup>
+                <CartUpdate
+                  product={product}
+                  quantity={product.cart.quantity - 1}
+                >
+                  -
+                </CartUpdate>
+                <div>{product.cart.quantity}</div>
+                <CartUpdate
+                  product={product}
+                  quantity={product.cart.quantity + 1}
+                >
+                  +
+                </CartUpdate>
+              </StyledButtonGroup>
+            ) : (
+              <Button
+                block
+                size="small"
+                disabled={loading || product.stock === 0 ? true : false}
+                onClick={() => {
+                  update({
+                    variables: { productId: product._id, quantity: 1 }
+                  });
+                }}
+              >
+                {loading
+                  ? "Carregando..."
+                  : product.stock === 0
+                  ? "Comprado"
+                  : "Comprar"}
+              </Button>
+            )}
+          </>
+        )}
+      </Mutation>
     </StyledProductItem>
   );
 };

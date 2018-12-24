@@ -1,12 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import { Query } from "react-apollo";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { CartItem, CART_QUERY } from "./";
 import { calcTotalPrice, formatMoney } from "../../lib";
 
-export const CartList = () => (
+export const CartList = ({ fixed }) => (
   <StyledCartList>
     <Query query={CART_QUERY}>
       {({ loading, error, data }) => {
@@ -32,7 +32,7 @@ export const CartList = () => (
                 </tbody>
               </table>
             </StyledCartListTable>
-            <StyledCartFooter>
+            <StyledCartFooter fixed={fixed}>
               {data.cart.length > 0 ? (
                 <Link scroll href="/checkout" as="/finalizar-compra">
                   <StyledButton>Finalizar Compra</StyledButton>
@@ -102,16 +102,42 @@ const StyledCartListTable = styled.div`
 
 const StyledCartFooter = styled.div`
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
+  align-items: flex-end;
 
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  a {
+    text-align: center;
+    margin-top: 2rem;
+    align-self: stretch;
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    flex-direction: row;
+    align-items: center;
+
+    a {
+      margin-top: 0;
+    }
   }
+
+  ${({ fixed }) =>
+    fixed &&
+    css`
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        flex-direction: row;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    `}
 
   div {
     span {
