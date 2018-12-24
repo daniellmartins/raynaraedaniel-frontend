@@ -47,6 +47,7 @@ class Checkout extends Component {
     expirationMonth: "",
     expirationYear: "",
     creditCardToken: "",
+    creditCardHolderBirthDate: "",
     installmentQuantity: "1",
     installmentValue: "",
     noInterestInstallmentQuantity: "2",
@@ -142,6 +143,7 @@ class Checkout extends Component {
           noInterestInstallmentQuantity: this.state
             .noInterestInstallmentQuantity,
           creditCardToken: response.card.token,
+          creditCardHolderBirthDate: this.state.creditCardHolderBirthDate,
           senderCPF: this.state.senderCPF.replace(/[.-]/gi, ""),
           shippingAddressPostalCode: this.state.shippingAddressPostalCode.replace(
             /-/gi,
@@ -332,6 +334,22 @@ class Checkout extends Component {
                                 mask="999.999.999-99"
                                 placeholder="Ex: 000.000.000-00"
                                 value={this.state.senderCPF}
+                                onChange={this.handleInput}
+                              >
+                                {inputProps => <input {...inputProps} />}
+                              </InputMask>
+                            </div>
+                            <div className="form-group">
+                              <label htmlFor="creditCardHolderBirthDate">
+                                Data de Nascimento: *
+                              </label>
+                              <InputMask
+                                required
+                                name="creditCardHolderBirthDate"
+                                id="creditCardHolderBirthDate"
+                                mask="00/00/0000"
+                                placeholder="Ex: 10/12/1990"
+                                value={this.state.creditCardHolderBirthDate}
                                 onChange={this.handleInput}
                               >
                                 {inputProps => <input {...inputProps} />}
@@ -616,6 +634,7 @@ const CREATE_ORDER_MUTATION = gql`
     $paymentMethod: String!
     $senderHash: String
     $creditCardToken: String!
+    $creditCardHolderBirthDate: String!
     $installmentQuantity: String!
     $installmentValue: String!
     $noInterestInstallmentQuantity: String!
@@ -636,6 +655,7 @@ const CREATE_ORDER_MUTATION = gql`
         paymentMethod: $paymentMethod
         senderHash: $senderHash
         creditCardToken: $creditCardToken
+        creditCardHolderBirthDate: $creditCardHolderBirthDate
         installmentQuantity: $installmentQuantity
         installmentValue: $installmentValue
         noInterestInstallmentQuantity: $noInterestInstallmentQuantity
