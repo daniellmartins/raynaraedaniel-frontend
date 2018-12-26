@@ -288,6 +288,8 @@ class Checkout extends Component {
                                 paymentMethod: this.state.paymentMethod,
                                 senderHash: this.state.senderHash,
                                 creditCardToken: this.state.creditCardToken,
+                                creditCardHolderBirthDate: this.state
+                                  .creditCardHolderBirthDate,
                                 installmentQuantity: this.state
                                   .installmentQuantity,
                                 installmentValue: this.state.installmentValue,
