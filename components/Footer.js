@@ -6,7 +6,10 @@ import { Container } from "../components";
 export const Footer = () => (
   <StyledFooter>
     <Container>
-      <p>2018 &copy; Todos os Direitos Reservados - Raynara e Daniel</p>
+      <p>
+        2018 &copy; Todos os Direitos Reservados <br />
+        Raynara e Daniel
+      </p>
     </Container>
   </StyledFooter>
 );

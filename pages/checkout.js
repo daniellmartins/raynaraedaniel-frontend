@@ -4,6 +4,7 @@ import { withApollo, Mutation, Query } from "react-apollo";
 import gql from "graphql-tag";
 import InputMask from "react-input-mask";
 import { Col, Row } from "react-styled-flexboxgrid";
+import _isEmpty from "lodash/isEmpty";
 import styled from "styled-components";
 
 import {
@@ -30,7 +31,7 @@ class Checkout extends Component {
   state = {
     senderName: "",
     senderCPF: "",
-    senderAreaCode: "",
+    senderAreaCode: "83",
     senderPhone: "",
     senderEmail: "",
     shippingAddressStreet: "",
@@ -76,7 +77,7 @@ class Checkout extends Component {
   };
 
   handleInstallments = e => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     this.setState({
       installmentQuantity: value,
       installmentValue: formatMoney(
@@ -107,14 +108,11 @@ class Checkout extends Component {
                 "."
               )
             });
-            console.log(response);
           },
           error: response => {
             console.log(response);
           },
-          complete: response => {
-            console.log(response);
-          }
+          complete: response => {}
         });
       })
       .catch(err => console.log(err));
@@ -129,7 +127,6 @@ class Checkout extends Component {
       expirationYear: this.state.expirationYear,
       success: response => {
         //token gerado, esse deve ser usado na chamada da API do Checkout Transparente
-        console.log(response);
         this.setState({ creditCardToken: response.card.token });
         const variables = {
           senderName: this.state.senderName,
@@ -164,7 +161,6 @@ class Checkout extends Component {
           )
         };
 
-        console.log(this.state);
         createOrder({
           variables
         });
@@ -173,10 +169,7 @@ class Checkout extends Component {
         //tratamento do erro
         console.log(response);
       },
-      complete: response => {
-        //tratamento comum para todas chamadas
-        console.log(response);
-      }
+      complete: response => {}
     };
     PagSeguroDirectPayment.createCardToken(param);
   };
@@ -196,17 +189,14 @@ class Checkout extends Component {
     });
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.cardNumber !== this.state.cardNumber &&
-      this.state.cardNumber.length > 6
-    ) {
+  cardNumberBlur = () => {
+    if (this.state.cardNumber.length >= 6) {
       this.getBrand();
       return true;
     }
 
     return false;
-  }
+  };
 
   onCompleted = data => {
     console.log(data);
@@ -282,390 +272,135 @@ class Checkout extends Component {
                         );
                       }
                       return (
-                        <form
-                          action=""
-                          onSubmit={async e => {
-                            e.preventDefault();
-                            if (this.state.paymentMethod === "boleto") {
-                              const variables = {
-                                senderName: this.state.senderName,
-                                senderAreaCode: this.state.senderAreaCode,
-                                senderPhone: this.state.senderPhone,
-                                senderEmail: this.state.senderEmail,
-                                shippingAddressStreet: this.state
-                                  .shippingAddressStreet,
-                                shippingAddressNumber: this.state
-                                  .shippingAddressNumber,
-                                shippingAddressComplement: this.state
-                                  .shippingAddressComplement,
-                                shippingAddressDistrict: this.state
-                                  .shippingAddressDistrict,
-                                shippingAddressCity: this.state
-                                  .shippingAddressCity,
-                                shippingAddressState: this.state
-                                  .shippingAddressState,
-                                paymentMethod: this.state.paymentMethod,
-                                senderHash: this.state.senderHash,
-                                creditCardToken: this.state.creditCardToken,
-                                creditCardHolderBirthDate: this.state
-                                  .creditCardHolderBirthDate,
-                                installmentQuantity: this.state
-                                  .installmentQuantity,
-                                installmentValue: this.state.installmentValue,
-                                noInterestInstallmentQuantity: this.state
-                                  .noInterestInstallmentQuantity,
-                                senderCPF: this.state.senderCPF.replace(
-                                  /[.-]/gi,
-                                  ""
-                                ),
-                                shippingAddressPostalCode: this.state.shippingAddressPostalCode.replace(
-                                  /-/gi,
-                                  ""
-                                )
-                              };
+                        <>
+                          <form
+                            action=""
+                            onSubmit={async e => {
+                              e.preventDefault();
+                              if (this.state.paymentMethod === "boleto") {
+                                const variables = {
+                                  senderName: this.state.senderName,
+                                  senderAreaCode: this.state.senderAreaCode,
+                                  senderPhone: this.state.senderPhone,
+                                  senderEmail: this.state.senderEmail,
+                                  shippingAddressStreet: this.state
+                                    .shippingAddressStreet,
+                                  shippingAddressNumber: this.state
+                                    .shippingAddressNumber,
+                                  shippingAddressComplement: this.state
+                                    .shippingAddressComplement,
+                                  shippingAddressDistrict: this.state
+                                    .shippingAddressDistrict,
+                                  shippingAddressCity: this.state
+                                    .shippingAddressCity,
+                                  shippingAddressState: this.state
+                                    .shippingAddressState,
+                                  paymentMethod: this.state.paymentMethod,
+                                  senderHash: this.state.senderHash,
+                                  creditCardToken: this.state.creditCardToken,
+                                  creditCardHolderBirthDate: this.state
+                                    .creditCardHolderBirthDate,
+                                  installmentQuantity: this.state
+                                    .installmentQuantity,
+                                  installmentValue: this.state.installmentValue,
+                                  noInterestInstallmentQuantity: this.state
+                                    .noInterestInstallmentQuantity,
+                                  senderCPF: this.state.senderCPF.replace(
+                                    /[.-]/gi,
+                                    ""
+                                  ),
+                                  shippingAddressPostalCode: this.state.shippingAddressPostalCode.replace(
+                                    /-/gi,
+                                    ""
+                                  )
+                                };
 
-                              createOrder({
-                                variables
-                              });
-                            } else {
-                              this.createCardToken(createOrder);
-                            }
-                          }}
-                        >
-                          <div className="personal_data block">
-                            <h1>Seus Dados</h1>
-                            <div className="form-group">
-                              <label htmlFor="senderName">Nome: *</label>
-                              <input
-                                required
-                                type="text"
-                                id="senderName"
-                                name="senderName"
-                                placeholder="Ex: João Silva"
-                                value={this.state.senderName}
-                                onChange={this.handleInput}
-                              />
-                            </div>
-                            <div className="form-group">
-                              <label htmlFor="senderCPF">CPF: *</label>
-                              <InputMask
-                                required
-                                name="senderCPF"
-                                id="senderCPF"
-                                mask="999.999.999-99"
-                                placeholder="Ex: 000.000.000-00"
-                                value={this.state.senderCPF}
-                                onChange={this.handleInput}
-                              >
-                                {inputProps => <input {...inputProps} />}
-                              </InputMask>
-                            </div>
-                            <div className="form-group">
-                              <label htmlFor="email">E-mail: *</label>
-                              <input
-                                required
-                                type="email"
-                                id="senderEmail"
-                                name="senderEmail"
-                                placeholder="Ex: joaosilva@email.com"
-                                value={this.state.senderEmail}
-                                onChange={this.handleInput}
-                              />
-                            </div>
-                            <Row>
-                              <Col xs={4}>
-                                <div className="form-group">
-                                  <label htmlFor="senderAreaCode">DDD: *</label>
-                                  <InputMask
-                                    required
-                                    name="senderAreaCode"
-                                    id="senderAreaCode"
-                                    mask="99"
-                                    placeholder="Ex: 83"
-                                    value={this.state.senderAreaCode}
-                                    onChange={this.handleInput}
-                                  >
-                                    {inputProps => <input {...inputProps} />}
-                                  </InputMask>
-                                </div>
-                              </Col>
-                              <Col xs={8}>
-                                <div className="form-group">
-                                  <label htmlFor="senderPhone">
-                                    Telefone: *
-                                  </label>
-                                  <InputMask
-                                    required
-                                    name="senderPhone"
-                                    id="senderPhone"
-                                    mask="999999999"
-                                    placeholder="Ex: 000000000"
-                                    value={this.state.senderPhone}
-                                    onChange={this.handleInput}
-                                  >
-                                    {inputProps => <input {...inputProps} />}
-                                  </InputMask>
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col xs={12} md={8}>
-                                <div className="form-group">
-                                  <label htmlFor="email">Endereço: *</label>
-                                  <input
-                                    required
-                                    type="text"
-                                    id="shippingAddressStreet"
-                                    name="shippingAddressStreet"
-                                    placeholder="Ex: Rua João Silva"
-                                    value={this.state.shippingAddressStreet}
-                                    onChange={this.handleInput}
-                                  />
-                                </div>
-                              </Col>
-                              <Col xs={12} md={4}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressNumber">
-                                    Número: *
-                                  </label>
-                                  <input
-                                    required
-                                    type="text"
-                                    id="shippingAddressNumber"
-                                    name="shippingAddressNumber"
-                                    placeholder="Ex: 1384"
-                                    value={this.state.shippingAddressNumber}
-                                    onChange={this.handleInput}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col xs={12} md={6}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressComplement">
-                                    Complemento: *
-                                  </label>
-                                  <input
-                                    required
-                                    type="text"
-                                    id="shippingAddressComplement"
-                                    name="shippingAddressComplement"
-                                    placeholder="Ex: 5º andar"
-                                    value={this.state.shippingAddressComplement}
-                                    onChange={this.handleInput}
-                                  />
-                                </div>
-                              </Col>
-                              <Col xs={12} md={6}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressDistrict">
-                                    Bairro: *
-                                  </label>
-                                  <input
-                                    required
-                                    type="text"
-                                    id="shippingAddressDistrict"
-                                    name="shippingAddressDistrict"
-                                    placeholder="Ex: Jardim Paulistano"
-                                    value={this.state.shippingAddressDistrict}
-                                    onChange={this.handleInput}
-                                  />
-                                </div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col xs={12} md={4}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressPostalCode">
-                                    CEP: *
-                                  </label>
-                                  <InputMask
-                                    required
-                                    name="shippingAddressPostalCode"
-                                    id="shippingAddressPostalCode"
-                                    mask="99999-999"
-                                    placeholder="Ex: 00000-000"
-                                    value={this.state.shippingAddressPostalCode}
-                                    onChange={this.handleInput}
-                                  >
-                                    {inputProps => <input {...inputProps} />}
-                                  </InputMask>
-                                </div>
-                              </Col>
-                              <Col xs={12} md={4}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressCity">
-                                    Cidade: *
-                                  </label>
-                                  <input
-                                    required
-                                    type="text"
-                                    id="shippingAddressCity"
-                                    name="shippingAddressCity"
-                                    placeholder="Ex: Esperança"
-                                    value={this.state.shippingAddressCity}
-                                    onChange={this.handleInput}
-                                  />
-                                </div>
-                              </Col>
-                              <Col xs={12} md={4}>
-                                <div className="form-group">
-                                  <label htmlFor="shippingAddressCity">
-                                    Estado: *
-                                  </label>
-                                  <select
-                                    value={this.state.shippingAddressState}
-                                    name="shippingAddressState"
-                                    onChange={this.handleInput}
-                                  >
-                                    <option value="AC">AC</option>
-                                    <option value="AL">AL</option>
-                                    <option value="AP">AP</option>
-                                    <option value="AM">AM</option>
-                                    <option value="BA">BA</option>
-                                    <option value="CE">CE</option>
-                                    <option value="DF">DF</option>
-                                    <option value="ES">ES</option>
-                                    <option value="GO">GO</option>
-                                    <option value="MA">MA</option>
-                                    <option value="MT">MT</option>
-                                    <option value="MS">MS</option>
-                                    <option value="MG">MG</option>
-                                    <option value="PA">PA</option>
-                                    <option value="PB">PB</option>
-                                    <option value="PR">PR</option>
-                                    <option value="PE">PE</option>
-                                    <option value="PI">PI</option>
-                                    <option value="RJ">RJ</option>
-                                    <option value="RN">RN</option>
-                                    <option value="RS">RS</option>
-                                    <option value="RO">RO</option>
-                                    <option value="RR">RR</option>
-                                    <option value="SC">SC</option>
-                                    <option value="SP">SP</option>
-                                    <option value="SE">SE</option>
-                                    <option value="TO">TO</option>
-                                  </select>
-                                </div>
-                              </Col>
-                            </Row>
-                          </div>
-
-                          <div className="form_of_payment block">
-                            <h1>Forma de Pagamento</h1>
-                            <select
-                              value={this.state.paymentMethod}
-                              name="paymentMethod"
-                              onChange={this.handleInput}
-                            >
-                              <option value="boleto">Boleto</option>
-                              <option value="creditCard">
-                                Cartão de Credito
-                              </option>
-                            </select>
-                          </div>
-
-                          {this.state.paymentMethod !== "boleto" ? (
-                            <div>
-                              <h1>Dados do Cartão</h1>
-                              <Row>
-                                <Col xs={12}>
-                                  <div className="form-group">
-                                    <label htmlFor="creditCardHolderName">
-                                      Titular do Cartão (igual no cartão): *
-                                    </label>
-                                    <input
-                                      required
-                                      type="text"
-                                      id="creditCardHolderName"
-                                      name="creditCardHolderName"
-                                      placeholder="Ex: JOAO SILVA"
-                                      style={{ textTransform: "uppercase" }}
-                                      value={this.state.creditCardHolderName}
-                                      onChange={this.handleInput}
-                                    />
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col xs={12}>
-                                  <div className="form-group">
-                                    <label htmlFor="creditCardHolderCPF">
-                                      CPF Titular do Cartão: *
-                                    </label>
-                                    <InputMask
-                                      required
-                                      name="creditCardHolderCPF"
-                                      id="creditCardHolderCPF"
-                                      mask="999.999.999-99"
-                                      placeholder="Ex: 000.000.000-00"
-                                      value={this.state.creditCardHolderCPF}
-                                      onChange={this.handleInput}
-                                    >
-                                      {inputProps => <input {...inputProps} />}
-                                    </InputMask>
-                                  </div>
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col xs={12}>
-                                  <div className="form-group">
-                                    <label htmlFor="creditCardHolderBirthDate">
-                                      Data de Nascimento do Titular do Cartão: *
-                                    </label>
-                                    <InputMask
-                                      required
-                                      name="creditCardHolderBirthDate"
-                                      id="creditCardHolderBirthDate"
-                                      mask="99/99/9999"
-                                      placeholder="Ex: 10/12/1990"
-                                      value={
-                                        this.state.creditCardHolderBirthDate
-                                      }
-                                      onChange={this.handleInput}
-                                    >
-                                      {inputProps => <input {...inputProps} />}
-                                    </InputMask>
-                                  </div>
-                                </Col>
-                              </Row>
+                                createOrder({
+                                  variables
+                                });
+                              } else {
+                                this.createCardToken(createOrder);
+                              }
+                            }}
+                          >
+                            <div className="personal_data block">
+                              <h1>Seus Dados</h1>
+                              <div className="form-group">
+                                <label htmlFor="senderName">Nome: *</label>
+                                <input
+                                  required
+                                  type="text"
+                                  id="senderName"
+                                  name="senderName"
+                                  placeholder="Ex: João Silva"
+                                  value={this.state.senderName}
+                                  onChange={this.handleInput}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="senderCPF">CPF: *</label>
+                                <InputMask
+                                  required
+                                  name="senderCPF"
+                                  id="senderCPF"
+                                  mask="999.999.999-99"
+                                  placeholder="Ex: 000.000.000-00"
+                                  value={this.state.senderCPF}
+                                  onChange={this.handleInput}
+                                >
+                                  {inputProps => <input {...inputProps} />}
+                                </InputMask>
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="email">E-mail: *</label>
+                                <input
+                                  required
+                                  type="email"
+                                  id="senderEmail"
+                                  name="senderEmail"
+                                  placeholder="Ex: joaosilva@email.com"
+                                  value={this.state.senderEmail}
+                                  onChange={this.handleInput}
+                                />
+                              </div>
                               <Row>
                                 <Col xs={4}>
                                   <div className="form-group">
-                                    <label htmlFor="creditCardHolderAreaCode">
+                                    <label htmlFor="senderAreaCode">
                                       DDD: *
                                     </label>
                                     <InputMask
                                       required
-                                      name="creditCardHolderAreaCode"
-                                      id="creditCardHolderAreaCode"
+                                      name="senderAreaCode"
+                                      id="senderAreaCode"
                                       mask="99"
                                       placeholder="Ex: 83"
-                                      value={
-                                        this.state.creditCardHolderAreaCode
-                                      }
+                                      value={this.state.senderAreaCode}
                                       onChange={this.handleInput}
                                     >
-                                      {inputProps => <input {...inputProps} />}
+                                      {inputProps => (
+                                        <input type="tel" {...inputProps} />
+                                      )}
                                     </InputMask>
                                   </div>
                                 </Col>
                                 <Col xs={8}>
                                   <div className="form-group">
-                                    <label htmlFor="creditCardHolderPhone">
-                                      Telefone do Titular do Cartão: *
+                                    <label htmlFor="senderPhone">
+                                      Telefone: *
                                     </label>
                                     <InputMask
                                       required
-                                      name="creditCardHolderPhone"
-                                      id="creditCardHolderPhone"
+                                      name="senderPhone"
+                                      id="senderPhone"
                                       mask="999999999"
                                       placeholder="Ex: 000000000"
-                                      value={this.state.creditCardHolderPhone}
+                                      value={this.state.senderPhone}
                                       onChange={this.handleInput}
                                     >
-                                      {inputProps => <input {...inputProps} />}
+                                      {inputProps => (
+                                        <input type="tel" {...inputProps} />
+                                      )}
                                     </InputMask>
                                   </div>
                                 </Col>
@@ -673,52 +408,86 @@ class Checkout extends Component {
                               <Row>
                                 <Col xs={12} md={8}>
                                   <div className="form-group">
-                                    <label htmlFor="cardNumber">
-                                      Número do Cartão: *
-                                    </label>
-                                    <InputMask
+                                    <label htmlFor="email">Endereço: *</label>
+                                    <input
                                       required
-                                      name="cardNumber"
-                                      id="cardNumber"
-                                      mask="9999 9999 9999 9999"
-                                      placeholder="Ex: 0000 0000 0000 0000"
-                                      value={this.state.cardNumber}
+                                      type="text"
+                                      id="shippingAddressStreet"
+                                      name="shippingAddressStreet"
+                                      placeholder="Ex: Rua João Silva"
+                                      value={this.state.shippingAddressStreet}
                                       onChange={this.handleInput}
-                                    >
-                                      {inputProps => <input {...inputProps} />}
-                                    </InputMask>
+                                    />
                                   </div>
                                 </Col>
                                 <Col xs={12} md={4}>
                                   <div className="form-group">
-                                    <label htmlFor="cvv">CVV: *</label>
-                                    <InputMask
+                                    <label htmlFor="shippingAddressNumber">
+                                      Número: *
+                                    </label>
+                                    <input
                                       required
-                                      name="cvv"
-                                      id="cvv"
-                                      mask="999"
-                                      placeholder="Ex: 000"
-                                      value={this.state.cvv}
+                                      type="text"
+                                      id="shippingAddressNumber"
+                                      name="shippingAddressNumber"
+                                      placeholder="Ex: 1384"
+                                      value={this.state.shippingAddressNumber}
                                       onChange={this.handleInput}
-                                    >
-                                      {inputProps => <input {...inputProps} />}
-                                    </InputMask>
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col xs={12} md={6}>
+                                  <div className="form-group">
+                                    <label htmlFor="shippingAddressComplement">
+                                      Complemento: *
+                                    </label>
+                                    <input
+                                      required
+                                      type="text"
+                                      id="shippingAddressComplement"
+                                      name="shippingAddressComplement"
+                                      placeholder="Ex: 5º andar"
+                                      value={
+                                        this.state.shippingAddressComplement
+                                      }
+                                      onChange={this.handleInput}
+                                    />
+                                  </div>
+                                </Col>
+                                <Col xs={12} md={6}>
+                                  <div className="form-group">
+                                    <label htmlFor="shippingAddressDistrict">
+                                      Bairro: *
+                                    </label>
+                                    <input
+                                      required
+                                      type="text"
+                                      id="shippingAddressDistrict"
+                                      name="shippingAddressDistrict"
+                                      placeholder="Ex: Jardim Paulistano"
+                                      value={this.state.shippingAddressDistrict}
+                                      onChange={this.handleInput}
+                                    />
                                   </div>
                                 </Col>
                               </Row>
                               <Row>
                                 <Col xs={12} md={4}>
                                   <div className="form-group">
-                                    <label htmlFor="expirationMonth">
-                                      Mês de Validade: *
+                                    <label htmlFor="shippingAddressPostalCode">
+                                      CEP: *
                                     </label>
                                     <InputMask
                                       required
-                                      name="expirationMonth"
-                                      id="expirationMonth"
-                                      mask="99"
-                                      placeholder="Ex: 12"
-                                      value={this.state.expirationMonth}
+                                      name="shippingAddressPostalCode"
+                                      id="shippingAddressPostalCode"
+                                      mask="99999-999"
+                                      placeholder="Ex: 00000-000"
+                                      value={
+                                        this.state.shippingAddressPostalCode
+                                      }
                                       onChange={this.handleInput}
                                     >
                                       {inputProps => <input {...inputProps} />}
@@ -727,34 +496,288 @@ class Checkout extends Component {
                                 </Col>
                                 <Col xs={12} md={4}>
                                   <div className="form-group">
-                                    <label htmlFor="expirationYear">
-                                      Ano de Validade: *
+                                    <label htmlFor="shippingAddressCity">
+                                      Cidade: *
                                     </label>
-                                    <InputMask
+                                    <input
                                       required
-                                      name="expirationYear"
-                                      id="expirationYear"
-                                      mask="9999"
-                                      placeholder="Ex: 2022"
-                                      value={this.state.expirationYear}
+                                      type="text"
+                                      id="shippingAddressCity"
+                                      name="shippingAddressCity"
+                                      placeholder="Ex: Esperança"
+                                      value={this.state.shippingAddressCity}
                                       onChange={this.handleInput}
-                                    >
-                                      {inputProps => <input {...inputProps} />}
-                                    </InputMask>
+                                    />
                                   </div>
                                 </Col>
                                 <Col xs={12} md={4}>
                                   <div className="form-group">
-                                    <label htmlFor="installments">
-                                      Parcelas: *
+                                    <label htmlFor="shippingAddressCity">
+                                      Estado: *
                                     </label>
                                     <select
-                                      value={this.state.installmentQuantity}
-                                      name="installments"
-                                      onChange={this.handleInstallments}
+                                      value={this.state.shippingAddressState}
+                                      name="shippingAddressState"
+                                      onChange={this.handleInput}
                                     >
-                                      {Object.keys(this.state.installments).map(
-                                        installment =>
+                                      <option value="AC">AC</option>
+                                      <option value="AL">AL</option>
+                                      <option value="AP">AP</option>
+                                      <option value="AM">AM</option>
+                                      <option value="BA">BA</option>
+                                      <option value="CE">CE</option>
+                                      <option value="DF">DF</option>
+                                      <option value="ES">ES</option>
+                                      <option value="GO">GO</option>
+                                      <option value="MA">MA</option>
+                                      <option value="MT">MT</option>
+                                      <option value="MS">MS</option>
+                                      <option value="MG">MG</option>
+                                      <option value="PA">PA</option>
+                                      <option value="PB">PB</option>
+                                      <option value="PR">PR</option>
+                                      <option value="PE">PE</option>
+                                      <option value="PI">PI</option>
+                                      <option value="RJ">RJ</option>
+                                      <option value="RN">RN</option>
+                                      <option value="RS">RS</option>
+                                      <option value="RO">RO</option>
+                                      <option value="RR">RR</option>
+                                      <option value="SC">SC</option>
+                                      <option value="SP">SP</option>
+                                      <option value="SE">SE</option>
+                                      <option value="TO">TO</option>
+                                    </select>
+                                  </div>
+                                </Col>
+                              </Row>
+                            </div>
+
+                            <div className="form_of_payment block">
+                              <h1>Forma de Pagamento</h1>
+                              <select
+                                value={this.state.paymentMethod}
+                                name="paymentMethod"
+                                onChange={this.handleInput}
+                              >
+                                <option value="boleto">Boleto</option>
+                                <option value="creditCard">
+                                  Cartão de Credito
+                                </option>
+                              </select>
+                            </div>
+
+                            {this.state.paymentMethod !== "boleto" ? (
+                              <div>
+                                <h1>Dados do Cartão</h1>
+                                <Row>
+                                  <Col xs={12}>
+                                    <div className="form-group">
+                                      <label htmlFor="creditCardHolderName">
+                                        Titular do Cartão (igual no cartão): *
+                                      </label>
+                                      <input
+                                        required
+                                        type="text"
+                                        id="creditCardHolderName"
+                                        name="creditCardHolderName"
+                                        placeholder="Ex: JOAO SILVA"
+                                        style={{ textTransform: "uppercase" }}
+                                        value={this.state.creditCardHolderName}
+                                        onChange={this.handleInput}
+                                      />
+                                    </div>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col xs={12}>
+                                    <div className="form-group">
+                                      <label htmlFor="creditCardHolderCPF">
+                                        CPF Titular do Cartão: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="creditCardHolderCPF"
+                                        id="creditCardHolderCPF"
+                                        mask="999.999.999-99"
+                                        placeholder="Ex: 000.000.000-00"
+                                        value={this.state.creditCardHolderCPF}
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col xs={12}>
+                                    <div className="form-group">
+                                      <label htmlFor="creditCardHolderBirthDate">
+                                        Data de Nascimento do Titular do Cartão:
+                                        *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="creditCardHolderBirthDate"
+                                        id="creditCardHolderBirthDate"
+                                        mask="99/99/9999"
+                                        placeholder="Ex: 10/12/1990"
+                                        value={
+                                          this.state.creditCardHolderBirthDate
+                                        }
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col xs={4}>
+                                    <div className="form-group">
+                                      <label htmlFor="creditCardHolderAreaCode">
+                                        DDD: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="creditCardHolderAreaCode"
+                                        id="creditCardHolderAreaCode"
+                                        mask="99"
+                                        placeholder="Ex: 83"
+                                        value={
+                                          this.state.creditCardHolderAreaCode
+                                        }
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input type="tel" {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                  <Col xs={8}>
+                                    <div className="form-group">
+                                      <label htmlFor="creditCardHolderPhone">
+                                        Telefone do Titular do Cartão: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="creditCardHolderPhone"
+                                        id="creditCardHolderPhone"
+                                        mask="999999999"
+                                        placeholder="Ex: 000000000"
+                                        value={this.state.creditCardHolderPhone}
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input type="tel" {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col xs={12} md={8}>
+                                    <div className="form-group">
+                                      <label htmlFor="cardNumber">
+                                        Número do Cartão: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="cardNumber"
+                                        id="cardNumber"
+                                        mask="9999 9999 9999 9999"
+                                        placeholder="Ex: 0000 0000 0000 0000"
+                                        value={this.state.cardNumber}
+                                        onChange={this.handleInput}
+                                        onBlur={this.cardNumberBlur}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                  <Col xs={12} md={4}>
+                                    <div className="form-group">
+                                      <label htmlFor="cvv">CVV: *</label>
+                                      <InputMask
+                                        required
+                                        name="cvv"
+                                        id="cvv"
+                                        mask="999"
+                                        placeholder="Ex: 000"
+                                        value={this.state.cvv}
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col xs={12} md={4}>
+                                    <div className="form-group">
+                                      <label htmlFor="expirationMonth">
+                                        Mês de Validade: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="expirationMonth"
+                                        id="expirationMonth"
+                                        mask="99"
+                                        placeholder="Ex: 12"
+                                        value={this.state.expirationMonth}
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                  <Col xs={12} md={4}>
+                                    <div className="form-group">
+                                      <label htmlFor="expirationYear">
+                                        Ano de Validade: *
+                                      </label>
+                                      <InputMask
+                                        required
+                                        name="expirationYear"
+                                        id="expirationYear"
+                                        mask="9999"
+                                        placeholder="Ex: 2022"
+                                        value={this.state.expirationYear}
+                                        onChange={this.handleInput}
+                                      >
+                                        {inputProps => (
+                                          <input {...inputProps} />
+                                        )}
+                                      </InputMask>
+                                    </div>
+                                  </Col>
+                                  <Col xs={12} md={4}>
+                                    <div className="form-group">
+                                      <label htmlFor="installments">
+                                        Parcelas: *
+                                      </label>
+                                      <select
+                                        value={this.state.installmentQuantity}
+                                        name="installments"
+                                        disabled={_isEmpty(
+                                          this.state.installments
+                                        )}
+                                        onChange={this.handleInstallments}
+                                      >
+                                        {Object.keys(
+                                          this.state.installments
+                                        ).map(installment =>
                                           this.state.installments[
                                             installment
                                           ].map(item => (
@@ -775,16 +798,29 @@ class Checkout extends Component {
                                               {formatMoney(item.totalAmount)}
                                             </option>
                                           ))
-                                      )}
-                                    </select>
-                                  </div>
-                                </Col>
-                              </Row>
-                            </div>
-                          ) : null}
+                                        )}
+                                      </select>
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </div>
+                            ) : null}
 
-                          <StyledButton>Finalizar Compra</StyledButton>
-                        </form>
+                            <StyledButton>Finalizar Compra</StyledButton>
+                          </form>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center"
+                            }}
+                          >
+                            <img
+                              style={{ marginTop: "4rem" }}
+                              src={`${process.env.API_CDN_URL}/pagseguro.jpg`}
+                              alt="PagSeguro"
+                            />
+                          </div>
+                        </>
                       );
                     }}
                   </Mutation>
@@ -910,4 +946,8 @@ const StyledButton = styled(Button)`
   width: 100%;
 
   background-color: ${({ theme }) => theme.color.primary};
+
+  &:disabled {
+    background-color: #fafafa;
+  }
 `;
