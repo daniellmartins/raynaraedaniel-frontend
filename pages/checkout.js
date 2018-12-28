@@ -39,6 +39,7 @@ class Checkout extends Component {
     shippingAddressDistrict: "",
     shippingAddressPostalCode: "",
     shippingAddressCity: "",
+    shippingAddressState: "PB",
     paymentMethod: "boleto",
     senderHash: "",
     cardNumber: "",
@@ -48,6 +49,10 @@ class Checkout extends Component {
     expirationYear: "",
     creditCardToken: "",
     creditCardHolderBirthDate: "",
+    creditCardHolderName: "",
+    creditCardHolderCPF: "",
+    creditCardHolderAreaCode: "83",
+    creditCardHolderPhone: "",
     installmentQuantity: "1",
     installmentValue: "",
     noInterestInstallmentQuantity: "2",
@@ -117,7 +122,7 @@ class Checkout extends Component {
 
   createCardToken = createOrder => {
     const param = {
-      cardNumber: this.state.cardNumber,
+      cardNumber: this.state.cardNumber.replace(/ /g, ""),
       brand: this.state.brand,
       cvv: this.state.cvv,
       expirationMonth: this.state.expirationMonth,
@@ -136,6 +141,7 @@ class Checkout extends Component {
           shippingAddressComplement: this.state.shippingAddressComplement,
           shippingAddressDistrict: this.state.shippingAddressDistrict,
           shippingAddressCity: this.state.shippingAddressCity,
+          shippingAddressState: this.state.shippingAddressState,
           paymentMethod: this.state.paymentMethod,
           senderHash: this.state.senderHash,
           installmentQuantity: this.state.installmentQuantity,
@@ -144,6 +150,13 @@ class Checkout extends Component {
             .noInterestInstallmentQuantity,
           creditCardToken: response.card.token,
           creditCardHolderBirthDate: this.state.creditCardHolderBirthDate,
+          creditCardHolderName: this.state.creditCardHolderName.toLocaleUpperCase(),
+          creditCardHolderCPF: this.state.creditCardHolderCPF.replace(
+            /[.-]/gi,
+            ""
+          ),
+          creditCardHolderAreaCode: this.state.creditCardHolderAreaCode,
+          creditCardHolderPhone: this.state.creditCardHolderPhone,
           senderCPF: this.state.senderCPF.replace(/[.-]/gi, ""),
           shippingAddressPostalCode: this.state.shippingAddressPostalCode.replace(
             /-/gi,
@@ -170,7 +183,7 @@ class Checkout extends Component {
 
   getBrand = () => {
     PagSeguroDirectPayment.getBrand({
-      cardBin: this.state.cardNumber.replace(/ /gi, "").slice(0, 6),
+      cardBin: this.state.cardNumber.replace(/ /g, "").slice(0, 6),
       success: response => {
         this.setState({ brand: response.brand.name });
 
@@ -238,6 +251,10 @@ class Checkout extends Component {
                         return (
                           <div>
                             <h1>Tudo certo! Obrigado ;)</h1>
+                            <p>
+                              Pedido em análise, em breve você receberá um
+                              e-mail confirmando!
+                            </p>
                             {this.state.paymentMethod === "boleto" && (
                               <p>
                                 Seu boleto:{" "}
@@ -285,6 +302,8 @@ class Checkout extends Component {
                                   .shippingAddressDistrict,
                                 shippingAddressCity: this.state
                                   .shippingAddressCity,
+                                shippingAddressState: this.state
+                                  .shippingAddressState,
                                 paymentMethod: this.state.paymentMethod,
                                 senderHash: this.state.senderHash,
                                 creditCardToken: this.state.creditCardToken,
@@ -342,22 +361,6 @@ class Checkout extends Component {
                               </InputMask>
                             </div>
                             <div className="form-group">
-                              <label htmlFor="creditCardHolderBirthDate">
-                                Data de Nascimento: *
-                              </label>
-                              <InputMask
-                                required
-                                name="creditCardHolderBirthDate"
-                                id="creditCardHolderBirthDate"
-                                mask="99/99/9999"
-                                placeholder="Ex: 10/12/1990"
-                                value={this.state.creditCardHolderBirthDate}
-                                onChange={this.handleInput}
-                              >
-                                {inputProps => <input {...inputProps} />}
-                              </InputMask>
-                            </div>
-                            <div className="form-group">
                               <label htmlFor="email">E-mail: *</label>
                               <input
                                 required
@@ -369,6 +372,42 @@ class Checkout extends Component {
                                 onChange={this.handleInput}
                               />
                             </div>
+                            <Row>
+                              <Col xs={4}>
+                                <div className="form-group">
+                                  <label htmlFor="senderAreaCode">DDD: *</label>
+                                  <InputMask
+                                    required
+                                    name="senderAreaCode"
+                                    id="senderAreaCode"
+                                    mask="99"
+                                    placeholder="Ex: 83"
+                                    value={this.state.senderAreaCode}
+                                    onChange={this.handleInput}
+                                  >
+                                    {inputProps => <input {...inputProps} />}
+                                  </InputMask>
+                                </div>
+                              </Col>
+                              <Col xs={8}>
+                                <div className="form-group">
+                                  <label htmlFor="senderPhone">
+                                    Telefone: *
+                                  </label>
+                                  <InputMask
+                                    required
+                                    name="senderPhone"
+                                    id="senderPhone"
+                                    mask="999999999"
+                                    placeholder="Ex: 000000000"
+                                    value={this.state.senderPhone}
+                                    onChange={this.handleInput}
+                                  >
+                                    {inputProps => <input {...inputProps} />}
+                                  </InputMask>
+                                </div>
+                              </Col>
+                            </Row>
                             <Row>
                               <Col xs={12} md={8}>
                                 <div className="form-group">
@@ -405,9 +444,10 @@ class Checkout extends Component {
                               <Col xs={12} md={6}>
                                 <div className="form-group">
                                   <label htmlFor="shippingAddressComplement">
-                                    Complemento:
+                                    Complemento: *
                                   </label>
                                   <input
+                                    required
                                     type="text"
                                     id="shippingAddressComplement"
                                     name="shippingAddressComplement"
@@ -435,7 +475,7 @@ class Checkout extends Component {
                               </Col>
                             </Row>
                             <Row>
-                              <Col xs={12} md={6}>
+                              <Col xs={12} md={4}>
                                 <div className="form-group">
                                   <label htmlFor="shippingAddressPostalCode">
                                     CEP: *
@@ -453,7 +493,7 @@ class Checkout extends Component {
                                   </InputMask>
                                 </div>
                               </Col>
-                              <Col xs={12} md={6}>
+                              <Col xs={12} md={4}>
                                 <div className="form-group">
                                   <label htmlFor="shippingAddressCity">
                                     Cidade: *
@@ -463,10 +503,50 @@ class Checkout extends Component {
                                     type="text"
                                     id="shippingAddressCity"
                                     name="shippingAddressCity"
-                                    placeholder="Ex: Esperança - PB"
+                                    placeholder="Ex: Esperança"
                                     value={this.state.shippingAddressCity}
                                     onChange={this.handleInput}
                                   />
+                                </div>
+                              </Col>
+                              <Col xs={12} md={4}>
+                                <div className="form-group">
+                                  <label htmlFor="shippingAddressCity">
+                                    Estado: *
+                                  </label>
+                                  <select
+                                    value={this.state.shippingAddressState}
+                                    name="shippingAddressState"
+                                    onChange={this.handleInput}
+                                  >
+                                    <option value="AC">AC</option>
+                                    <option value="AL">AL</option>
+                                    <option value="AP">AP</option>
+                                    <option value="AM">AM</option>
+                                    <option value="BA">BA</option>
+                                    <option value="CE">CE</option>
+                                    <option value="DF">DF</option>
+                                    <option value="ES">ES</option>
+                                    <option value="GO">GO</option>
+                                    <option value="MA">MA</option>
+                                    <option value="MT">MT</option>
+                                    <option value="MS">MS</option>
+                                    <option value="MG">MG</option>
+                                    <option value="PA">PA</option>
+                                    <option value="PB">PB</option>
+                                    <option value="PR">PR</option>
+                                    <option value="PE">PE</option>
+                                    <option value="PI">PI</option>
+                                    <option value="RJ">RJ</option>
+                                    <option value="RN">RN</option>
+                                    <option value="RS">RS</option>
+                                    <option value="RO">RO</option>
+                                    <option value="RR">RR</option>
+                                    <option value="SC">SC</option>
+                                    <option value="SP">SP</option>
+                                    <option value="SE">SE</option>
+                                    <option value="TO">TO</option>
+                                  </select>
                                 </div>
                               </Col>
                             </Row>
@@ -490,10 +570,111 @@ class Checkout extends Component {
                             <div>
                               <h1>Dados do Cartão</h1>
                               <Row>
+                                <Col xs={12}>
+                                  <div className="form-group">
+                                    <label htmlFor="creditCardHolderName">
+                                      Titular do Cartão (igual no cartão): *
+                                    </label>
+                                    <input
+                                      required
+                                      type="text"
+                                      id="creditCardHolderName"
+                                      name="creditCardHolderName"
+                                      placeholder="Ex: JOAO SILVA"
+                                      style={{ textTransform: "uppercase" }}
+                                      value={this.state.creditCardHolderName}
+                                      onChange={this.handleInput}
+                                    />
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col xs={12}>
+                                  <div className="form-group">
+                                    <label htmlFor="creditCardHolderCPF">
+                                      CPF Titular do Cartão: *
+                                    </label>
+                                    <InputMask
+                                      required
+                                      name="creditCardHolderCPF"
+                                      id="creditCardHolderCPF"
+                                      mask="999.999.999-99"
+                                      placeholder="Ex: 000.000.000-00"
+                                      value={this.state.creditCardHolderCPF}
+                                      onChange={this.handleInput}
+                                    >
+                                      {inputProps => <input {...inputProps} />}
+                                    </InputMask>
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col xs={12}>
+                                  <div className="form-group">
+                                    <label htmlFor="creditCardHolderBirthDate">
+                                      Data de Nascimento do Titular do Cartão: *
+                                    </label>
+                                    <InputMask
+                                      required
+                                      name="creditCardHolderBirthDate"
+                                      id="creditCardHolderBirthDate"
+                                      mask="99/99/9999"
+                                      placeholder="Ex: 10/12/1990"
+                                      value={
+                                        this.state.creditCardHolderBirthDate
+                                      }
+                                      onChange={this.handleInput}
+                                    >
+                                      {inputProps => <input {...inputProps} />}
+                                    </InputMask>
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col xs={4}>
+                                  <div className="form-group">
+                                    <label htmlFor="creditCardHolderAreaCode">
+                                      DDD: *
+                                    </label>
+                                    <InputMask
+                                      required
+                                      name="creditCardHolderAreaCode"
+                                      id="creditCardHolderAreaCode"
+                                      mask="99"
+                                      placeholder="Ex: 83"
+                                      value={
+                                        this.state.creditCardHolderAreaCode
+                                      }
+                                      onChange={this.handleInput}
+                                    >
+                                      {inputProps => <input {...inputProps} />}
+                                    </InputMask>
+                                  </div>
+                                </Col>
+                                <Col xs={8}>
+                                  <div className="form-group">
+                                    <label htmlFor="creditCardHolderPhone">
+                                      Telefone do Titular do Cartão: *
+                                    </label>
+                                    <InputMask
+                                      required
+                                      name="creditCardHolderPhone"
+                                      id="creditCardHolderPhone"
+                                      mask="999999999"
+                                      placeholder="Ex: 000000000"
+                                      value={this.state.creditCardHolderPhone}
+                                      onChange={this.handleInput}
+                                    >
+                                      {inputProps => <input {...inputProps} />}
+                                    </InputMask>
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row>
                                 <Col xs={12} md={8}>
                                   <div className="form-group">
                                     <label htmlFor="cardNumber">
-                                      Número: *
+                                      Número do Cartão: *
                                     </label>
                                     <InputMask
                                       required
@@ -633,10 +814,15 @@ const CREATE_ORDER_MUTATION = gql`
     $shippingAddressDistrict: String!
     $shippingAddressPostalCode: String!
     $shippingAddressCity: String!
+    $shippingAddressState: String!
     $paymentMethod: String!
     $senderHash: String
     $creditCardToken: String!
-    $creditCardHolderBirthDate: String!
+    $creditCardHolderBirthDate: String
+    $creditCardHolderName: String
+    $creditCardHolderCPF: String
+    $creditCardHolderAreaCode: String
+    $creditCardHolderPhone: String
     $installmentQuantity: String!
     $installmentValue: String!
     $noInterestInstallmentQuantity: String!
@@ -654,10 +840,15 @@ const CREATE_ORDER_MUTATION = gql`
         shippingAddressDistrict: $shippingAddressDistrict
         shippingAddressPostalCode: $shippingAddressPostalCode
         shippingAddressCity: $shippingAddressCity
+        shippingAddressState: $shippingAddressState
         paymentMethod: $paymentMethod
         senderHash: $senderHash
         creditCardToken: $creditCardToken
         creditCardHolderBirthDate: $creditCardHolderBirthDate
+        creditCardHolderName: $creditCardHolderName
+        creditCardHolderCPF: $creditCardHolderCPF
+        creditCardHolderAreaCode: $creditCardHolderAreaCode
+        creditCardHolderPhone: $creditCardHolderPhone
         installmentQuantity: $installmentQuantity
         installmentValue: $installmentValue
         noInterestInstallmentQuantity: $noInterestInstallmentQuantity
