@@ -24,6 +24,10 @@ export default class MyDocument extends Document {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <meta name="theme-color" content="#c59bb9" />
+          <meta
+            name="google-site-verification"
+            content={process.env.GOOGLE_SITE_VERIFICATION}
+          />
           {this.props.styleTags}
         </Head>
         <body>
