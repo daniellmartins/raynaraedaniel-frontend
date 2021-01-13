@@ -20,15 +20,11 @@ export const ProductItem = ({ product }) => {
       <picture>
         <source
           type="image/webp"
-          srcSet={`${process.env.API_CDN_URL}/images/products/${
-            product._id
-          }.webp`}
+          srcSet={`${process.env.API_CDN_URL}/images/products/${product._id}.webp`}
         />
         <source
           type="image/jpeg"
-          srcSet={`${process.env.API_CDN_URL}/images/products/${
-            product._id
-          }.jpg`}
+          srcSet={`${process.env.API_CDN_URL}/images/products/${product._id}.jpg`}
         />
         <img
           src={`${process.env.API_CDN_URL}/images/products/${product._id}.jpg`}
@@ -46,7 +42,7 @@ export const ProductItem = ({ product }) => {
               scroll={false}
               href={{
                 pathname: "/products",
-                query: { id: product._id }
+                query: { id: product._id },
               }}
               as={`/lista-de-presentes/${product._id}`}
             >
@@ -57,9 +53,10 @@ export const ProductItem = ({ product }) => {
       </StyledContent>
       <Mutation
         mutation={ADD_CART_MUTATION}
-        onCompleted={data => {
+        onCompleted={(data) => {
           if (!data && !data.addCart) return;
-          Router.push("/cart", "/carrinho");
+          // auto push for cart page on click
+          // Router.push("/cart", "/carrinho");
         }}
       >
         {(update, { loading }) => (
@@ -87,7 +84,7 @@ export const ProductItem = ({ product }) => {
                 disabled={loading || product.stock === 0 ? true : false}
                 onClick={() => {
                   update({
-                    variables: { productId: product._id, quantity: 1 }
+                    variables: { productId: product._id, quantity: 1 },
                   });
                 }}
               >
