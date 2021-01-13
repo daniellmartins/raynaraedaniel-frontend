@@ -6,6 +6,8 @@ import styled, { css } from "styled-components";
 
 import { redirect } from "../lib";
 
+import { Button } from "../components";
+
 const SIGNIN_MUTATION = gql`
   mutation signin($code: Int!) {
     signin(code: $code) {
@@ -17,7 +19,7 @@ const SIGNIN_MUTATION = gql`
 export class SignIn extends Component {
   state = { code: "", focus: false, completed: false };
 
-  handleInput = e => {
+  handleInput = (e) => {
     const { name, value } = e.target;
     if (value.length > 4) return;
 
@@ -39,7 +41,7 @@ export class SignIn extends Component {
     this.setState({ completed: true }, () => {
       setTimeout(() => {
         document.cookie = cookie.serialize("token", data.signin.token, {
-          maxAge: 60 * 60 // 1 hour
+          maxAge: 60 * 60, // 1 hour
         });
         client.cache.reset().then(() => {
           redirect({}, "/products", "/lista-de-presentes");
@@ -52,15 +54,15 @@ export class SignIn extends Component {
     const { code, focus, completed } = this.state;
     return (
       <ApolloConsumer>
-        {client => (
+        {(client) => (
           <Mutation
             mutation={SIGNIN_MUTATION}
-            onCompleted={data => this.onCompleted(data, client)}
+            onCompleted={(data) => this.onCompleted(data, client)}
           >
             {(signin, { loading, error }) => (
               <StyledSignIn completed={completed} focus={focus}>
                 <form
-                  onSubmit={e => this.handleSubmit(e, signin)}
+                  onSubmit={(e) => this.handleSubmit(e, signin)}
                   method="POST"
                 >
                   <h3>Esse é um acesso restrito aos nossos convidados.</h3>
@@ -68,7 +70,12 @@ export class SignIn extends Component {
                     Por favor, insira o código que consta no cartão entregue
                     junto ao convite e acesse nossa lista de presentes.
                   </p>
-                  <div>
+
+                  <div className="demo">
+                    <p>Utilize o código de demonstração: 5555</p>
+                  </div>
+
+                  <div style={{ marginBottom: "12px" }}>
                     <span>{code ? code : "----"}</span>
                     <input
                       name="code"
@@ -81,6 +88,11 @@ export class SignIn extends Component {
                       onChange={this.handleInput}
                     />
                   </div>
+
+                  <Button disabled={loading || !code}>
+                    {loading ? "Carregando..." : "Acessar Lista de Presentes"}
+                  </Button>
+
                   {error && <p>Por favor, tente novamente!</p>}
                 </form>
               </StyledSignIn>
@@ -181,5 +193,17 @@ const StyledSignIn = styled.div`
     height: 100px;
 
     opacity: 0;
+  }
+
+  .demo {
+    color: white;
+    font-size: 0.875rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: rgba(255, 0, 0, 0.8);
+
+    p {
+      margin: 0;
+    }
   }
 `;
